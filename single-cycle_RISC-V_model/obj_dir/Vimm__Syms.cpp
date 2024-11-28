@@ -1,24 +1,22 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vmain__pch.h"
-#include "Vmain.h"
-#include "Vmain___024root.h"
+#include "Vimm__Syms.h"
+#include "Vimm.h"
+#include "Vimm___024root.h"
 
 // FUNCTIONS
-Vmain__Syms::~Vmain__Syms()
+Vimm__Syms::~Vimm__Syms()
 {
 }
 
-Vmain__Syms::Vmain__Syms(VerilatedContext* contextp, const char* namep, Vmain* modelp)
+Vimm__Syms::Vimm__Syms(VerilatedContext* contextp, const char* namep, Vimm* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}
     // Setup module instances
     , TOP{this, namep}
 {
-        // Check resources
-        Verilated::stackCheck(146);
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-12);
     _vm_contextp__->timeprecision(-12);

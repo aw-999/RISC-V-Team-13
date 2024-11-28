@@ -1,13 +1,13 @@
 module reg32 #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] or reg 01010
     input logic clk,
-    input logic RegWrite,
-    input logic [WAD-1:0] AdIn,
-    input logic [WAD-1:0] AdOut1,
-    input logic [WAD-1:0] AdOut2,
-    output logic [WD-1:0] DIn,
-    output logic [WD-1:0] DOut1,
-    output logic [WD-1:0] DOut2,
-    output logic [WD-1:0] A0
+    input logic RegWrite, //WE3 Write Enable
+    input logic [WAD-1:0] AdIn, //A3
+    input logic [WAD-1:0] AdOut1, //A1
+    input logic [WAD-1:0] AdOut2, //A2
+    input logic [WD-1:0] DIn, //WD3
+    output logic [WD-1:0] DOut1, //RD1
+    output logic [WD-1:0] DOut2, //RD2
+    //output logic [WD-1:0] A0 from last lab?
 );
 
 logic [WD-1: 0] RomArr [2**WAD-1: 0];
@@ -20,7 +20,7 @@ assign RomArr[0] = 32'b0;
 assign DOut1 = RomArr[AdOut1];
 assign DOut2 = RomArr[AdOut2];
 
-assign A0 = RomArr[R0];
+//assign A0 = RomArr[R0];
 
 endmodule
 

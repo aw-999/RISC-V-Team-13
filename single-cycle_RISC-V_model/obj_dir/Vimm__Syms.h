@@ -4,37 +4,36 @@
 // Internal details; most calling programs do not need this header,
 // unless using verilator public meta comments.
 
-#ifndef VERILATED_VMAIN__SYMS_H_
-#define VERILATED_VMAIN__SYMS_H_  // guard
+#ifndef VERILATED_VIMM__SYMS_H_
+#define VERILATED_VIMM__SYMS_H_  // guard
 
 #include "verilated.h"
 
 // INCLUDE MODEL CLASS
 
-#include "Vmain.h"
+#include "Vimm.h"
 
 // INCLUDE MODULE CLASSES
-#include "Vmain___024root.h"
+#include "Vimm___024root.h"
 
 // SYMS CLASS (contains all model state)
-class alignas(VL_CACHE_LINE_BYTES)Vmain__Syms final : public VerilatedSyms {
+class Vimm__Syms final : public VerilatedSyms {
   public:
     // INTERNAL STATE
-    Vmain* const __Vm_modelp;
+    Vimm* const __Vm_modelp;
     bool __Vm_activity = false;  ///< Used by trace routines to determine change occurred
     uint32_t __Vm_baseCode = 0;  ///< Used by trace routines when tracing multiple models
-    VlDeleter __Vm_deleter;
     bool __Vm_didInit = false;
 
     // MODULE INSTANCE STATE
-    Vmain___024root                TOP;
+    Vimm___024root                 TOP;
 
     // CONSTRUCTORS
-    Vmain__Syms(VerilatedContext* contextp, const char* namep, Vmain* modelp);
-    ~Vmain__Syms();
+    Vimm__Syms(VerilatedContext* contextp, const char* namep, Vimm* modelp);
+    ~Vimm__Syms();
 
     // METHODS
     const char* name() { return TOP.name(); }
-};
+} VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);
 
 #endif  // guard
