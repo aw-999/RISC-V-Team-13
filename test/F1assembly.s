@@ -48,3 +48,15 @@ lightdelay:
     bne   a1, s3, lightdelay
     addi  a1, zero, 0x0 /* reset count */
     RET
+
+/* a0: represemt F1 light status -- 0x1 only 1 light on, 0x3 2 lights on.. 0xff 8 lights on */
+/* a1: variable in light delay module to count a3 iterate timedelay */
+/* a2: variable in LFSR to generate random delay value */
+/* a3: similar to a2 */
+/* a4: random delay counter with a3 to control all lights off condition */
+
+/* s1: flag value 1 with trigger to determine f1 light activate */
+/* s2: value 0xff as all 8 lights on condition */
+/* s3: determine light delay time */
+
+/* t0: trigger, controlled by Vbdflag */
