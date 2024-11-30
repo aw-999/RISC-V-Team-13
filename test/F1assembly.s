@@ -59,4 +59,4 @@ lightdelay:
 /* s2: value 0xff as all 8 lights on condition */
 /* s3: determine light delay time */
 
-/* t0: trigger, controlled by Vbdflag */
+/* t0: trigger, controlled by Vbdflag() */
