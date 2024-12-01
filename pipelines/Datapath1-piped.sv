@@ -144,7 +144,10 @@ logic [4:0] RdW;
 
 
 PCD PCDecode(
+    
     .clk(clk),
+    .rst(rst),
+    
     .RegWriteD(RegWrite),
     .ResultSrcD(ResultSrc),
     .MemWriteD(RamWrite),
@@ -178,30 +181,36 @@ PCD PCDecode(
 //pipeline execute
 
 PCE PCExecute (
+
     .clk(clk),
-        .RegWriteE(RegWriteE),
-        .ResultSrcE(ResultSrcE),
-        .MemWriteE(MemWriteE),
+    .rst(rst),
 
-        .RegWriteM(RegWriteM),
-        .ResultSrcM(ResultSrcM),
-        .MemWriteM(MemWriteM),
+    .RegWriteE(RegWriteE),
+    .ResultSrcE(ResultSrcE),
+    .MemWriteE(MemWriteE),
 
-        .ALUResultE(DOutAlu),   
-        .WriteDataE(DOut2),     
-        .RdE(RdE),               
-        .PCPlus4E(PCPlus4E),     
+    .RegWriteM(RegWriteM),
+    .ResultSrcM(ResultSrcM),
+    .MemWriteM(MemWriteM),
 
-        .ALUResultM(ALUResultM),
-        .WriteDataM(WriteDataM),
-        .RdM(RdM),
-        .PCPlus4M(PCPlus4M)
+    .ALUResultE(DOutAlu),   
+    .WriteDataE(DOut2),     
+    .RdE(RdE),               
+    .PCPlus4E(PCPlus4E),     
+
+    .ALUResultM(ALUResultM),
+    .WriteDataM(WriteDataM),
+    .RdM(RdM),
+    .PCPlus4M(PCPlus4M)
 );
 
 //pipeline memory
 
 PCM PCMemory(
+
     .clk(clk),
+    .rst(rst),
+
     .RegWriteM(RegWriteM),
     .ResultSrcM(ResultSrcM),
     .ReadDataM(DOutRam),     

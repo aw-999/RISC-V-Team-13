@@ -4,6 +4,7 @@ module PCDecode #(
 )(
 
     input logic clk,
+    input logic rst,
 
     //Control
     input logic RegWriteD,
@@ -42,23 +43,43 @@ module PCDecode #(
 
 always_ff @(posedge clk) begin
 
-    //control
-    RegWriteE <= RegWriteD;
-    ResultSrcE <= ResulSrcD;
-    MemWriteE <= MemWriteD;
-    JumpE <= JumpD;
-    BranchE <= BranchD;
-    ALUCtrlE <= ALUCtrlD;
-    ALUSrcE <= ALUSrcD;
+    if (rst) begin
+        //control
+        RegWriteE <= 0;
+        ResultSrcE <= 0;
+        MemWriteE <= 0;
+        JumpE <= 0;
+        BranchE <= 0;
+        ALUCtrlE <= 0;
+        ALUSrcE <= 0;
 
-    //data
+        //data
+        RD1E <= 0;
+        RD2E <= 0;
+        PCE <= 0;
+        RdE <= 0;
+        ImmExtE <= 0;
+        PCPlus4E <= 0;
+    end
+    else begin
+        //control
+        RegWriteE <= RegWriteD;
+        ResultSrcE <= ResulSrcD;
+        MemWriteE <= MemWriteD;
+        JumpE <= JumpD;
+        BranchE <= BranchD;
+        ALUCtrlE <= ALUCtrlD;
+        ALUSrcE <= ALUSrcD;
 
-    RD1E <= RD1D;
-    RD2E <= RD2D;
-    PCE <= PCD;
-    RdE <= RdD;
-    ImmExtE <= ImmExtD;
-    PCPlus4E <= PCPlus4D;
+        //data
+
+        RD1E <= RD1D;
+        RD2E <= RD2D;
+        PCE <= PCD;
+        RdE <= RdD;
+        ImmExtE <= ImmExtD;
+        PCPlus4E <= PCPlus4D;
+    end
 end
 
 endmodule

@@ -26,6 +26,7 @@ case (PCsrc)
 endcase
 
 pcreg P1(
+
     .clk(clk),
     .rst(rst),
     .PCN(PCN),
@@ -47,7 +48,10 @@ logic [W-1:0] PCD;
 logic [W-1:0] PCPlus4D;
 
 PCF PCFetch(
+
     .clk (clk),
+    .rst(rst),
+
     .InstrF(instr),
     .PCF(PC),
     .PCPlus4F(PCN),
