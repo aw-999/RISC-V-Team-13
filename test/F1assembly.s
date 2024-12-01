@@ -19,7 +19,7 @@ rst:
 
 mainloop:
     beq  t0, s1, fsm    /* fsm starts when vbdflag is on */ 
-    srli a2, a3, 0x3    /* LFSR -- generating a random delay value */
+    srli a2, a3, 0x5    /* LFSR -- generating a random delay value */
     andi a2, a2, 0x1
     xor  a2, a2, a3
     andi a2, a2, 0x1 
