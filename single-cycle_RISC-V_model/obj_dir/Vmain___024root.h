@@ -42,12 +42,12 @@ class alignas(VL_CACHE_LINE_BYTES) Vmain___024root final : public VerilatedModul
     IData/*31:0*/ main__DOT__D1__DOT__DOut2;
     IData/*31:0*/ main__DOT__D1__DOT__N2;
     IData/*31:0*/ main__DOT__D1__DOT__DOutRam;
-    IData/*17:0*/ main__DOT__D1__DOT__R2__DOT__AdM;
+    IData/*19:0*/ main__DOT__D1__DOT__R2__DOT__AdM;
     IData/*31:0*/ main__DOT__D2__DOT__PCN;
     IData/*23:0*/ __VdfgRegularize_h6171c202_0_1;
     IData/*31:0*/ __VactIterCount;
-    VlUnpacked<IData/*31:0*/, 32> main__DOT__D1__DOT__R1__DOT__RomArr;
-    VlUnpacked<CData/*7:0*/, 262144> main__DOT__D1__DOT__R2__DOT__RamArray;
+    VlUnpacked<IData/*31:0*/, 32> main__DOT__D1__DOT__R1__DOT__RegArr;
+    VlUnpacked<CData/*7:0*/, 1048576> main__DOT__D1__DOT__R2__DOT__RamArray;
     VlUnpacked<CData/*7:0*/, 256> main__DOT__D2__DOT__R1__DOT__RomArr;
     VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
     VlTriggerVec<1> __VstlTriggered;

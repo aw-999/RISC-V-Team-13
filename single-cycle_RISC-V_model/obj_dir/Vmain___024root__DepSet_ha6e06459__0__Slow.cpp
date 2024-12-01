@@ -34,14 +34,13 @@ VL_ATTR_COLD void Vmain___024root___eval_initial__TOP(Vmain___024root* vlSelf) {
     // Init
     VlWide<3>/*95:0*/ __Vtemp_1;
     // Body
-    vlSelfRef.main__DOT__D1__DOT__R1__DOT__RomArr[0U] = 0U;
     __Vtemp_1[0U] = 0x2e6d656dU;
-    __Vtemp_1[1U] = 0x6e676c65U;
-    __Vtemp_1[2U] = 0x74726961U;
-    VL_READMEM_N(true, 8, 262144, 0, VL_CVT_PACK_STR_NW(3, __Vtemp_1)
+    __Vtemp_1[1U] = 0x7369616eU;
+    __Vtemp_1[2U] = 0x67617573U;
+    VL_READMEM_N(true, 8, 1048576, 0, VL_CVT_PACK_STR_NW(3, __Vtemp_1)
                  ,  &(vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray)
-                 , 0, ~0ULL);
-    VL_READMEM_N(true, 8, 256, 0, std::string{"rom2.mem"}
+                 , 0x10000U, ~0ULL);
+    VL_READMEM_N(true, 8, 256, 0, std::string{"asm5.mem"}
                  ,  &(vlSelfRef.main__DOT__D2__DOT__R1__DOT__RomArr)
                  , 0, ~0ULL);
 }
@@ -121,8 +120,8 @@ extern const VlUnpacked<CData/*2:0*/, 8> Vmain__ConstPool__TABLE_h35c9df8e_0;
 extern const VlUnpacked<CData/*2:0*/, 8> Vmain__ConstPool__TABLE_haa54c7b8_0;
 extern const VlUnpacked<CData/*0:0*/, 32> Vmain__ConstPool__TABLE_h762817db_0;
 extern const VlUnpacked<CData/*2:0*/, 32> Vmain__ConstPool__TABLE_h5fbabd16_0;
-extern const VlUnpacked<CData/*0:0*/, 128> Vmain__ConstPool__TABLE_h58917218_0;
-extern const VlUnpacked<CData/*0:0*/, 128> Vmain__ConstPool__TABLE_h7810f77b_0;
+extern const VlUnpacked<CData/*0:0*/, 128> Vmain__ConstPool__TABLE_h81e3774a_0;
+extern const VlUnpacked<CData/*0:0*/, 128> Vmain__ConstPool__TABLE_h2f4b16b8_0;
 extern const VlUnpacked<CData/*2:0*/, 128> Vmain__ConstPool__TABLE_h53be32e5_0;
 extern const VlUnpacked<CData/*1:0*/, 128> Vmain__ConstPool__TABLE_h1e407645_0;
 
@@ -147,7 +146,7 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
     CData/*6:0*/ __Vtableidx7;
     __Vtableidx7 = 0;
     // Body
-    vlSelfRef.A0 = vlSelfRef.main__DOT__D1__DOT__R1__DOT__RomArr
+    vlSelfRef.A0 = vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr
         [0xaU];
     vlSelfRef.main__DOT__D1__DOT__I1__DOT__sign = (1U 
                                                    & (vlSelfRef.main__DOT__D2__DOT__R1__DOT__RomArr
@@ -185,7 +184,7 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                 [(0xffU 
                                                   & ((IData)(3U) 
                                                      + vlSelfRef.main__DOT__PC))] 
-                                                << 2U)) 
+                                                >> 2U)) 
                                          | (IData)(vlSelfRef.main__DOT__D1__DOT__func3)));
     if (Vmain__ConstPool__TABLE_h762817db_0[__Vtableidx2]) {
         vlSelfRef.main__DOT__D1__DOT__ALUctrl = Vmain__ConstPool__TABLE_h5fbabd16_0
@@ -207,7 +206,7 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                     ? 3U
                                                     : 0U)));
     __Vtableidx7 = vlSelfRef.main__DOT__C1__DOT__op7;
-    vlSelfRef.main__DOT__RegWrite = Vmain__ConstPool__TABLE_h58917218_0
+    vlSelfRef.main__DOT__RegWrite = Vmain__ConstPool__TABLE_h81e3774a_0
         [__Vtableidx7];
     vlSelfRef.main__DOT__C1__DOT__PCsrc_req1 = ((0x63U 
                                                  == (IData)(vlSelfRef.main__DOT__C1__DOT__op7))
@@ -222,17 +221,15 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                    ? 3U
                                                    : 0U)));
     __Vtableidx5 = vlSelfRef.main__DOT__C1__DOT__op7;
-    if (Vmain__ConstPool__TABLE_h7810f77b_0[__Vtableidx5]) {
-        vlSelfRef.main__DOT__ALUsrc = Vmain__ConstPool__TABLE_h7810f77b_0
-            [__Vtableidx5];
-    }
+    vlSelfRef.main__DOT__ALUsrc = Vmain__ConstPool__TABLE_h2f4b16b8_0
+        [__Vtableidx5];
     __Vtableidx4 = vlSelfRef.main__DOT__C1__DOT__op7;
     vlSelfRef.main__DOT__IMMsrc = Vmain__ConstPool__TABLE_h53be32e5_0
         [__Vtableidx4];
     __Vtableidx6 = vlSelfRef.main__DOT__C1__DOT__op7;
     vlSelfRef.main__DOT__ALUop = Vmain__ConstPool__TABLE_h1e407645_0
         [__Vtableidx6];
-    vlSelfRef.main__DOT__D1__DOT__DOut1 = vlSelfRef.main__DOT__D1__DOT__R1__DOT__RomArr
+    vlSelfRef.main__DOT__D1__DOT__DOut1 = vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr
         [(0x1fU & (vlSelfRef.__VdfgRegularize_h6171c202_0_1 
                    >> 0xfU))];
     vlSelfRef.main__DOT__instr = ((vlSelfRef.main__DOT__D2__DOT__R1__DOT__RomArr
@@ -248,7 +245,7 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
     } else if ((3U == (IData)(vlSelfRef.main__DOT__ALUop))) {
         vlSelfRef.main__DOT__D1__DOT__ALUctrl = 0U;
     }
-    vlSelfRef.main__DOT__D1__DOT__DOut2 = vlSelfRef.main__DOT__D1__DOT__R1__DOT__RomArr
+    vlSelfRef.main__DOT__D1__DOT__DOut2 = vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr
         [(0x1fU & (vlSelfRef.main__DOT__instr >> 0x14U))];
     vlSelfRef.main__DOT__IMMop = ((4U & (IData)(vlSelfRef.main__DOT__IMMsrc))
                                    ? ((2U & (IData)(vlSelfRef.main__DOT__IMMsrc))
@@ -257,10 +254,8 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                           | (vlSelfRef.main__DOT__instr 
                                              >> 0x14U))
                                        : ((1U & (IData)(vlSelfRef.main__DOT__IMMsrc))
-                                           ? (((- (IData)((IData)(vlSelfRef.main__DOT__D1__DOT__I1__DOT__sign))) 
-                                               << 0xcU) 
-                                              | (vlSelfRef.main__DOT__instr 
-                                                 >> 0x14U))
+                                           ? (vlSelfRef.main__DOT__instr 
+                                              >> 0x14U)
                                            : (((- (IData)((IData)(vlSelfRef.main__DOT__D1__DOT__I1__DOT__sign))) 
                                                << 0x15U) 
                                               | ((0x100000U 
@@ -307,7 +302,7 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                  >> 0x14U)))));
     vlSelfRef.main__DOT__D1__DOT__N2 = ((IData)(vlSelfRef.main__DOT__ALUsrc)
                                          ? vlSelfRef.main__DOT__IMMop
-                                         : vlSelfRef.main__DOT__D1__DOT__R1__DOT__RomArr
+                                         : vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr
                                         [(0x1fU & (vlSelfRef.main__DOT__instr 
                                                    >> 0x14U))]);
     vlSelfRef.main__DOT__DOutAlu = ((4U & (IData)(vlSelfRef.main__DOT__D1__DOT__ALUctrl))
@@ -333,7 +328,7 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                 - vlSelfRef.main__DOT__D1__DOT__N2)
                                              : (vlSelfRef.main__DOT__D1__DOT__DOut1 
                                                 + vlSelfRef.main__DOT__D1__DOT__N2))));
-    vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM = (0x3ffffU 
+    vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM = (0xfffffU 
                                                   & vlSelfRef.main__DOT__DOutAlu);
     vlSelfRef.main__DOT__D1__DOT__DOutRam = ((4U & (IData)(vlSelfRef.main__DOT__D1__DOT__func3))
                                               ? ((2U 
@@ -344,19 +339,19 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                    << 0x18U) 
                                                   | ((vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                       [
-                                                      (0x3ffffU 
+                                                      (0xfffffU 
                                                        & ((IData)(1U) 
                                                           + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))] 
                                                       << 0x10U) 
                                                      | ((vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                          [
-                                                         (0x3ffffU 
+                                                         (0xfffffU 
                                                           & ((IData)(2U) 
                                                              + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))] 
                                                          << 8U) 
                                                         | vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                         [
-                                                        (0x3ffffU 
+                                                        (0xfffffU 
                                                          & ((IData)(3U) 
                                                             + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))])))
                                                   : 
@@ -368,7 +363,7 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                     << 8U) 
                                                    | vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                    [
-                                                   (0x3ffffU 
+                                                   (0xfffffU 
                                                     & ((IData)(1U) 
                                                        + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))])
                                                    : 
@@ -385,19 +380,19 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                     << 0x18U) 
                                                    | ((vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                        [
-                                                       (0x3ffffU 
+                                                       (0xfffffU 
                                                         & ((IData)(1U) 
                                                            + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))] 
                                                        << 0x10U) 
                                                       | ((vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                           [
-                                                          (0x3ffffU 
+                                                          (0xfffffU 
                                                            & ((IData)(2U) 
                                                               + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))] 
                                                           << 8U) 
                                                          | vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                          [
-                                                         (0x3ffffU 
+                                                         (0xfffffU 
                                                           & ((IData)(3U) 
                                                              + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))])))
                                                    : 
@@ -406,19 +401,19 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                     << 0x18U) 
                                                    | ((vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                        [
-                                                       (0x3ffffU 
+                                                       (0xfffffU 
                                                         & ((IData)(1U) 
                                                            + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))] 
                                                        << 0x10U) 
                                                       | ((vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                           [
-                                                          (0x3ffffU 
+                                                          (0xfffffU 
                                                            & ((IData)(2U) 
                                                               + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))] 
                                                           << 8U) 
                                                          | vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                          [
-                                                         (0x3ffffU 
+                                                         (0xfffffU 
                                                           & ((IData)(3U) 
                                                              + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))]))))
                                                   : 
@@ -436,7 +431,7 @@ VL_ATTR_COLD void Vmain___024root___stl_sequent__TOP__0(Vmain___024root* vlSelf)
                                                        << 8U) 
                                                       | vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                                       [
-                                                      (0x3ffffU 
+                                                      (0xfffffU 
                                                        & ((IData)(1U) 
                                                           + vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM))]))
                                                    : 
@@ -560,13 +555,13 @@ VL_ATTR_COLD void Vmain___024root___ctor_var_reset(Vmain___024root* vlSelf) {
     vlSelf->main__DOT__D1__DOT__ALUctrl = VL_RAND_RESET_I(3);
     vlSelf->main__DOT__D1__DOT__ALUflag = VL_RAND_RESET_I(3);
     for (int __Vi0 = 0; __Vi0 < 32; ++__Vi0) {
-        vlSelf->main__DOT__D1__DOT__R1__DOT__RomArr[__Vi0] = VL_RAND_RESET_I(32);
+        vlSelf->main__DOT__D1__DOT__R1__DOT__RegArr[__Vi0] = VL_RAND_RESET_I(32);
     }
     vlSelf->main__DOT__D1__DOT__I1__DOT__sign = VL_RAND_RESET_I(1);
-    for (int __Vi0 = 0; __Vi0 < 262144; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 1048576; ++__Vi0) {
         vlSelf->main__DOT__D1__DOT__R2__DOT__RamArray[__Vi0] = VL_RAND_RESET_I(8);
     }
-    vlSelf->main__DOT__D1__DOT__R2__DOT__AdM = VL_RAND_RESET_I(18);
+    vlSelf->main__DOT__D1__DOT__R2__DOT__AdM = VL_RAND_RESET_I(20);
     vlSelf->main__DOT__C1__DOT__op7 = VL_RAND_RESET_I(7);
     vlSelf->main__DOT__C1__DOT__PCsrc_req1 = VL_RAND_RESET_I(2);
     vlSelf->main__DOT__D2__DOT__PCN = VL_RAND_RESET_I(32);

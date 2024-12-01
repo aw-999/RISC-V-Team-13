@@ -10,17 +10,19 @@ module reg32 #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] or reg 0101
     output logic [WD-1:0] A0
 );
 
-logic [WD-1: 0] RomArr [2**WAD-1: 0];
+logic [WD-1: 0] RegArr [2**WAD-1: 0];
 
 always_ff@(posedge clk)
-    if (RegWrite) RomArr[AdIn] <= DIn;
+begin
+    if (RegWrite) RegArr[AdIn] <= DIn;
 
-assign RomArr[0] = 32'b0;
+    RegArr[0] <= 32'b0;
+end
 
-assign DOut1 = RomArr[AdOut1];
-assign DOut2 = RomArr[AdOut2];
+assign DOut1 = RegArr[AdOut1];
+assign DOut2 = RegArr[AdOut2];
 
-assign A0 = RomArr[R0];
+assign A0 = RegArr[R0];
 
 endmodule
 

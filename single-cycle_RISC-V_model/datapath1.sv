@@ -35,7 +35,7 @@ logic [2:0] ALUflag;
 
 
 assign func3 = instr[WD-18:WD-20];
-assign op5 = instr[WD-31];
+assign op5 = instr[WD-27];
 assign func75 = instr[WD-2];
 
 always_comb begin

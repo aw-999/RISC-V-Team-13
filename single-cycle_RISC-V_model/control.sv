@@ -16,12 +16,12 @@ name    parameter       |   op      func3   func7       explanation
 Already tested instructions:
 
 addi    Rd, Ra, IMM12   |   0010011 000     x
-slli    Rd, Ra, IMM12   |   0110011 001     x
-slti    Rd, Ra, IMM12   |   0110011 010     x
-xori    Rd, Ra, IMM12   |   0110011 100     x
-srli    Rd, Ra, IMM12   |   0110011 101     x
-ori     Rd, Ra, IMM12   |   0110011 110     x
-andi    Rd, Ra, IMM12   |   0110011 111     x
+slli    Rd, Ra, IMM12   |   0010011 001     x
+slti    Rd, Ra, IMM12   |   0010011 010     x
+xori    Rd, Ra, IMM12   |   0010011 100     x
+srli    Rd, Ra, IMM12   |   0010011 101     x
+ori     Rd, Ra, IMM12   |   0010011 110     x
+andi    Rd, Ra, IMM12   |   0010011 111     x
 
 add     Rd, Ra, Rb      |   0110011 000     0000000 
 sub     Rd, Ra, Rb      |   0110011 000     0100000
@@ -75,6 +75,7 @@ always_comb
 case (op7)
     7'b0010011: IMMsrc = 3'b000; // i-type
     7'b0000011: IMMsrc = 3'b000; 
+    7'b0011011: IMMsrc = 3'b000;
     7'b1100111: IMMsrc = 3'b000; // jalr
 
     7'b0100011: IMMsrc = 3'b001; // s-type
@@ -98,6 +99,8 @@ case (op7)
     7'b0000011: ALUsrc = 1'b1; 
     7'b1100111: ALUsrc = 1'b1; // jalr
     7'b0110111: ALUsrc = 1'b1; // u-type
+    7'b0011011: ALUsrc = 1'b1; // unsigned
+    default: ALUsrc = 1'b0;
 endcase
 
 // to datapath1.sv
@@ -123,6 +126,7 @@ always_comb
 case (op7)
     7'b0110011: RegWrite = 1'b1; // r-type
     7'b0010011: RegWrite = 1'b1; // i-type
+    7'b0011011: RegWrite = 1'b1;
     7'b0000011: RegWrite = 1'b1;
     7'b0110111: RegWrite = 1'b1; // u-type
     7'b0010111: RegWrite = 1'b1;

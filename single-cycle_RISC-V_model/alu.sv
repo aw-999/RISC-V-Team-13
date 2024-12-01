@@ -23,11 +23,11 @@ always_comb
 
 always_comb 
     case (ALUflag)
-        3'b000: flag = (out == 0)? 1 : 0; // beq
-        3'b001: flag = (out != 0)? 1 : 0; // bne
+        3'b000: flag = ((out == 0)? 1 : 0); // beq
+        3'b001: flag = ((out != 0)? 1 : 0); // bne
         3'b010: flag = 0;
         3'b011: flag = 1;
-        3'b100: flag = (out < 0)? 1 : 0; // blt
+        3'b100: flag = ((out < 0)? 1 : 0); // blt
         3'b101: flag = (out >= 0)? 1 : 0; // bge
         3'b110: flag = (out < 0)? 1 : 0; // bltu
         3'b111: flag = (out >= 0)? 1 : 0; // bgeu

@@ -1,4 +1,4 @@
-module ram #(parameter WA = 32, WAM = 18, WB = 8, WD = 32)(
+module ram #(parameter WA = 32, WAM = 20, WB = 8, WD = 32)(
     input logic clk,
     input logic [WA-1:0] Ad,
     input logic RamWrite,
@@ -13,7 +13,7 @@ logic [WAM-1:0] AdM; // reduced in size, 2**32 is too large to simulate
 logic [WD-1:0] show; // used for testing
 
 initial begin
-    $readmemh("triangle.mem", RamArray);
+    $readmemh("gaussian.mem", RamArray, 20'h10000);
 end;
 
 always_comb begin 
@@ -46,6 +46,6 @@ always_ff@(posedge clk)
         else if (func3[1:0] == 2'b00) RamArray[AdM] <= DIn[WD-25:0];
     end
 
-assign show = {RamArray[16], RamArray[17], RamArray[18], RamArray[19]};
+assign show = {RamArray[20'h10000], RamArray[20'h10001], RamArray[20'h10002], RamArray[20'h10003]};
 
 endmodule
