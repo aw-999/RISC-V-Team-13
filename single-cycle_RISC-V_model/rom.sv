@@ -13,11 +13,17 @@ assign DOut = {RomArr[AddrIn], RomArr[AddrIn+1], RomArr[AddrIn+2], RomArr[AddrIn
 
 /*
 Already successfully tested program
+
+from project brief:
 asm1.mem, solution: 0xFE (254)
 asm2.mem, solution: 0x3E8 (1000)
 asm3.mem, solution: 0x12C (300)
 asm4.mem, solution: 0x35 (53)
 asm5.mem, solution: 0x3C03 (15363) (note this needs about 300000 cycles in testbench)
+
+self written:
+rom1.mem (only addi and bne)
+rom2.mem (many other instructions)
 
 Undertest program
 ...
