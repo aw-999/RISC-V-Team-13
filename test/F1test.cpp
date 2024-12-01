@@ -22,6 +22,8 @@ int main(int argc, char **argv, char **env)
     if (vbdOpen() != 1)
         return (-1);
     vbdHeader("F1test");
+    vbdSetMode(1); // one-shot mode
+    vbdBar(0);     // clear light
 
     // input init
     top->clk = 0;
@@ -45,7 +47,7 @@ int main(int argc, char **argv, char **env)
         vbdHex(3, (int(top->A0) >> 8) & 0xF);
         vbdHex(2, (int(top->A0) >> 4) & 0xF);
         vbdHex(1, int(top->A0) & 0xF);
-        // F1end
+        // F1endX
         // Dont forget changing memory read file inside rom.sv into F1.mem!
 
         if (Verilated::gotFinish() || vbdGetkey() == 'q')
