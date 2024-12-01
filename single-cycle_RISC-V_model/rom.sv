@@ -6,20 +6,21 @@ module rom #(parameter WAD = 8, WD = 8)(
 logic [WD-1: 0] RomArr [2**WAD-1: 0]; // error occurs if 2^32 is used
 
 initial begin
-    $readmemh("asm5.mem", RomArr);
+    $readmemh("asm4.mem", RomArr);
 end;
 
 assign DOut = {RomArr[AddrIn], RomArr[AddrIn+1], RomArr[AddrIn+2], RomArr[AddrIn+3]};
 
 /*
 Already successfully tested program
-asm1.mem 
-asm2.mem
-asm3.mem
-asm4.mem
-asm5.mem
+asm1.mem, solution: 0xFE (254)
+asm2.mem, solution: 0x3E8 (1000)
+asm3.mem, solution: 0x12C (300)
+asm4.mem, solution: 0x35 (53)
+asm5.mem, solution: 0x3C03 (15363) (note this needs about 300000 cycles in testbench)
 
 Undertest program
+...
 
  */
 

@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **env)
     top->clk = 0;
     top->rst = 0;
 
-    for (i = 0; i < 1000000; i++)
+    for (i = 0; i < 10000; i++)
     {
         for (clk = 0; clk < 2; clk++)
         {

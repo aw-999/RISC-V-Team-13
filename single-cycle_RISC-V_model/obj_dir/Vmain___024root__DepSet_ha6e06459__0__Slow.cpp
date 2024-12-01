@@ -40,7 +40,7 @@ VL_ATTR_COLD void Vmain___024root___eval_initial__TOP(Vmain___024root* vlSelf) {
     VL_READMEM_N(true, 8, 1048576, 0, VL_CVT_PACK_STR_NW(3, __Vtemp_1)
                  ,  &(vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray)
                  , 0x10000U, ~0ULL);
-    VL_READMEM_N(true, 8, 256, 0, std::string{"asm5.mem"}
+    VL_READMEM_N(true, 8, 256, 0, std::string{"asm4.mem"}
                  ,  &(vlSelfRef.main__DOT__D2__DOT__R1__DOT__RomArr)
                  , 0, ~0ULL);
 }
