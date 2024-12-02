@@ -51,10 +51,8 @@ rom InstrMemory(
 //pcincrementby4
 PCIncrementby4 PCIncrementby4(
     .PC (PC),
-    .IMMop (PCTargetE),
-    .DOutAlu (PCPlus4F),
-    .PCSrc (PCSrc),
-    .PCN (PCN)
+
+    .PCPlus4 (PCPlus4F)
 );
 
 //mux1PC
@@ -62,6 +60,7 @@ mux_PCSrc mux_PCSrc(
     .PCPlus4F (PCPlus4F),
     .PCTargetE (PCTargetE),
     .PCSrcE (PCSrcE),
+
     .PCN (PCN)
 );
 
@@ -69,6 +68,7 @@ pcreg PCReg(
     .clk (clk),
     .rst (rst),
     .PCN (PCN),
+
     .PC (PC)
 );
 
@@ -79,42 +79,50 @@ PCF PCFetch(
     .InstrF (instr),
     .PCF (PC),
     .PCPlus4F (PCN),
+
     .InstrD (InstrD),
     .PCD (PCD),
     .PCPlus4D (PCPlus4D)
 );
 
 //control
-control C1(
+control ControlUnit(
+
+    //why no op
+    //why no funct3
+    //why no funct7
+
     .instr (instr),
     .flag (flag),
 
     .RegWrite (RegWrite),
-    .RamWrite (RamWrite),
-    .ALUop (ALUop),
-    .ALUsrc (ALUsrc),
-    .IMMsrc (IMMsrc),
-    .PCsrc (PCsrc),
+    .RamWrite (RamWrite), //Memwrite on diagram
+    .ALUop (ALUop), //ALUctrl
+    .ALUsrc (ALUsrc), 
+    .IMMsrc (IMMsrc), 
+    .PCsrc (PCsrc), //dont know
     .ResultSrc (ResultSrc)
     //.JumpD
     //.BranchD needed to be added
 );
 
-//sign ext
-imm I1(
+//sign extend
+imm I1( 
     .IMMsrc (IMMsrc),
-    .instr (instr),
-    .out (IMM)
+    .instr (instr), //shouldnt it be instr[31:7]
+    .out (IMM) 
 );
 
 //regfile
 reg32 R1(
-    .AdIn (AdIn),
-    .AdOut1 (AdOut1),
-    .AdOut2 (AdOut2),
-    .DIn (DInReg),
-    .RegWrite (RegWrite),
+
     .clk (clk),
+
+    .AdIn (RdW), //A3?
+    .AdOut1 (AdOut1), //shouldnt it be instr[19:15]
+    .AdOut2 (AdOut2), //shouldnt it be instr[24:20]
+    .DIn (ResultW), //WD3
+    .RegWrite (RegWriteW), //WE3
 
     .DOut1 (DOut1),
     .DOut2 (DOut2),
@@ -135,7 +143,7 @@ PCD PCDecode(
     .RD1D (DOut1),   
     .RD2D (DOut2),   
     .PCD (PC),       
-    .RdD (AdOut1),   
+    .RdD (instr[11:7]),   
     .ImmExtD (IMM),
     .PCPlus4D (PC),  
     
@@ -157,10 +165,11 @@ PCD PCDecode(
 
 //alu
 alu ALU(
-    .ALUctrl (ALUctrl),
+    .ALUctrl (ALUCtrlE),
     .ALUflag (ALUflag),
-    .N1 (DOut1),
-    .N2 (N2),
+    .N1 (RD1E),
+    .N2 (SrcBE), //SrcBE
+
     .flag (flag),
     .out (DOutAlu)
 );
@@ -170,6 +179,7 @@ aludecode ALUDecode(
     .op5 (op5),
     .func75 (func75),
     .ALUop (ALUop),
+
     .ALUctrl (ALUctrl)
 );
 
@@ -180,27 +190,19 @@ aluflagdecode A12(
     .ALUflag (ALUflag)
 );
 
-ram R2(
-    .clk (clk),
-    .DIn (DOut2),
-    .Ad (DOutAlu),
-    .RamWrite (RamWrite),
-    .func3 (func3),
-
-    .DOut (DOutRam)
-);
-
 //mux
 SrcBEmux SrcBEmux(
     .ALUSrcE (ALUSrcE),
     .RD2E (RD2E),
     .ImmExtE (ImmExtE),
-    .SrcBE (DOutAlu)
+
+    .SrcBE (SrcBE)
 );
 
 PCTarget PCTarget( 
     .PCE (PCE),
     .ImmExtE (ImmExtE),
+
     .PCTargetE (PCTargetE)
 );
 
@@ -218,7 +220,7 @@ PCE PCExecute (
     .MemWriteM (MemWriteM),
 
     .ALUResultE (DOutAlu),   
-    .WriteDataE (DOut2),     
+    .WriteDataE (RD2E),     
     .RdE (RdE),               
     .PCPlus4E (PCPlus4E),     
 
@@ -231,11 +233,12 @@ PCE PCExecute (
 //datamemory
 ram DataMemory(
     .clk(clk),
-    .DIn(DOut2),
-    .Ad(DOutAlu),
+
+    .DIn(), //no idea what this is
+    .Ad(ALUResultM),
     .RamWrite(WriteDataM),
     .func3(func3),
-
+    // MemwriteM is func3 memwriteM?
     .DOut(DOutRam)
 );
 
