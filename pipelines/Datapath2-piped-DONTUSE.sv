@@ -48,7 +48,6 @@ logic [W-1:0] PCD;
 logic [W-1:0] PCPlus4D;
 
 PCF PCFetch(
-
     .clk (clk),
     .rst(rst),
 

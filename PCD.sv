@@ -14,6 +14,7 @@ module PCDecode #(
     input logic BranchD,
     input logic [2:0] ALUCtrlD,
     input logic ALUSrcD,
+    output logic [1:0] PCsrcD,
 
     output logic RegWriteE,
     output logic [1:0] ResultSrcE,
@@ -22,6 +23,7 @@ module PCDecode #(
     output logic BranchE,
     output logic [2:0] ALUCtrlE,
     output logic ALUSrcE,
+    output logic [1:0] PCsrcE
 
 
     //DATA
@@ -52,6 +54,7 @@ always_ff @(posedge clk) begin
         BranchE <= 0;
         ALUCtrlE <= 0;
         ALUSrcE <= 0;
+        PCsrcE <= 0;
 
         //data
         RD1E <= 0;
@@ -79,6 +82,7 @@ always_ff @(posedge clk) begin
         RdE <= RdD;
         ImmExtE <= ImmExtD;
         PCPlus4E <= PCPlus4D;
+        PCsrcE <= PCsrcD;
     end
 end
 

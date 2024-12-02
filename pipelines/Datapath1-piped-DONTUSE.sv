@@ -35,7 +35,7 @@ logic [2:0] func3;
 logic [2:0] ALUctrl;
 logic [2:0] ALUflag;
 
-
+//SrceBE mux
 assign func3 = instr[WD-18:WD-20];
 assign op5 = instr[WD-31];
 assign func75 = instr[WD-2];
@@ -45,6 +45,8 @@ always_comb begin
     else N2 = DOut2;
 end
 
+//lecture 8 slide 10
+//writeback
 always_comb 
 case (ResultSrc)
     2'b00: DInReg = DOutAlu;
@@ -110,7 +112,9 @@ ram R2(
     .DOut(DOutRam)
 );
 
-//pipeline decode
+
+
+
 
 
 logic [WD-1:0] RD1D, RD2D, PCD, ImmExtD, PCPlus4D;
@@ -144,7 +148,6 @@ logic [4:0] RdW;
 
 
 PCD PCDecode(
-    
     .clk(clk),
     .rst(rst),
     
