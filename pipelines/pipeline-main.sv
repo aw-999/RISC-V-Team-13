@@ -61,9 +61,11 @@ PCIncrementby4 PCIncrementby4(
 
 //mux1PC
 mux_PCSrc mux_PCSrc(
+    
     .PC (PC),
     .PCTargetE (PCTargetE),
     .PCSrcE (PCSrcE), 
+    .ALUResultM (ALUResultM),
 
     .PCN (PCN) 
 );
