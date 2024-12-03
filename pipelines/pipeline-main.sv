@@ -171,11 +171,41 @@ PCD PCDecode(
     .Rs2E (Rs2E)
 );
 
+HazardUnit HazardUnit (
+    .RdM (RdM),
+    .RdW (RdM),
+    .RegWriteW (RegWriteW),
+    .RegWriteM (RegWriteM),
+    .Rs1E (Rs1E),
+    .Rs2E (Rs1E),
+
+    .ForwardAE (ForwardAE),
+    .ForwardBE (ForwardAE)
+);
+
+ForwardAE_mux ForwardAE_mux (
+    .ResultW (ResultW),
+    .RD1E (RD1E),
+    .ALUResultM (ALUResultM),
+    .ForwardAE (ForwardAE),
+
+    .SrcAE (SrcAE)
+);
+
+ForwardBE_mux ForwardBE_mux (
+    .ResultW (ResultW),
+    .RD2E (RD2E),
+    .ALUResultM (ALUResultM),
+    .ForwardBE (ForwardBE),
+
+    .WriteDataE (WriteDataE)
+);
+
 //alu
 alu ALU(
     .ALUctrl (ALUCtrlE),
     .ALUflag (ALUflag),
-    .N1 (RD1E),
+    .N1 (SrcAE), //formerly RD1E
     .N2 (SrcBE), //SrcBE
 
     .flag (flag),
@@ -201,7 +231,7 @@ aluflagdecode A12(
 //mux
 SrcBEmux SrcBEmux(
     .ALUSrcE (ALUSrcE),
-    .RD2E (RD2E),
+    .RD2E (WriteDataE),
     .ImmExtE (ImmExtE),
 
     .SrcBE (SrcBE)
@@ -227,7 +257,7 @@ PCE PCExecute (
     .MemWriteM (MemWriteM),
 
     .ALUResultE (DOutAlu),   
-    .WriteDataE (RD2E),     
+    .WriteDataE (WriteDataE),     
     .RdE (RdE),               
     .PCPlus4E (PCPlus4E),     
 
