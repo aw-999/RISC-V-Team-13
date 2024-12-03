@@ -201,6 +201,14 @@ ForwardBE_mux ForwardBE_mux (
     .WriteDataE (WriteDataE)
 );
 
+PCSrcE_gate PCsrcE_gate (
+    .BranchE (BranchE),
+    .JumpeE (JumpE),
+    .ZeroE (flag),
+
+    .PCSrcE (PCSrcE), 
+)
+
 //alu
 alu ALU(
     .ALUctrl (ALUCtrlE),
