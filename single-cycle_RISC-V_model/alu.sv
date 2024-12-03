@@ -1,6 +1,6 @@
 module alu #(parameter W = 32)(
     input logic [2: 0] ALUctrl,
-    input logic [2: 0] ALUflag,
+    input logic [2: 0] ALUflag, //outputs to flag
     input logic [W-1: 0] N1,
     input logic [W-1: 0] N2,
     output logic [W-1: 0] out,

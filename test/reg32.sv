@@ -29,7 +29,7 @@ assign RomArr[0] = 32'b0;
 assign DOut1 = RomArr[AdOut1];
 assign DOut2 = RomArr[AdOut2];
 
-assign A0 = RomArr[R0];
+assign A0 = RomArr[10];
 
 endmodule
 
