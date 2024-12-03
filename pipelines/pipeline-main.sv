@@ -118,7 +118,7 @@ reg32 R1(
 
     .clk (clk),
 
-    .AdIn (RdW), //A3?
+    .AdIn (RdW), //A3
     .AdOut1 (AdOut1), //shouldnt it be instr[19:15]
     .AdOut2 (AdOut2), //shouldnt it be instr[24:20]
     .DIn (ResultW), //WD3
