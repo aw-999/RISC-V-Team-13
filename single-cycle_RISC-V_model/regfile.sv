@@ -5,6 +5,7 @@ module regfile #(parameter ADDRESS_WIDTH = 5, DATA_WIDTH = 32 )( // A0 = reg[10]
     input logic [ADDRESS_WIDTH-1:0] A1, //A1 - Address 1 for read port
     input logic [ADDRESS_WIDTH-1:0] A2, //A2 - Address 2 for read port 2
     input logic [DATA_WIDTH-1:0] WD3, // WD3 - Data to store at given address port
+    input logic TRIGGER, //TRIGGER
     output logic [DATA_WIDTH-1:0] DOut1, //RD1 - read data 1 from A1
     output logic [DATA_WIDTH-1:0] DOut2, //RD2 - read data 2 from A2
     output logic [DATA_WIDTH-1:0] A0  // register 10 output
@@ -16,8 +17,13 @@ assign register_array[0] = 0;
 assign DOut1 = register_array[A1];
 assign DOut2 = register_array[A2];
 
-always_ff@(posedge clk)
-    if (WE3 && write_addr != 5'b0) register_array[write_addr] <= WD3;
+always_ff@(posedge clk) begin
+    if (WE3 && write_addr != 5'b0) begin
+        register_array[write_addr] <= WD3;
+    end
+    if (TRIGGER == 1'b1) register_array[5] <= 1;
+    //take t0 (x5) as the temporary register to store trigger value
+end
 
 assign A0 = register_array[10];
 
