@@ -53,6 +53,7 @@ rom InstrMemory(
 );
 
 //pcincrementby4
+//
 PCIncrementby4 PCIncrementby4(
     .PC (PC), 
     .PCPlus4 (PCPlus4F) 
@@ -60,9 +61,9 @@ PCIncrementby4 PCIncrementby4(
 
 //mux1PC
 mux_PCSrc mux_PCSrc(
-    .PCPlus4F (PCPlus4F),
+    .PC (PC),
     .PCTargetE (PCTargetE),
-    .PCSrcE1bit (PCSrcE[0]), // I dont know which bit of PCSrcE for this?
+    .PCSrcE (PCSrcE), 
 
     .PCN (PCN) 
 );
@@ -243,12 +244,13 @@ SrcBEmux SrcBEmux(
 
     .SrcBE (SrcBE)
 );
-
+//adding the immediate and the program counter (PCE) together
+// also known as branch
 PCTarget PCTarget( 
     .PCE (PCE),
     .ImmExtE (ImmExtE),
 
-    .PCTargetE (PCTargetE)
+    .PCTargetE (PCTargetE) //formerly branch_pc
 );
 
 PCE PCExecute (
