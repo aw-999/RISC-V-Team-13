@@ -1,31 +1,29 @@
 #include "gtest/gtest.h"
-#include "Vreg_file.h"  // Include the correct Verilated header for the module
-#include "verilated.h"
-#include "verilated_vcd_c.h"
+#include "Vregfile.h"  // Include the correct Verilated header for the module
+#include <verilated.h>
 #include <iostream>
 #include <memory>
 
-class reg_fileTest : public ::testing::Test
-{
+class reg32Test : public ::testing::Test {
 public:
-    Vreg_file* dut;  // Device Under Test (DUT)
+    Vregfile* dut;  // Device Under Test (DUT)
 
 protected:
-    virtual void SetUp() override {
-        dut = new Vreg_file;
-        dut->reset = 1;  // Start with reset
-        dut->write_enable = 0;
+    virtual void SetUp() override{
+        dut = new Vregfile;
+        dut->clk = 0;          // Initialize clk
+        dut->RegWrite = 0;     // Start with write disabled
     }
 
     virtual void TearDown() override {
         delete dut;
     }
 
-    void evaluate() {
+    void evaluate(){
         dut->eval();  
     }
 
-    void clockTick() {
+    void clockTick(){
         dut->clk = 1;  // Rising edge of the clock
         evaluate();
         dut->clk = 0;  // Falling edge of the clock
@@ -33,105 +31,99 @@ protected:
     }
 };
 
-TEST_F(reg_fileTest, ResetTest) {
-    dut->reset = 1;
+TEST_F(reg32Test, WriteAndReadValidRegister){
+    dut->write_addr = 1;         // Write to register 1
+    dut->DIn = 0x123ABC10; // Data to write
+    dut->RegWrite = 1;     // Enable write
+    evaluate();
     clockTick();
-    for (int i = 1; i < 32; i++) {
-        EXPECT_EQ(dut->read_data1, 0);
-        EXPECT_EQ(dut->read_data2, 0);
-    }
-    EXPECT_EQ(dut->read_data1, 0);
-    EXPECT_EQ(dut->read_data2, 0);
+
+    dut->RegWrite = 0;     // Disable write
+    dut->A1 = 1;       // Read from reg    1
+    evaluate();
+    clockTick();
+    std::cout << "DIn: " << dut->DIn;
+
+    EXPECT_EQ(dut->DOut1, 0x123ABC10); // Verify written data
 }
 
-TEST_F(reg_fileTest, WriteAndReadValidRegister) {
-    dut->write_addr = 1;
-    dut->write_data = 0xA5A5A5A5;
-    dut->write_enable = 1;
+ TEST_F(reg32Test, WriteAndReadAnotherRegister) {
+     dut->write_addr = 2;         // Write to register 2
+     dut->DIn = 0x12345678; // Data to write
+    dut->RegWrite = 1;     // Enable write
+    evaluate();
     clockTick();
-    dut->read_addr1 = 1;
+    dut->RegWrite = 0;     // Disable write
+    dut->A2 = 2;       // Read from register 2
+    evaluate();
     clockTick();
-    EXPECT_EQ(dut->read_data1, 0xA5A5A5A5);
+    EXPECT_EQ(dut->DOut2, 0x12345678); 
 }
 
-TEST_F(reg_fileTest, WriteAndReadAnotherRegister) {
-    dut->write_addr = 2;
-    dut->write_data = 0xDEADBEEF;
-    dut->write_enable = 1;
+TEST_F(reg32Test, WriteToRegister0ShouldNotChange) {
+    dut->write_addr = 0;         // write to register 0
+    dut->DIn = 0x12345678; // Data 
+    dut->RegWrite = 1;     // eable write
+    evaluate();
     clockTick();
-    dut->read_addr2 = 2;
+    dut->RegWrite = 0;     // Disable write
+    dut->A1 = 0;       // Read from register 0
+    evaluate();
     clockTick();
-    EXPECT_EQ(dut->read_data2, 0xDEADBEEF);
+    EXPECT_EQ(dut->DOut1, 0); // reg 0 should always return 0
 }
 
-TEST_F(reg_fileTest, WriteToRegister0ShouldNotChange) {
-    dut->write_addr = 0;
-    dut->write_data = 0x12345678;
-    dut->write_enable = 1;
+TEST_F(reg32Test, WriteAndReadMultipleRegisters) {
+    dut->write_addr = 1;         // Write to reg 1
+    dut->DIn = 0x1;        // Data to write
+    dut->RegWrite = 1;     // Enable write
+    evaluate();
     clockTick();
-    dut->read_addr1 = 0;
+    dut->write_addr = 2;         // Write to reg 2
+    dut->DIn = 0x2;        // Data to write
+    evaluate();
     clockTick();
-    EXPECT_EQ(dut->read_data1, 0);
+    dut->RegWrite = 0;     // Disable write
+    dut->A1 = 1;       // Read from register 1
+    dut->A2 = 2;       // Read from register 2
+    evaluate();
+    clockTick();
+    EXPECT_EQ(dut->DOut1, 0x1); // data in register 1
+    EXPECT_EQ(dut->DOut2, 0x2); //  data in register 2
 }
 
-TEST_F(reg_fileTest, ResetAfterWriteOperations) {
-    dut->write_addr = 1;
-    dut->write_data = 0xA5A5A5A5;
-    dut->write_enable = 1;
+TEST_F(reg32Test, WriteAndReadFromSameRegister) {
+    dut->write_addr = 3;         // Write to register 3
+    dut->DIn = 0xABCD1234; // Data to write
+    dut->RegWrite = 1;     // Enable write
+    evaluate();
     clockTick();
-    dut->reset = 1;
+    dut->RegWrite = 0;     // Disable write
+    dut->A1 = 3;       // Read from regi 3 port 1
+    dut->A2 = 3;       // Read from reg 3 port 2
+    evaluate();
     clockTick();
-    for (int i = 1; i < 32; i++) {
-        EXPECT_EQ(dut->read_data1, 0);
-        EXPECT_EQ(dut->read_data2, 0);
-    }
-    EXPECT_EQ(dut->read_data1, 0);
-    EXPECT_EQ(dut->read_data2, 0);
+    EXPECT_EQ(dut->DOut1, 0xABCD1234); //  read  port 1
+    EXPECT_EQ(dut->DOut2, 0xABCD1234); //  readport 2
 }
 
-TEST_F(reg_fileTest, WriteAndReadMultipleRegisters) {
-    dut->write_addr = 1;
-    dut->write_data = 0x1;
-    dut->write_enable = 1;
+TEST_F(reg32Test, WriteWithMultipleClocks) {
+    dut->write_addr = 4;         // register 4 write
+    dut->DIn = 0x12345678; // Data 
+    dut->RegWrite = 1;     // enable write
+    evaluate();
     clockTick();
-    dut->write_addr = 2;
-    dut->write_data = 0x2;
+    dut->RegWrite = 0;     // disable write
+    dut->A1 = 4;       // Read from register 4
+    evaluate();
     clockTick();
-    dut->read_addr1 = 1;
-    dut->read_addr2 = 2;
+    EXPECT_EQ(dut->DOut1, 0x12345678); // Verify written data persists
+    evaluate();
     clockTick();
-    EXPECT_EQ(dut->read_data1, 0x1);
-    EXPECT_EQ(dut->read_data2, 0x2);
+    EXPECT_EQ(dut->DOut1, 0x12345678); // check sfter 1 clk
 }
 
-TEST_F(reg_fileTest, WriteAndReadFromSameRegister) {
-    dut->write_addr = 3;
-    dut->write_data = 0xDEADBEEF;
-    dut->write_enable = 1;
-    clockTick();
-    dut->read_addr1 = 3;
-    dut->read_addr2 = 3;
-    clockTick();
-    EXPECT_EQ(dut->read_data1, 0xDEADBEEF);
-    EXPECT_EQ(dut->read_data2, 0xDEADBEEF);
-}
-
-TEST_F(reg_fileTest, WriteWithMultipleClocks) {
-    dut->write_addr = 4;
-    dut->write_data = 0x12345678;
-    dut->write_enable = 1;
-    clockTick();
-    dut->read_addr1 = 4;
-    clockTick();
-    EXPECT_EQ(dut->read_data1, 0x12345678);
-    clockTick();
-    EXPECT_EQ(dut->read_data1, 0x12345678);
-    clockTick();
-    EXPECT_EQ(dut->read_data1, 0x12345678);
-}
-
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     auto res = RUN_ALL_TESTS();
     return res;

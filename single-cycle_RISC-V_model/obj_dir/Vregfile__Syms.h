@@ -4,33 +4,33 @@
 // Internal details; most calling programs do not need this header,
 // unless using verilator public meta comments.
 
-#ifndef VERILATED_VREG32__SYMS_H_
-#define VERILATED_VREG32__SYMS_H_  // guard
+#ifndef VERILATED_VREGFILE__SYMS_H_
+#define VERILATED_VREGFILE__SYMS_H_  // guard
 
 #include "verilated.h"
 
 // INCLUDE MODEL CLASS
 
-#include "Vreg32.h"
+#include "Vregfile.h"
 
 // INCLUDE MODULE CLASSES
-#include "Vreg32___024root.h"
+#include "Vregfile___024root.h"
 
 // SYMS CLASS (contains all model state)
-class Vreg32__Syms final : public VerilatedSyms {
+class Vregfile__Syms final : public VerilatedSyms {
   public:
     // INTERNAL STATE
-    Vreg32* const __Vm_modelp;
+    Vregfile* const __Vm_modelp;
     bool __Vm_activity = false;  ///< Used by trace routines to determine change occurred
     uint32_t __Vm_baseCode = 0;  ///< Used by trace routines when tracing multiple models
     bool __Vm_didInit = false;
 
     // MODULE INSTANCE STATE
-    Vreg32___024root               TOP;
+    Vregfile___024root             TOP;
 
     // CONSTRUCTORS
-    Vreg32__Syms(VerilatedContext* contextp, const char* namep, Vreg32* modelp);
-    ~Vreg32__Syms();
+    Vregfile__Syms(VerilatedContext* contextp, const char* namep, Vregfile* modelp);
+    ~Vregfile__Syms();
 
     // METHODS
     const char* name() { return TOP.name(); }

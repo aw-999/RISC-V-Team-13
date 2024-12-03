@@ -5,20 +5,20 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VREG32_H_
-#define VERILATED_VREG32_H_  // guard
+#ifndef VERILATED_VREGFILE_H_
+#define VERILATED_VREGFILE_H_  // guard
 
 #include "verilated.h"
 
-class Vreg32__Syms;
-class Vreg32___024root;
+class Vregfile__Syms;
+class Vregfile___024root;
 class VerilatedVcdC;
 
 // This class is the main interface to the Verilated model
-class Vreg32 VL_NOT_FINAL : public VerilatedModel {
+class Vregfile VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vreg32__Syms* const vlSymsp;
+    Vregfile__Syms* const vlSymsp;
 
   public:
 
@@ -28,8 +28,8 @@ class Vreg32 VL_NOT_FINAL : public VerilatedModel {
     VL_IN8(&clk,0,0);
     VL_IN8(&RegWrite,0,0);
     VL_IN8(&write_addr,4,0);
-    VL_IN8(&AdOut1,4,0);
-    VL_IN8(&AdOut2,4,0);
+    VL_IN8(&A1,4,0);
+    VL_IN8(&A2,4,0);
     VL_IN(&DIn,31,0);
     VL_OUT(&DOut1,31,0);
     VL_OUT(&DOut2,31,0);
@@ -41,19 +41,19 @@ class Vreg32 VL_NOT_FINAL : public VerilatedModel {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vreg32___024root* const rootp;
+    Vregfile___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vreg32(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vreg32(const char* name = "TOP");
+    explicit Vregfile(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vregfile(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vreg32();
+    virtual ~Vregfile();
   private:
-    VL_UNCOPYABLE(Vreg32);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vregfile);  ///< Copying not allowed
 
   public:
     // API METHODS

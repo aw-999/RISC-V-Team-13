@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See Vreg32.mk for the caller.
+# See Vregfile.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -23,22 +23,22 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	Vreg32 \
-	Vreg32___024root__DepSet_habab2c73__0 \
+	Vregfile \
+	Vregfile___024root__DepSet_h357c9822__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	Vreg32___024root__Slow \
-	Vreg32___024root__DepSet_habab2c73__0__Slow \
+	Vregfile___024root__Slow \
+	Vregfile___024root__DepSet_h357c9822__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
-	Vreg32__Trace__0 \
+	Vregfile__Trace__0 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	Vreg32__Syms \
-	Vreg32__Trace__0__Slow \
+	Vregfile__Syms \
+	Vregfile__Trace__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \
