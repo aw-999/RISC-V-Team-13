@@ -16,7 +16,6 @@ verilator -Wall --trace \
 make -j -C obj_dir/ -f Vimm.mk
 
 # Check if the executable was created successfully
-    -f obj_dir/Vimm
     echo "Build successful. Running simulation..."
     # Run the simulation
     ./obj_dir/Vimm
