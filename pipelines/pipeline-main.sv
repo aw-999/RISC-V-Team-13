@@ -116,8 +116,8 @@ regfile R1(
     .clk (clk),
 
     .write_addr (RdW), //A3
-    .A1 (AdOut1), //shouldnt it be instr[19:15]
-    .A2 (AdOut2), //shouldnt it be instr[24:20]
+    .A1 (instr[19:15]), 
+    .A2 (instr[24:20]), 
     .WD3 (ResultW), //WD3
     .WE3 (RegWriteW), //WE3
 
@@ -178,7 +178,7 @@ HazardUnit HazardUnit (
     .ForwardAE (ForwardAE),
     .ForwardBE (ForwardAE)
 );
-
+//hazard mux for SrcAE
 ForwardAE_mux ForwardAE_mux (
     .ResultW (ResultW),
     .RD1E (RD1E),
@@ -187,7 +187,7 @@ ForwardAE_mux ForwardAE_mux (
 
     .SrcAE (SrcAE)
 );
-
+//hazard mux for SrcBE
 ForwardBE_mux ForwardBE_mux (
     .ResultW (ResultW),
     .RD2E (RD2E),
@@ -219,8 +219,8 @@ alu ALU(
 
 //part of control unit?
 aludecode ALUDecode(
-    .func3 (func3),
-    .op5 (op5),
+    .func3 (instr[14:12]), 
+    .op5 (instr[]),
     .func75 (func75),
     .ALUop (ALUop),
 
