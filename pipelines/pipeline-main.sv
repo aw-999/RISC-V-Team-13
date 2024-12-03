@@ -48,40 +48,40 @@ logic [4:0] RdW;
 
 //instrmem
 rom InstrMemory(
-    .AddrIn (PC),
-    .DOut (instr)
+    .AddrIn (PC), 
+    .DOut (instr) 
 );
 
 //pcincrementby4
 PCIncrementby4 PCIncrementby4(
-    .PC (PC),
-    .PCPlus4 (PCPlus4F)
+    .PC (PC), 
+    .PCPlus4 (PCPlus4F) 
 );
 
 //mux1PC
 mux_PCSrc mux_PCSrc(
     .PCPlus4F (PCPlus4F),
     .PCTargetE (PCTargetE),
-    .PCSrcE (PCSrcE),
+    .PCSrcE1bit (PCSrcE[0]), // I dont know which bit of PCSrcE for this?
 
-    .PCN (PCN)
+    .PCN (PCN) 
 );
 
 pcreg PCReg(
     .clk (clk),
     .rst (rst),
-    .PCN (PCN),
+    .PCN (PCN), //this is the PC next
 
-    .PC (PC)
+    .PC (PC) 
 );
 
 PCF PCFetch(
     .clk (clk),
     .rst (rst),
 
-    .InstrF (instr),
-    .PCF (PC),
-    .PCPlus4F (PCN),
+    .InstrF (instr), 
+    .PCF (PC), 
+    .PCPlus4F (PCPlus4F), 
 
     .InstrD (InstrD),
     .PCD (PCD),
@@ -91,29 +91,23 @@ PCF PCFetch(
 //control
 control ControlUnit(
 
-    //why no op
-    //why no funct3
-    //why no funct7
+    .instr (instr), 
+    .flag (flag), 
 
-    .instr (instr),
-    .flag (flag),
-
-    .RegWrite (RegWrite),
-    .RamWrite (RamWrite), //Memwrite on diagram
+    .RegWrite (RegWrite), //RegWriteD
+    .RamWrite (RamWrite), //MemwriteD on diagram
     .ALUop (ALUop), //ALUctrl
-    .ALUsrc (ALUsrc), 
-    .IMMsrc (IMMsrc), 
-    .PCsrc (PCsrc), //dont know
-    .ResultSrc (ResultSrc)
-    //.JumpD
-    //.BranchD needed to be added
+    .ALUsrc (ALUsrc), //ALUsrcD
+    .IMMsrc (IMMsrc), //IMMsrcD
+    .PCsrc (PCsrc), 
+    .ResultSrc (ResultSrc) //ResultSrcD
 );
 
 //sign extend
 imm Sign_Extend( 
-    .IMMsrc (IMMsrc),
+    .IMMsrc (IMMsrc), //change to ImmSrcD
     .instr (instr), //shouldnt it be instr[31:7]
-    .out (IMM) 
+    .out (IMM) //ImmExtD
 );
 
 //regfile
@@ -139,10 +133,11 @@ PCD PCDecode(
     .RegWriteD (RegWrite),
     .ResultSrcD (ResultSrc),
     .MemWriteD (RamWrite),
-    .JumpD (1'b0),  
-    .BranchD (1'b0), 
+    //.JumpD (1'b0),  
+    //.BranchD (1'b0), 
     .ALUCtrlD (ALUop), 
     .ALUSrcD (ALUsrc),
+    .PCSrcD (PCSrc), 
 
     .RD1D (DOut1),   
     .RD2D (DOut2),   
@@ -156,10 +151,11 @@ PCD PCDecode(
     .RegWriteE (RegWriteE),
     .ResultSrcE (ResultSrcE),
     .MemWriteE (MemWriteE),
-    .JumpE (JumpE),
-    .BranchE (BranchE),
+    //.JumpE (JumpE), 
+    //.BranchE (BranchE),
     .ALUCtrlE (ALUCtrlE),
     .ALUSrcE (ALUSrcE),
+    .PCSrcE (PCSrcE), 
     
     .RD1E (RD1E),
     .RD2E (RD2E),
@@ -201,13 +197,14 @@ ForwardBE_mux ForwardBE_mux (
     .WriteDataE (WriteDataE)
 );
 
-PCSrcE_gate PCsrcE_gate (
-    .BranchE (BranchE),
-    .JumpeE (JumpE),
-    .ZeroE (flag),
+// i think implemented in the control unit so not needed 
+// PCSrcE_gate PCsrcE_gate (
+//     .BranchE (BranchE),
+//     .JumpeE (JumpE),
+//     .ZeroE (flag), // idk if thats right - need to understand control unit and alu design process
 
-    .PCSrcE (PCSrcE), 
-)
+//     .PCSrcE (PCSrcE), 
+// )
 
 //alu
 alu ALU(
@@ -220,6 +217,7 @@ alu ALU(
     .out (DOutAlu)
 );
 
+//part of control unit?
 aludecode ALUDecode(
     .func3 (func3),
     .op5 (op5),
@@ -229,6 +227,7 @@ aludecode ALUDecode(
     .ALUctrl (ALUctrl)
 );
 
+//part of control unit?
 aluflagdecode A12(
     .func3 (func3),
     .ALUop (ALUop),

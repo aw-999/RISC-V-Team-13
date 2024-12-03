@@ -3,7 +3,7 @@ module mux2 #(
 )(
     input  logic [DATA_WIDTH-1:0] PCPlus4F, 
     input  logic [DATA_WIDTH-1:0] PCTargetE,  
-    input  logic                  PCSrcE,  
+    input  logic                  PCSrcE1bit,  
     output logic [DATA_WIDTH-1:0] PCN   
 );
 

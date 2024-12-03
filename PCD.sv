@@ -14,7 +14,7 @@ module PCDecode #(
     input logic BranchD,
     input logic [2:0] ALUCtrlD,
     input logic ALUSrcD,
-    output logic [1:0] PCsrcD,
+    input logic [1:0] PCsrcD,
 
     output logic RegWriteE,
     output logic [1:0] ResultSrcE,
