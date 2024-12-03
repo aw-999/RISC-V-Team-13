@@ -20,6 +20,8 @@ logic [1:0] ResultSrcD;
 logic MemWriteD, JumpD, BranchD;
 logic [2:0] ALUCtrlD;
 logic ALUSrcD;
+logic [4:0] Rs1D;
+logic [4:0] Rs2D;
 
 //pipeline execute
 logic [1:0] ResultSrcE;
@@ -28,6 +30,8 @@ logic [2:0] ALUCtrlE;
 logic ALUSrcE;
 logic [DATA_WIDTH-1:0] RD1E, RD2E, PCE, ImmExtE, PCPlus4E;
 logic [4:0] RdE;
+logic [4:0] Rs1E;
+logic [4:0] Rs2E;
 
 //pipeline memory
 logic RegWriteM;
@@ -51,7 +55,6 @@ rom InstrMemory(
 //pcincrementby4
 PCIncrementby4 PCIncrementby4(
     .PC (PC),
-
     .PCPlus4 (PCPlus4F)
 );
 
@@ -107,25 +110,25 @@ control ControlUnit(
 );
 
 //sign extend
-imm I1( 
+imm Sign_Extend( 
     .IMMsrc (IMMsrc),
     .instr (instr), //shouldnt it be instr[31:7]
     .out (IMM) 
 );
 
 //regfile
-reg32 R1(
+regfile R1(
 
     .clk (clk),
 
-    .AdIn (RdW), //A3
-    .AdOut1 (AdOut1), //shouldnt it be instr[19:15]
-    .AdOut2 (AdOut2), //shouldnt it be instr[24:20]
-    .DIn (ResultW), //WD3
-    .RegWrite (RegWriteW), //WE3
+    .write_addr (RdW), //A3
+    .A1 (AdOut1), //shouldnt it be instr[19:15]
+    .A2 (AdOut2), //shouldnt it be instr[24:20]
+    .WD3 (ResultW), //WD3
+    .WE3 (RegWriteW), //WE3
 
-    .DOut1 (DOut1),
-    .DOut2 (DOut2),
+    .DOut1 (DOut1), //RD1D
+    .DOut2 (DOut2), //RD2D
     .A0 (A0)
 );
 
@@ -140,12 +143,15 @@ PCD PCDecode(
     .BranchD (1'b0), 
     .ALUCtrlD (ALUop), 
     .ALUSrcD (ALUsrc),
+
     .RD1D (DOut1),   
     .RD2D (DOut2),   
     .PCD (PC),       
     .RdD (instr[11:7]),   
     .ImmExtD (IMM),
     .PCPlus4D (PC),  
+    .Rs1D (instr[19:15]),
+    .Rs2D (instr[24:20]),
     
     .RegWriteE (RegWriteE),
     .ResultSrcE (ResultSrcE),
@@ -160,7 +166,9 @@ PCD PCDecode(
     .PCE (PCE),
     .RdE (RdE),
     .ImmExtE (ImmExtE),
-    .PCPlus4E (PCPlus4E)
+    .PCPlus4E (PCPlus4E),
+    .Rs1E (Rs1E),
+    .Rs2E (Rs2E)
 );
 
 //alu
@@ -205,7 +213,6 @@ PCTarget PCTarget(
 
     .PCTargetE (PCTargetE)
 );
-
 
 PCE PCExecute (
     .clk (clk),
@@ -264,10 +271,12 @@ PCM PCMemory(
 
 //mux4
 mux4 mux4WriteBack (
+
     .ResultSrcW(ResultSrcW),       
     .ALUResultW(ALUResultW),       
     .ReadDataW(ReadDataW),        
-    .PCPlus4W(PCPlus4W),           
+    .PCPlus4W(PCPlus4W),       
+
     .ResultW(ResultW)
 );
 
