@@ -208,7 +208,7 @@ alu ALU(
     .N1 (SrcAE), //formerly RD1E
     .N2 (SrcBE), //SrcBE
 
-    .flag (flag),
+    .flag (flag), //ZeroE
     .out (DOutAlu)
 );
 
@@ -225,7 +225,7 @@ aluflagdecode A12(
     .func3 (func3),
     .ALUop (ALUop),
 
-    .ALUflag (ALUflag)
+    .ALUflag (ALUflag) 
 );
 
 //mux
