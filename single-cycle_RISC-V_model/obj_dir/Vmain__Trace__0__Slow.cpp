@@ -12,21 +12,21 @@ VL_ATTR_COLD void Vmain___024root__trace_init_sub__TOP__0(Vmain___024root* vlSel
     // Init
     const int c = vlSymsp->__Vm_baseCode;
     // Body
-    tracep->declBit(c+66,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+67,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+68,0,"A0",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+74,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+75,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+76,0,"A0",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->pushPrefix("main", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+69,0,"WA",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+70,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+66,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+67,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+68,0,"A0",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+77,0,"WA",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+78,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+74,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+75,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+76,0,"A0",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+1,0,"instr",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+2,0,"IMMop",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+3,0,"AdIn",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 4,0);
     tracep->declBus(c+4,0,"AdOut1",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 4,0);
     tracep->declBus(c+5,0,"AdOut2",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 4,0);
-    tracep->declBus(c+71,0,"func3",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
+    tracep->declBus(c+79,0,"func3",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
     tracep->declBit(c+6,0,"ALUsrc",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+7,0,"ALUop",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
     tracep->declBit(c+8,0,"RamWrite",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
@@ -38,7 +38,7 @@ VL_ATTR_COLD void Vmain___024root__trace_init_sub__TOP__0(Vmain___024root* vlSel
     tracep->declBus(c+14,0,"DOutAlu",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBit(c+15,0,"flag",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->pushPrefix("C1", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+70,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+78,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+1,0,"instr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBit(c+15,0,"flag",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+9,0,"RegWrite",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
@@ -52,9 +52,9 @@ VL_ATTR_COLD void Vmain___024root__trace_init_sub__TOP__0(Vmain___024root* vlSel
     tracep->declBus(c+17,0,"PCsrc_req1",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
     tracep->popPrefix();
     tracep->pushPrefix("D1", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+69,0,"WAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+70,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+66,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+77,0,"WAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+78,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+74,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+3,0,"AdIn",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 4,0);
     tracep->declBus(c+4,0,"AdOut1",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 4,0);
     tracep->declBus(c+5,0,"AdOut2",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 4,0);
@@ -66,7 +66,7 @@ VL_ATTR_COLD void Vmain___024root__trace_init_sub__TOP__0(Vmain___024root* vlSel
     tracep->declBit(c+9,0,"RegWrite",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+8,0,"RamWrite",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+10,0,"IMMsrc",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
-    tracep->declBus(c+68,0,"A0",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+76,0,"A0",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBit(c+15,0,"flag",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+2,0,"IMM",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+14,0,"DOutAlu",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
@@ -81,13 +81,19 @@ VL_ATTR_COLD void Vmain___024root__trace_init_sub__TOP__0(Vmain___024root* vlSel
     tracep->declBus(c+26,0,"ALUctrl",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
     tracep->declBus(c+27,0,"ALUflag",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
     tracep->pushPrefix("A1", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+70,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+78,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+26,0,"ALUctrl",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
     tracep->declBus(c+27,0,"ALUflag",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
     tracep->declBus(c+18,0,"N1",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+20,0,"N2",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+14,0,"out",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBit(c+15,0,"flag",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+28,0,"flagZ",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+29,0,"flagC",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+30,0,"flagS",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+31,0,"flagV",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declQuad(c+32,0,"N1c",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 32,0);
+    tracep->declQuad(c+34,0,"N2c",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 32,0);
     tracep->popPrefix();
     tracep->pushPrefix("A11", VerilatedTracePrefixType::SCOPE_MODULE);
     tracep->declBus(c+25,0,"func3",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
@@ -102,17 +108,17 @@ VL_ATTR_COLD void Vmain___024root__trace_init_sub__TOP__0(Vmain___024root* vlSel
     tracep->declBus(c+27,0,"ALUflag",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
     tracep->popPrefix();
     tracep->pushPrefix("I1", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+70,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+78,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+10,0,"IMMsrc",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
     tracep->declBus(c+1,0,"instr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+2,0,"out",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+28,0,"sign",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+36,0,"sign",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->popPrefix();
     tracep->pushPrefix("R1", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+69,0,"WAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+70,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+72,0,"R0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+66,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+77,0,"WAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+78,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+80,0,"R0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+74,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+9,0,"RegWrite",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+3,0,"AdIn",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 4,0);
     tracep->declBus(c+4,0,"AdOut1",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 4,0);
@@ -120,50 +126,50 @@ VL_ATTR_COLD void Vmain___024root__trace_init_sub__TOP__0(Vmain___024root* vlSel
     tracep->declBus(c+21,0,"DIn",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+18,0,"DOut1",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+19,0,"DOut2",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+68,0,"A0",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+76,0,"A0",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->pushPrefix("RegArr", VerilatedTracePrefixType::ARRAY_UNPACKED);
     for (int i = 0; i < 32; ++i) {
-        tracep->declBus(c+29+i*1,0,"",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, true,(i+0), 31,0);
+        tracep->declBus(c+37+i*1,0,"",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, true,(i+0), 31,0);
     }
     tracep->popPrefix();
     tracep->popPrefix();
     tracep->pushPrefix("R2", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+70,0,"WA",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+73,0,"WAM",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+74,0,"WB",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+70,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+66,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+78,0,"WA",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+81,0,"WAM",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+82,0,"WB",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+78,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+74,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+14,0,"Ad",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBit(c+8,0,"RamWrite",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+25,0,"func3",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
     tracep->declBus(c+19,0,"DIn",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+22,0,"DOut",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+61,0,"AdM",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 19,0);
-    tracep->declBus(c+62,0,"show",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+69,0,"AdM",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 19,0);
+    tracep->declBus(c+70,0,"show",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->popPrefix();
     tracep->pushPrefix("D2", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+70,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+66,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+67,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+78,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+74,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+75,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+12,0,"PCsrc",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
     tracep->declBus(c+2,0,"IMMop",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+14,0,"DOutAlu",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+13,0,"PC",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+1,0,"instr",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+63,0,"PCN",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+64,0,"branch_pc",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+71,0,"PCN",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+72,0,"branch_pc",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->pushPrefix("P1", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+70,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+66,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+67,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+63,0,"PCN",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+78,0,"W",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+74,0,"clk",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+75,0,"rst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+71,0,"PCN",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+13,0,"PC",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->pushPrefix("R1", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+74,0,"WAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+74,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+65,0,"AddrIn",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 7,0);
+    tracep->declBus(c+82,0,"WAD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+82,0,"WD",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::PARAMETER, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+73,0,"AddrIn",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 7,0);
     tracep->declBus(c+1,0,"DOut",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->popPrefix();
@@ -215,12 +221,12 @@ VL_ATTR_COLD void Vmain___024root__trace_const_0_sub_0(Vmain___024root* vlSelf, 
     // Init
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode);
     // Body
-    bufp->fullIData(oldp+69,(5U),32);
-    bufp->fullIData(oldp+70,(0x20U),32);
-    bufp->fullCData(oldp+71,(vlSelfRef.main__DOT__func3),3);
-    bufp->fullIData(oldp+72,(0xaU),32);
-    bufp->fullIData(oldp+73,(0x14U),32);
-    bufp->fullIData(oldp+74,(8U),32);
+    bufp->fullIData(oldp+77,(5U),32);
+    bufp->fullIData(oldp+78,(0x20U),32);
+    bufp->fullCData(oldp+79,(vlSelfRef.main__DOT__func3),3);
+    bufp->fullIData(oldp+80,(0xaU),32);
+    bufp->fullIData(oldp+81,(0x14U),32);
+    bufp->fullIData(oldp+82,(8U),32);
 }
 
 VL_ATTR_COLD void Vmain___024root__trace_full_0_sub_0(Vmain___024root* vlSelf, VerilatedVcd::Buffer* bufp);
@@ -259,17 +265,7 @@ VL_ATTR_COLD void Vmain___024root__trace_full_0_sub_0(Vmain___024root* vlSelf, V
     bufp->fullCData(oldp+12,(vlSelfRef.main__DOT__PCsrc),2);
     bufp->fullIData(oldp+13,(vlSelfRef.main__DOT__PC),32);
     bufp->fullIData(oldp+14,(vlSelfRef.main__DOT__DOutAlu),32);
-    bufp->fullBit(oldp+15,((1U & ((4U & (IData)(vlSelfRef.main__DOT__D1__DOT__ALUflag))
-                                   ? (IData)(vlSelfRef.main__DOT__D1__DOT__ALUflag)
-                                   : ((2U & (IData)(vlSelfRef.main__DOT__D1__DOT__ALUflag))
-                                       ? (IData)(vlSelfRef.main__DOT__D1__DOT__ALUflag)
-                                       : ((1U & (IData)(vlSelfRef.main__DOT__D1__DOT__ALUflag))
-                                           ? ((0U != vlSelfRef.main__DOT__DOutAlu)
-                                               ? 1U
-                                               : 0U)
-                                           : ((0U == vlSelfRef.main__DOT__DOutAlu)
-                                               ? 1U
-                                               : 0U)))))));
+    bufp->fullBit(oldp+15,(vlSelfRef.main__DOT__flag));
     bufp->fullCData(oldp+16,(vlSelfRef.main__DOT__C1__DOT__op7),7);
     bufp->fullCData(oldp+17,(vlSelfRef.main__DOT__C1__DOT__PCsrc_req1),2);
     bufp->fullIData(oldp+18,(vlSelfRef.main__DOT__D1__DOT__DOut1),32);
@@ -293,41 +289,54 @@ VL_ATTR_COLD void Vmain___024root__trace_full_0_sub_0(Vmain___024root* vlSelf, V
     bufp->fullCData(oldp+25,(vlSelfRef.main__DOT__D1__DOT__func3),3);
     bufp->fullCData(oldp+26,(vlSelfRef.main__DOT__D1__DOT__ALUctrl),3);
     bufp->fullCData(oldp+27,(vlSelfRef.main__DOT__D1__DOT__ALUflag),3);
-    bufp->fullBit(oldp+28,(vlSelfRef.main__DOT__D1__DOT__I1__DOT__sign));
-    bufp->fullIData(oldp+29,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[0]),32);
-    bufp->fullIData(oldp+30,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[1]),32);
-    bufp->fullIData(oldp+31,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[2]),32);
-    bufp->fullIData(oldp+32,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[3]),32);
-    bufp->fullIData(oldp+33,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[4]),32);
-    bufp->fullIData(oldp+34,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[5]),32);
-    bufp->fullIData(oldp+35,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[6]),32);
-    bufp->fullIData(oldp+36,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[7]),32);
-    bufp->fullIData(oldp+37,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[8]),32);
-    bufp->fullIData(oldp+38,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[9]),32);
-    bufp->fullIData(oldp+39,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[10]),32);
-    bufp->fullIData(oldp+40,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[11]),32);
-    bufp->fullIData(oldp+41,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[12]),32);
-    bufp->fullIData(oldp+42,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[13]),32);
-    bufp->fullIData(oldp+43,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[14]),32);
-    bufp->fullIData(oldp+44,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[15]),32);
-    bufp->fullIData(oldp+45,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[16]),32);
-    bufp->fullIData(oldp+46,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[17]),32);
-    bufp->fullIData(oldp+47,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[18]),32);
-    bufp->fullIData(oldp+48,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[19]),32);
-    bufp->fullIData(oldp+49,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[20]),32);
-    bufp->fullIData(oldp+50,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[21]),32);
-    bufp->fullIData(oldp+51,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[22]),32);
-    bufp->fullIData(oldp+52,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[23]),32);
-    bufp->fullIData(oldp+53,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[24]),32);
-    bufp->fullIData(oldp+54,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[25]),32);
-    bufp->fullIData(oldp+55,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[26]),32);
-    bufp->fullIData(oldp+56,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[27]),32);
-    bufp->fullIData(oldp+57,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[28]),32);
-    bufp->fullIData(oldp+58,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[29]),32);
-    bufp->fullIData(oldp+59,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[30]),32);
-    bufp->fullIData(oldp+60,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[31]),32);
-    bufp->fullIData(oldp+61,(vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM),20);
-    bufp->fullIData(oldp+62,(((vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
+    bufp->fullBit(oldp+28,((0U == vlSelfRef.main__DOT__DOutAlu)));
+    bufp->fullBit(oldp+29,(vlSelfRef.main__DOT__D1__DOT__A1__DOT__flagC));
+    bufp->fullBit(oldp+30,((vlSelfRef.main__DOT__DOutAlu 
+                            >> 0x1fU)));
+    bufp->fullBit(oldp+31,(((vlSelfRef.main__DOT__D1__DOT__DOut1 
+                             >> 0x1fU) & (~ (vlSelfRef.main__DOT__D1__DOT__N2 
+                                             >> 0x1fU)))));
+    bufp->fullQData(oldp+32,((QData)((IData)(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr
+                                             [(0x1fU 
+                                               & (vlSelfRef.__VdfgRegularize_h6171c202_0_1 
+                                                  >> 0xfU))]))),33);
+    bufp->fullQData(oldp+34,((QData)((IData)(((IData)(1U) 
+                                              + (~ vlSelfRef.main__DOT__D1__DOT__N2))))),33);
+    bufp->fullBit(oldp+36,(vlSelfRef.main__DOT__D1__DOT__I1__DOT__sign));
+    bufp->fullIData(oldp+37,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[0]),32);
+    bufp->fullIData(oldp+38,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[1]),32);
+    bufp->fullIData(oldp+39,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[2]),32);
+    bufp->fullIData(oldp+40,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[3]),32);
+    bufp->fullIData(oldp+41,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[4]),32);
+    bufp->fullIData(oldp+42,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[5]),32);
+    bufp->fullIData(oldp+43,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[6]),32);
+    bufp->fullIData(oldp+44,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[7]),32);
+    bufp->fullIData(oldp+45,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[8]),32);
+    bufp->fullIData(oldp+46,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[9]),32);
+    bufp->fullIData(oldp+47,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[10]),32);
+    bufp->fullIData(oldp+48,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[11]),32);
+    bufp->fullIData(oldp+49,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[12]),32);
+    bufp->fullIData(oldp+50,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[13]),32);
+    bufp->fullIData(oldp+51,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[14]),32);
+    bufp->fullIData(oldp+52,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[15]),32);
+    bufp->fullIData(oldp+53,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[16]),32);
+    bufp->fullIData(oldp+54,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[17]),32);
+    bufp->fullIData(oldp+55,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[18]),32);
+    bufp->fullIData(oldp+56,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[19]),32);
+    bufp->fullIData(oldp+57,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[20]),32);
+    bufp->fullIData(oldp+58,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[21]),32);
+    bufp->fullIData(oldp+59,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[22]),32);
+    bufp->fullIData(oldp+60,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[23]),32);
+    bufp->fullIData(oldp+61,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[24]),32);
+    bufp->fullIData(oldp+62,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[25]),32);
+    bufp->fullIData(oldp+63,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[26]),32);
+    bufp->fullIData(oldp+64,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[27]),32);
+    bufp->fullIData(oldp+65,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[28]),32);
+    bufp->fullIData(oldp+66,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[29]),32);
+    bufp->fullIData(oldp+67,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[30]),32);
+    bufp->fullIData(oldp+68,(vlSelfRef.main__DOT__D1__DOT__R1__DOT__RegArr[31]),32);
+    bufp->fullIData(oldp+69,(vlSelfRef.main__DOT__D1__DOT__R2__DOT__AdM),20);
+    bufp->fullIData(oldp+70,(((vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                [0x10000U] << 0x18U) 
                               | ((vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                   [0x10001U] << 0x10U) 
@@ -335,7 +344,7 @@ VL_ATTR_COLD void Vmain___024root__trace_full_0_sub_0(Vmain___024root* vlSelf, V
                                      [0x10002U] << 8U) 
                                     | vlSelfRef.main__DOT__D1__DOT__R2__DOT__RamArray
                                     [0x10003U])))),32);
-    bufp->fullIData(oldp+63,(((0U == (IData)(vlSelfRef.main__DOT__PCsrc))
+    bufp->fullIData(oldp+71,(((0U == (IData)(vlSelfRef.main__DOT__PCsrc))
                                ? ((IData)(4U) + vlSelfRef.main__DOT__PC)
                                : ((1U == (IData)(vlSelfRef.main__DOT__PCsrc))
                                    ? (vlSelfRef.main__DOT__IMMop 
@@ -344,10 +353,10 @@ VL_ATTR_COLD void Vmain___024root__trace_full_0_sub_0(Vmain___024root* vlSelf, V
                                        ? vlSelfRef.main__DOT__DOutAlu
                                        : ((IData)(4U) 
                                           + vlSelfRef.main__DOT__PC))))),32);
-    bufp->fullIData(oldp+64,((vlSelfRef.main__DOT__IMMop 
+    bufp->fullIData(oldp+72,((vlSelfRef.main__DOT__IMMop 
                               + vlSelfRef.main__DOT__PC)),32);
-    bufp->fullCData(oldp+65,((0xffU & vlSelfRef.main__DOT__PC)),8);
-    bufp->fullBit(oldp+66,(vlSelfRef.clk));
-    bufp->fullBit(oldp+67,(vlSelfRef.rst));
-    bufp->fullIData(oldp+68,(vlSelfRef.A0),32);
+    bufp->fullCData(oldp+73,((0xffU & vlSelfRef.main__DOT__PC)),8);
+    bufp->fullBit(oldp+74,(vlSelfRef.clk));
+    bufp->fullBit(oldp+75,(vlSelfRef.rst));
+    bufp->fullIData(oldp+76,(vlSelfRef.A0),32);
 }

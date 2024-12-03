@@ -8,10 +8,10 @@ always_comb
 case (func3)
     3'b000: ALUflag = 3'b000; // beq
     3'b001: ALUflag = 3'b001; // bne
-    3'b100: ALUflag = 3'b101; // blt
-    3'b101: ALUflag = 3'b100; // bge
-    3'b110: ALUflag = 3'b111; // bltu
-    3'b111: ALUflag = 3'b011; // bgeu
+    3'b100: ALUflag = 3'b100; // blt
+    3'b101: ALUflag = 3'b101; // bge
+    3'b110: ALUflag = 3'b110; // bltu
+    3'b111: ALUflag = 3'b111; // bgeu
 
     default: ALUflag = 3'b010;
 endcase
