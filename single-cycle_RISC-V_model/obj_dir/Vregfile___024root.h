@@ -14,12 +14,12 @@ class Vregfile___024root final : public VerilatedModule {
 
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
-    VL_IN8(RegWrite,0,0);
+    VL_IN8(WE3,0,0);
     VL_IN8(write_addr,4,0);
     VL_IN8(A1,4,0);
     VL_IN8(A2,4,0);
     CData/*0:0*/ __Vclklast__TOP__clk;
-    VL_IN(DIn,31,0);
+    VL_IN(WD3,31,0);
     VL_OUT(DOut1,31,0);
     VL_OUT(DOut2,31,0);
     VL_OUT(A0,31,0);

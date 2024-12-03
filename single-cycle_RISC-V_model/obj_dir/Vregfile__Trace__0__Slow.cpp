@@ -12,11 +12,11 @@ VL_ATTR_COLD void Vregfile___024root__trace_init_sub__TOP__0(Vregfile___024root*
     const int c = vlSymsp->__Vm_baseCode;
     // Body
     tracep->declBit(c+33,"clk", false,-1);
-    tracep->declBit(c+34,"RegWrite", false,-1);
+    tracep->declBit(c+34,"WE3", false,-1);
     tracep->declBus(c+35,"write_addr", false,-1, 4,0);
     tracep->declBus(c+36,"A1", false,-1, 4,0);
     tracep->declBus(c+37,"A2", false,-1, 4,0);
-    tracep->declBus(c+38,"DIn", false,-1, 31,0);
+    tracep->declBus(c+38,"WD3", false,-1, 31,0);
     tracep->declBus(c+39,"DOut1", false,-1, 31,0);
     tracep->declBus(c+40,"DOut2", false,-1, 31,0);
     tracep->declBus(c+41,"A0", false,-1, 31,0);
@@ -24,11 +24,11 @@ VL_ATTR_COLD void Vregfile___024root__trace_init_sub__TOP__0(Vregfile___024root*
     tracep->declBus(c+42,"ADDRESS_WIDTH", false,-1, 31,0);
     tracep->declBus(c+43,"DATA_WIDTH", false,-1, 31,0);
     tracep->declBit(c+33,"clk", false,-1);
-    tracep->declBit(c+34,"RegWrite", false,-1);
+    tracep->declBit(c+34,"WE3", false,-1);
     tracep->declBus(c+35,"write_addr", false,-1, 4,0);
     tracep->declBus(c+36,"A1", false,-1, 4,0);
     tracep->declBus(c+37,"A2", false,-1, 4,0);
-    tracep->declBus(c+38,"DIn", false,-1, 31,0);
+    tracep->declBus(c+38,"WD3", false,-1, 31,0);
     tracep->declBus(c+39,"DOut1", false,-1, 31,0);
     tracep->declBus(c+40,"DOut2", false,-1, 31,0);
     tracep->declBus(c+41,"A0", false,-1, 31,0);
@@ -111,11 +111,11 @@ VL_ATTR_COLD void Vregfile___024root__trace_full_sub_0(Vregfile___024root* vlSel
     bufp->fullIData(oldp+31,(vlSelf->regfile__DOT__register_array[30]),32);
     bufp->fullIData(oldp+32,(vlSelf->regfile__DOT__register_array[31]),32);
     bufp->fullBit(oldp+33,(vlSelf->clk));
-    bufp->fullBit(oldp+34,(vlSelf->RegWrite));
+    bufp->fullBit(oldp+34,(vlSelf->WE3));
     bufp->fullCData(oldp+35,(vlSelf->write_addr),5);
     bufp->fullCData(oldp+36,(vlSelf->A1),5);
     bufp->fullCData(oldp+37,(vlSelf->A2),5);
-    bufp->fullIData(oldp+38,(vlSelf->DIn),32);
+    bufp->fullIData(oldp+38,(vlSelf->WD3),32);
     bufp->fullIData(oldp+39,(vlSelf->DOut1),32);
     bufp->fullIData(oldp+40,(vlSelf->DOut2),32);
     bufp->fullIData(oldp+41,(vlSelf->A0),32);

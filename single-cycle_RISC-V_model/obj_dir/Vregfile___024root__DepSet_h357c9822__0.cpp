@@ -16,9 +16,9 @@ VL_INLINE_OPT void Vregfile___024root___sequent__TOP__0(Vregfile___024root* vlSe
     CData/*0:0*/ __Vdlyvset__regfile__DOT__register_array__v0;
     // Body
     __Vdlyvset__regfile__DOT__register_array__v0 = 0U;
-    if (((IData)(vlSelf->RegWrite) & (0U != (IData)(vlSelf->write_addr)))) {
+    if (((IData)(vlSelf->WE3) & (0U != (IData)(vlSelf->write_addr)))) {
         __Vdlyvval__regfile__DOT__register_array__v0 
-            = vlSelf->DIn;
+            = vlSelf->WD3;
         __Vdlyvset__regfile__DOT__register_array__v0 = 1U;
         __Vdlyvdim0__regfile__DOT__register_array__v0 
             = vlSelf->write_addr;
@@ -64,8 +64,8 @@ void Vregfile___024root___eval_debug_assertions(Vregfile___024root* vlSelf) {
     // Body
     if (VL_UNLIKELY((vlSelf->clk & 0xfeU))) {
         Verilated::overWidthError("clk");}
-    if (VL_UNLIKELY((vlSelf->RegWrite & 0xfeU))) {
-        Verilated::overWidthError("RegWrite");}
+    if (VL_UNLIKELY((vlSelf->WE3 & 0xfeU))) {
+        Verilated::overWidthError("WE3");}
     if (VL_UNLIKELY((vlSelf->write_addr & 0xe0U))) {
         Verilated::overWidthError("write_addr");}
     if (VL_UNLIKELY((vlSelf->A1 & 0xe0U))) {

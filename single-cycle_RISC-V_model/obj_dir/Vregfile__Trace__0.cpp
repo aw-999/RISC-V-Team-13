@@ -58,11 +58,11 @@ void Vregfile___024root__trace_chg_sub_0(Vregfile___024root* vlSelf, VerilatedVc
         bufp->chgIData(oldp+31,(vlSelf->regfile__DOT__register_array[31]),32);
     }
     bufp->chgBit(oldp+32,(vlSelf->clk));
-    bufp->chgBit(oldp+33,(vlSelf->RegWrite));
+    bufp->chgBit(oldp+33,(vlSelf->WE3));
     bufp->chgCData(oldp+34,(vlSelf->write_addr),5);
     bufp->chgCData(oldp+35,(vlSelf->A1),5);
     bufp->chgCData(oldp+36,(vlSelf->A2),5);
-    bufp->chgIData(oldp+37,(vlSelf->DIn),32);
+    bufp->chgIData(oldp+37,(vlSelf->WD3),32);
     bufp->chgIData(oldp+38,(vlSelf->DOut1),32);
     bufp->chgIData(oldp+39,(vlSelf->DOut2),32);
     bufp->chgIData(oldp+40,(vlSelf->A0),32);

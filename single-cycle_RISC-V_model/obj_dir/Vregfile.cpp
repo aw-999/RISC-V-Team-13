@@ -12,11 +12,11 @@ Vregfile::Vregfile(VerilatedContext* _vcontextp__, const char* _vcname__)
     : VerilatedModel{*_vcontextp__}
     , vlSymsp{new Vregfile__Syms(contextp(), _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
-    , RegWrite{vlSymsp->TOP.RegWrite}
+    , WE3{vlSymsp->TOP.WE3}
     , write_addr{vlSymsp->TOP.write_addr}
     , A1{vlSymsp->TOP.A1}
     , A2{vlSymsp->TOP.A2}
-    , DIn{vlSymsp->TOP.DIn}
+    , WD3{vlSymsp->TOP.WD3}
     , DOut1{vlSymsp->TOP.DOut1}
     , DOut2{vlSymsp->TOP.DOut2}
     , A0{vlSymsp->TOP.A0}

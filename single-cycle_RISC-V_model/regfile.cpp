@@ -12,7 +12,7 @@ protected:
     virtual void SetUp() override{
         dut = new Vregfile;
         dut->clk = 0;          // Initialize clk
-        dut->RegWrite = 0;     // Start with write disabled
+        dut->WE3 = 0;     // Start with write disabled
     }
 
     virtual void TearDown() override {
@@ -33,27 +33,27 @@ protected:
 
 TEST_F(reg32Test, WriteAndReadValidRegister){
     dut->write_addr = 1;         // Write to register 1
-    dut->DIn = 0x123ABC10; // Data to write
-    dut->RegWrite = 1;     // Enable write
+    dut->WD3 = 0x123ABC10; // Data to write
+    dut->WE3 = 1;     // Enable write
     evaluate();
     clockTick();
 
-    dut->RegWrite = 0;     // Disable write
+    dut->WE3 = 0;     // Disable write
     dut->A1 = 1;       // Read from reg    1
     evaluate();
     clockTick();
-    std::cout << "DIn: " << dut->DIn;
+    std::cout << "WD3: " << dut->WD3;
 
     EXPECT_EQ(dut->DOut1, 0x123ABC10); // Verify written data
 }
 
  TEST_F(reg32Test, WriteAndReadAnotherRegister) {
      dut->write_addr = 2;         // Write to register 2
-     dut->DIn = 0x12345678; // Data to write
-    dut->RegWrite = 1;     // Enable write
+     dut->WD3 = 0x12345678; // Data to write
+    dut->WE3 = 1;     // Enable write
     evaluate();
     clockTick();
-    dut->RegWrite = 0;     // Disable write
+    dut->WE3 = 0;     // Disable write
     dut->A2 = 2;       // Read from register 2
     evaluate();
     clockTick();
@@ -62,11 +62,11 @@ TEST_F(reg32Test, WriteAndReadValidRegister){
 
 TEST_F(reg32Test, WriteToRegister0ShouldNotChange) {
     dut->write_addr = 0;         // write to register 0
-    dut->DIn = 0x12345678; // Data 
-    dut->RegWrite = 1;     // eable write
+    dut->WD3 = 0x12345678; // Data 
+    dut->WE3 = 1;     // eable write
     evaluate();
     clockTick();
-    dut->RegWrite = 0;     // Disable write
+    dut->WE3 = 0;     // Disable write
     dut->A1 = 0;       // Read from register 0
     evaluate();
     clockTick();
@@ -75,15 +75,15 @@ TEST_F(reg32Test, WriteToRegister0ShouldNotChange) {
 
 TEST_F(reg32Test, WriteAndReadMultipleRegisters) {
     dut->write_addr = 1;         // Write to reg 1
-    dut->DIn = 0x1;        // Data to write
-    dut->RegWrite = 1;     // Enable write
+    dut->WD3 = 0x1;        // Data to write
+    dut->WE3 = 1;     // Enable write
     evaluate();
     clockTick();
     dut->write_addr = 2;         // Write to reg 2
-    dut->DIn = 0x2;        // Data to write
+    dut->WD3 = 0x2;        // Data to write
     evaluate();
     clockTick();
-    dut->RegWrite = 0;     // Disable write
+    dut->WE3 = 0;     // Disable write
     dut->A1 = 1;       // Read from register 1
     dut->A2 = 2;       // Read from register 2
     evaluate();
@@ -94,11 +94,11 @@ TEST_F(reg32Test, WriteAndReadMultipleRegisters) {
 
 TEST_F(reg32Test, WriteAndReadFromSameRegister) {
     dut->write_addr = 3;         // Write to register 3
-    dut->DIn = 0xABCD1234; // Data to write
-    dut->RegWrite = 1;     // Enable write
+    dut->WD3 = 0xABCD1234; // Data to write
+    dut->WE3 = 1;     // Enable write
     evaluate();
     clockTick();
-    dut->RegWrite = 0;     // Disable write
+    dut->WE3 = 0;     // Disable write
     dut->A1 = 3;       // Read from regi 3 port 1
     dut->A2 = 3;       // Read from reg 3 port 2
     evaluate();
@@ -109,11 +109,11 @@ TEST_F(reg32Test, WriteAndReadFromSameRegister) {
 
 TEST_F(reg32Test, WriteWithMultipleClocks) {
     dut->write_addr = 4;         // register 4 write
-    dut->DIn = 0x12345678; // Data 
-    dut->RegWrite = 1;     // enable write
+    dut->WD3 = 0x12345678; // Data 
+    dut->WE3 = 1;     // enable write
     evaluate();
     clockTick();
-    dut->RegWrite = 0;     // disable write
+    dut->WE3 = 0;     // disable write
     dut->A1 = 4;       // Read from register 4
     evaluate();
     clockTick();
