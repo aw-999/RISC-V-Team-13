@@ -278,11 +278,11 @@ PCE PCExecute (
 ram DataMemory(
     .clk(clk),
 
-    .DIn(), //no idea what this is
+    .DIn(WriteDataM), //no idea what this is
     .Ad(ALUResultM),
-    .RamWrite(WriteDataM),
+    .RamWrite(MemWriteM),
     .func3(func3),
-    // MemwriteM is func3 memwriteM?
+    //what is func3 for
     .DOut(DOutRam)
 );
 
