@@ -1,24 +1,24 @@
 module datapath1 #(parameter WAD = 5, WD = 32)(
     input logic clk,
 
-    input logic [WAD-1:0] AdIn,
-    input logic [WAD-1:0] AdOut1,
-    input logic [WAD-1:0] AdOut2,
+    input logic [WAD-1:0] AdIn, //A3 regfile
+    input logic [WAD-1:0] AdOut1, //A1 regfile
+    input logic [WAD-1:0] AdOut2, //A2 regfile
     input logic [WD-1:0] instr,
 
     input logic [WD-1:0] PC,
 
-    input logic ALUsrc,
-    input logic [1:0] ALUop,
-    input logic [1:0] ResultSrc,
-    input logic RegWrite,
-    input logic RamWrite,
-    input logic [2:0] IMMsrc,
+    input logic ALUsrc,     //sel for imm or 2nd reg
+    input logic [1:0] ALUop,    //
+    input logic [1:0] ResultSrc,  //select for result mux after data mem
+    input logic RegWrite, //En for Regfile
+    input logic RamWrite, //EN for Data mem
+    input logic [2:0] IMMsrc,  //Sel for extend module
 
-    output logic [WD-1:0] A0,
+    output logic [WD-1:0] A0, //not needed for this 
     output logic flag,
     output logic [WD-1:0] IMM,
-    output logic [WD-1:0] DOutAlu
+    output logic [WD-1:0] DOutAlu 
 );
 
 logic [WD-1:0] DOut1;

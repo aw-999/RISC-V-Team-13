@@ -1,26 +1,25 @@
-module reg32 #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] or reg 01010
+module reg32 #(parameter ADDRESS_WIDTH = 5, DATA_WIDTH = 32 )( // A0 = reg[10] or reg 01010 , parameter R0 = 10??
     input logic clk,
     input logic RegWrite, //WE3 Write Enable
-    input logic [WAD-1:0] AdIn, //A3
-    input logic [WAD-1:0] AdOut1, //A1
-    input logic [WAD-1:0] AdOut2, //A2
-    input logic [WD-1:0] DIn, //WD3
-    output logic [WD-1:0] DOut1, //RD1
-    output logic [WD-1:0] DOut2, //RD2
-    //output logic [WD-1:0] A0 from last lab?
+    input logic [ADDRESS_WIDTH-1:0] write_addr, //A3 - Address for writing data to
+    input logic [ADDRESS_WIDTH-1:0] AdOut1, //A1 - Address 1 for read port
+    input logic [ADDRESS_WIDTH-1:0] AdOut2, //A2 - Address 2 for read port 2
+    input logic [DATA_WIDTH-1:0] DIn, // WD3 - Data to store at given address port
+    output logic [DATA_WIDTH-1:0] DOut1, //RD1 - read data 1 from A1
+    output logic [DATA_WIDTH-1:0] DOut2, //RD2 - read data 2 from A2
+    output logic [DATA_WIDTH-1:0] A0  // register 10 output
 );
+logic [DATA_WIDTH-1: 0] register_array [2**ADDRESS_WIDTH-1: 0];
 
-logic [WD-1: 0] RomArr [2**WAD-1: 0];
+assign register_array[0] = 0;
+
+assign DOut1 = register_array[AdOut1];
+assign DOut2 = register_array[AdOut2];
 
 always_ff@(posedge clk)
-    if (RegWrite) RomArr[AdIn] <= DIn;
+    if (RegWrite && write_addr != 5'b0) register_array[write_addr] <= DIn;
 
-assign RomArr[0] = 32'b0;
-
-assign DOut1 = RomArr[AdOut1];
-assign DOut2 = RomArr[AdOut2];
-
-//assign A0 = RomArr[R0];
+assign A0 = register_array[10];
 
 endmodule
 

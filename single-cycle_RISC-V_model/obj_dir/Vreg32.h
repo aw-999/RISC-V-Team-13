@@ -5,29 +5,35 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VIMM_H_
-#define VERILATED_VIMM_H_  // guard
+#ifndef VERILATED_VREG32_H_
+#define VERILATED_VREG32_H_  // guard
 
 #include "verilated.h"
 
-class Vimm__Syms;
-class Vimm___024root;
+class Vreg32__Syms;
+class Vreg32___024root;
 class VerilatedVcdC;
 
 // This class is the main interface to the Verilated model
-class Vimm VL_NOT_FINAL : public VerilatedModel {
+class Vreg32 VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vimm__Syms* const vlSymsp;
+    Vreg32__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&IMMsrc,2,0);
-    VL_IN(&instr,31,0);
-    VL_OUT(&out,31,0);
+    VL_IN8(&clk,0,0);
+    VL_IN8(&RegWrite,0,0);
+    VL_IN8(&write_addr,4,0);
+    VL_IN8(&AdOut1,4,0);
+    VL_IN8(&AdOut2,4,0);
+    VL_IN(&DIn,31,0);
+    VL_OUT(&DOut1,31,0);
+    VL_OUT(&DOut2,31,0);
+    VL_OUT(&A0,31,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -35,19 +41,19 @@ class Vimm VL_NOT_FINAL : public VerilatedModel {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vimm___024root* const rootp;
+    Vreg32___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vimm(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vimm(const char* name = "TOP");
+    explicit Vreg32(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Vreg32(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vimm();
+    virtual ~Vreg32();
   private:
-    VL_UNCOPYABLE(Vimm);  ///< Copying not allowed
+    VL_UNCOPYABLE(Vreg32);  ///< Copying not allowed
 
   public:
     // API METHODS

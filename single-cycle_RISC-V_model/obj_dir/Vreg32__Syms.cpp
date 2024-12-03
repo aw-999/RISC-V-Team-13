@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vimm__Syms.h"
-#include "Vimm.h"
-#include "Vimm___024root.h"
+#include "Vreg32__Syms.h"
+#include "Vreg32.h"
+#include "Vreg32___024root.h"
 
 // FUNCTIONS
-Vimm__Syms::~Vimm__Syms()
+Vreg32__Syms::~Vreg32__Syms()
 {
 }
 
-Vimm__Syms::Vimm__Syms(VerilatedContext* contextp, const char* namep, Vimm* modelp)
+Vreg32__Syms::Vreg32__Syms(VerilatedContext* contextp, const char* namep, Vreg32* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}
