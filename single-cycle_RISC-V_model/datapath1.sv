@@ -1,6 +1,7 @@
 module datapath1 #(parameter WAD = 5, WD = 32)(
     input logic clk,
 
+    input logic trigger, //added logic to control Vbuddy flag
     input logic [WAD-1:0] AdIn, //A3 regfile
     input logic [WAD-1:0] AdOut1, //A1 regfile
     input logic [WAD-1:0] AdOut2, //A2 regfile
@@ -53,12 +54,13 @@ case (ResultSrc)
 endcase
 
 
-reg32 R1(
-    .AdIn(AdIn),
-    .AdOut1(AdOut1),
-    .AdOut2(AdOut2),
-    .DIn(DInReg),
-    .RegWrite(RegWrite),
+regfile R1(
+    .TRIGGER(trigger),
+    .write_addr(AdIn),
+    .A1(AdOut1),
+    .A2(AdOut2),
+    .WD3(DInReg),
+    .WE3(RegWrite),
     .clk(clk),
 
     .DOut1(DOut1),

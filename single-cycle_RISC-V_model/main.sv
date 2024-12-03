@@ -1,6 +1,7 @@
 module main #(WA = 5, WD = 32)(
     input logic clk,
     input logic rst,
+    input logic trigger_in, //added logic to control Vbuddy flag
     output logic [WD-1:0] A0
 );
 
@@ -34,6 +35,7 @@ datapath1 D1(
 
     .instr(instr),
 
+    .trigger(trigger_in),
     .AdIn(AdIn),
     .AdOut1(AdOut1),
     .AdOut2(AdOut2),
