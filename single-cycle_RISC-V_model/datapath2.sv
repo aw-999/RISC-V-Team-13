@@ -2,7 +2,7 @@ module datapath2 #(parameter W = 32)(
     input logic clk,
     input logic rst,
     input logic [1:0] PCsrc,
-    input logic [W-1:0] IMMop,
+    input logic [W-1:0] IMM,
     input logic [W-1:0] DOutAlu,
 
     output logic [W-1:0] PC,
@@ -10,18 +10,14 @@ module datapath2 #(parameter W = 32)(
 );
 
 logic [W-1:0] PCN;
-logic [W-1:0] branch_pc;
-
-assign branch_pc = PC + IMMop;
 
 always_comb 
-case (PCsrc)
-
-    2'b00: PCN = PC + 4;
-    2'b01: PCN = branch_pc;
-    2'b11: PCN = DOutAlu;
-    default: PCN = PC + 4;
-endcase
+    case (PCsrc)
+        2'b00: PCN = PC + 4;
+        2'b01: PCN = PC + IMM;
+        2'b11: PCN = DOutAlu;
+        default: PCN = PC + 4;
+    endcase
 
 pcreg P1(
     .clk(clk),

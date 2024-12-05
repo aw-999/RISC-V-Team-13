@@ -1,11 +1,7 @@
 module datapath1 #(parameter WAD = 5, WD = 32)(
     input logic clk,
 
-    input logic [WAD-1:0] AdIn,
-    input logic [WAD-1:0] AdOut1,
-    input logic [WAD-1:0] AdOut2,
     input logic [WD-1:0] instr,
-
     input logic [WD-1:0] PC,
 
     input logic ALUsrc,
@@ -27,30 +23,34 @@ logic [WD-1:0] N2;
 logic [WD-1:0] DInReg;
 logic [WD-1:0] DOutRam;
 
+logic [3:0] ALUctrl;
+
+logic [WAD-1:0] AdIn;
+logic [WAD-1:0] AdOut1;
+logic [WAD-1:0] AdOut2;
+logic [2:0] func3;
 logic op5;
 logic func75;
-logic [2:0] func3;
-logic [2:0] ALUctrl;
-logic [2:0] ALUflag;
-
-
+assign AdIn = instr[WD-21:WD-25];
+assign AdOut1 = instr[WD-13:WD-17];
+assign AdOut2 = instr[WD-8:WD-12];
 assign func3 = instr[WD-18:WD-20];
 assign op5 = instr[WD-27];
 assign func75 = instr[WD-2];
 
+
 always_comb begin
     if (ALUsrc) N2 = IMM;
     else N2 = DOut2;
-end
 
-always_comb 
-case (ResultSrc)
-    2'b00: DInReg = DOutAlu;
-    2'b01: DInReg = DOutRam;
-    2'b10: DInReg = PC+4;
-    2'b11: DInReg = N2;
-    default DInReg = DOutAlu;
-endcase
+    case (ResultSrc)
+        2'b00: DInReg = DOutAlu;
+        2'b01: DInReg = DOutRam;
+        2'b10: DInReg = PC+4;
+        2'b11: DInReg = N2;
+        default DInReg = DOutAlu;
+    endcase 
+end
 
 
 reg32 R1(
@@ -68,7 +68,6 @@ reg32 R1(
 
 alu A1(
     .ALUctrl(ALUctrl),
-    .ALUflag(ALUflag),
     .N1(DOut1),
     .N2(N2),
 
@@ -83,13 +82,6 @@ aludecode A11(
     .ALUop(ALUop),
 
     .ALUctrl(ALUctrl)
-);
-
-aluflagdecode A12(
-    .func3(func3),
-    .ALUop(ALUop),
-
-    .ALUflag(ALUflag)
 );
 
 imm I1(
