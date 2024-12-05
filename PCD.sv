@@ -6,6 +6,8 @@ module PCDecode #(
     input logic clk,
     input logic rst,
 
+    //input logic [WIDTH-1:0] instr,
+
     //Control
     input logic RegWriteD,
     input logic [1:0] ResultSrcD,

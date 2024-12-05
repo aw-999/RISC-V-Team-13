@@ -81,6 +81,7 @@ pcreg PCReg(
 PCF PCFetch(
     .clk (clk),
     .rst (rst),
+    .flush (flush),
 
     .InstrF (instr), 
     .PCF (PC), 
@@ -171,6 +172,10 @@ PCD PCDecode(
 );
 
 HazardUnit HazardUnit (
+
+    .branchD (branchD),
+    .flag (ZeroE)
+
     .RdM (RdM),
     .RdW (RdM),
     .RegWriteW (RegWriteW),
@@ -179,7 +184,9 @@ HazardUnit HazardUnit (
     .Rs2E (Rs1E),
 
     .ForwardAE (ForwardAE),
-    .ForwardBE (ForwardAE)
+    .ForwardBE (ForwardAE),
+    .flush (flush)
+
 );
 //hazard mux for SrcAE
 ForwardAE_mux ForwardAE_mux (
@@ -216,7 +223,7 @@ alu ALU(
     .N1 (SrcAE), //formerly RD1E
     .N2 (SrcBE), //SrcBE
 
-    .flag (flag), //ZeroE
+    .flag (ALUflag), //ZeroE
     .out (DOutAlu)
 );
 

@@ -114,7 +114,7 @@ module main #(
     writeback_mux WritebackMux (
         .ALUResult (ALUResult),
         .ReadData (ReadData),
-        .ResultSrc (ResultSrc),
+        .ResultSrc (ResultSrc), 
         .Result (ResultW)        // Write-back result
     );
 
