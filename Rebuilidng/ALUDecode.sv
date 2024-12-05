@@ -5,7 +5,6 @@ module ALUDecode (
     
     input logic [2:0] ALUop, // links aludecode with control - used to distinguish all the different types of instructions for ALUCtrl to work with
 
-
     output logic [3:0] ALUCtrl
 );
 
