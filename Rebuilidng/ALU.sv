@@ -28,10 +28,10 @@ always_comb begin
             4'b0101: ALUResult = SrcA << SrcB[4:0];  // Shift Left Logical
             4'b0110: ALUResult = SrcA >> SrcB[4:0];  // Shift Right Logical
             4'b0111: ALUResult = $signed(SrcA) >>> SrcB[4:0];  // Shift Right Arithmetic
-            4'b1000: ALUResult = (SrcA < SrcB) ? 1 : 0;  // Set Less Than
-            4'b1001: ALUResult = (SrcA < SrcB) ? 1 : 0;  // Set Less Than Unsigned
+            4'b1000: ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0;  // Set Less Than Unsigned
+            4'b1001: ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0;  // Set Less Than Unsigned
             default: ALUResult = 0; 
-        endcase
+    endcase
 
         if (ALUResult == 0) 
             ZeroFlag = 1;

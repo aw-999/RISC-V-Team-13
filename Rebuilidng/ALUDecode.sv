@@ -57,7 +57,7 @@ always_comb begin
             3'b001: ALUCtrl = 4'b0101; //Shift Left Logical Imm
 
             3'b101: begin
-                if (funct75 == 1'b0) 
+                if(funct75 == 1'b0) 
                     ALUCtrl = 4'b0110; //Shift Right Logical Imm
                 else 
                     ALUCtrl = 4'b0111; //Shift Right Arithmetic Imm
@@ -70,5 +70,16 @@ always_comb begin
             //idk if i should keep doing defaults for the rest of the ALUctrls
 
             default: ALUCtrl = 4'b0000;
-    endcase
+            endcase
+
+    
+
+
 end
+
+
+
+
+endmodule
+
+
