@@ -12,7 +12,7 @@ logic flagS; // sign
 logic flagV; // overflow
 
 always_comb begin
-    casez (ALUctrl)
+    case (ALUctrl)
         4'b1???: {flagC, out} = {1'b0, N1} + {1'b0, ~N2+1}; // used in sub and flag operation and slt / sltu (depend by aluflag)
         4'b0000: out = N1 + N2; // add
         4'b0001: out = N2; // lui
