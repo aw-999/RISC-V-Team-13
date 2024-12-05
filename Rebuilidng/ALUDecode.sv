@@ -3,23 +3,73 @@ module ALUDecode (
     input logic [2:0] funct3, //14:12 of instr
     input logic funct75, //30:30 bit of instr
     
-    input logic [2:0] ALUop, // links aludecode with control
+    input logic [2:0] ALUop, // links aludecode with control - used to distinguish all the different types of instructions for ALUCtrl to work with
+
 
     output logic [3:0] ALUCtrl
 );
 
-r, i 
+/*
+ ALUCtrl signals
+    0000 - Add
+    0001 - Subtract
+    0010 - AND
+    0011 - OR
+    0100 - XOR
+    0101 - SLL (Shift Left Logical)
+    0110 - SRL (Shift Right Logical)
+    0111 - SRA (Shift Right Arithmetic)
+    1000 - SLT (Set Less Than)
+    1001 - SLTU (Set Less Than Unsigned)
+*/
 
 always_comb begin
-    case({funct3, funct75})
-        4'b0000: ALUCtrl = // add | addi
-        4'b0001: // sub
-        4'b1100:
-        4'b1110:
-        4'b0010:
-        4'b1010:
-        4'b1011:
-        4'b0100:
-        4'b0110:
+    case(ALUop)
 
+
+        //r-type instructions
+        3'b000: begin
+            case({funct3, funct75})
+
+            4'b0000: ALUCtrl = 4'b0000; //Add
+            4'b0001: ALUCtrl = 4'b0001; //Sub
+            4'b1000: ALUCtrl = 4'b0010; //Xor
+            4'b1100: ALUCtrl = 4'b0011; //Or
+            4'b1110: ALUCtrl = 4'b0100; //AND
+            4'b0010: ALUCtrl = 4'b0101; //Shift left logical
+            4'b1010: ALUCtrl = 4'b0110; //Shift Right Logical
+            4'b1011: ALUCtrl = 4'b0111; //Shift Right Arithmetic
+            4'b0100: ALUCtrl = 4'b1000; //Set Less Than
+            4'b0110: ALUCtrl = 4'b1001; //SEt Less Than Unsigned
+
+            default: ALUCtrl = 4'b0000; //Add
+            
+        end
+
+        //i-type instructions
+        3'b001: begin
+            case(funct3)
+
+            3'b000: ALUCtrl = 4'b0000; //Addi
+            3'b100: ALUCtrl = 4'b0010; //Xori
+            3'b110: ALUCtrl = 4'b0011; //Ori
+            3'b111: ALUCtrl = 4'b0100; //ANDi
+
+            3'b001: ALUCtrl = 4'b0101; //Shift Left Logical Imm
+
+            3'b101: begin
+                if (funct75 == 1'b0) 
+                    ALUCtrl = 4'b0110; //Shift Right Logical Imm
+                else 
+                    ALUCtrl = 4'b0111; //Shift Right Arithmetic Imm
+            end
+
+            3'b010: ALUCtrl = 4'b1000; //Set Less Than Imm
+            3'b011: ALUCtrl = 4'b1001; //Set Less Than Imm Unsigned
+        end
+
+            //idk if i should keep doing defaults for the rest of the ALUctrls
+
+            default: ALUCtrl = 4'b0000;
+    endcase
 end
