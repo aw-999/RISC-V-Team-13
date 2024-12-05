@@ -42,7 +42,7 @@ always_comb begin
             4'b0110: ALUCtrl = 4'b1001; //SEt Less Than Unsigned
 
             default: ALUCtrl = 4'b0000; //Add
-            
+            endcase
         end
 
         //i-type instructions

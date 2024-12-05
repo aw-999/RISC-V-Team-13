@@ -1,8 +1,8 @@
 module ControlUnit (
     input logic [6:0] opcode, // 6:0 of instr
     input logic ZeroFlag,
+    input logic NegativeFlag,
     
-
     output logic [1:0] PCSrc,
     output logic [1:0] ResultSrc, // 4 different cases
     output logic MemWrite,
@@ -140,6 +140,40 @@ module ControlUnit (
         2'b01: PCsrc = 2'b11; // branch and jump
         default: PCsrc = 2'b00; // Default case
     endcase
+
+    //pcsrc zero and negflag version (for single cycle)
+    /*if(opcode == 7b'1100011)
+        case(func3)
+            3'b000: if(ZeroFlag) PCSrc = 2'b01; //beq
+            3'b001: if(~ZeroFlag) PCSrc = 2'b01; //bne
+            3'b100: if(NegativeFlag) PCSrc = 2'b01; //blt
+            3'b101: if(~NegativeFlag || ZeroFlag) PCSrc = 2'b01; //bge
+            3'b110: if(NegativeFlag) PCSrc = 2'b01; //bltu
+            3'b111: if(~NegativeFlag || ZeroFlag) PCSrc = 2'b01; //bgeu  
+            //how to deal with unsigned branch - bltu bgeu??
+            default: PCSrc = 2'b00;
+        endcase
+
+    if(opcode == 7b'1100111)
+        PCSrc = 2'b11;*/
+
+    case(opcode)
+        7b'1100011: 
+            case(func3)
+                3'b000: if(ZeroFlag) PCSrc = 2'b01; //beq
+                3'b001: if(~ZeroFlag) PCSrc = 2'b01; //bne
+                3'b100: if(NegativeFlag) PCSrc = 2'b01; //blt
+                3'b101: if(~NegativeFlag || ZeroFlag) PCSrc = 2'b01; //bge
+                3'b110: if(NegativeFlag) PCSrc = 2'b01; //bltu
+                3'b111: if(~NegativeFlag || ZeroFlag) PCSrc = 2'b01; //bgeu  
+                //how to deal with unsigned branch - bltu bgeu??
+                default: PCSrc = 2'b00;
+            endcase
+        7b'1100111: PCSrc = 2'b11;
+    endcase
+
+
+
 end
 
 
