@@ -1,12 +1,7 @@
 module HazardUnit (
 
-
-    //need to implement flush - 
-
-    input logic branchD,
-    input logic ZeroE,
-    output logic flush, 
-
+    
+    input logic flush, 
 
     input logic [4:0] RdM,
     input logic [4:0] RdW,
@@ -21,14 +16,9 @@ module HazardUnit (
 
     always_comb begin
 
-        flush = 1'b0;
+        
         ForwardAE = 2'b00;
         ForwardBE = 2'b00;
-
-        if (branchD && ZeroE) begin
-            flush = 1'b1;
-        end
-
         
         if (RegWriteM && (RdM != 0) && (RdM == Rs1E)) begin
             ForwardAE = 2'b10; 

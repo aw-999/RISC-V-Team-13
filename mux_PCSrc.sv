@@ -1,10 +1,11 @@
-module mux2 #(
+module mux_PCSrc #(
     parameter DATA_WIDTH = 32 // Default data width
 )(
     input logic [DATA_WIDTH-1:0] PC, 
     input logic [DATA_WIDTH-1:0] PCTargetE,  
     input logic [1:0]            PCSrcE,  
     input logic [DATA_WIDTH-1:0] ALUResultM
+
     output logic [DATA_WIDTH-1:0] PCN   
 );
 

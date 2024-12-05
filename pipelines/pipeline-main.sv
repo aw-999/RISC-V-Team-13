@@ -81,7 +81,7 @@ pcreg PCReg(
 PCF PCFetch(
     .clk (clk),
     .rst (rst),
-    .flush (flush),
+    .flush (PCsrc[0]),
 
     .InstrF (instr), 
     .PCF (PC), 
@@ -100,11 +100,22 @@ control ControlUnit(
 
     .RegWrite (RegWrite), //RegWriteD
     .RamWrite (RamWrite), //MemwriteD on diagram
-    .ALUop (ALUop), //ALUctrl
-    .ALUsrc (ALUsrc), //ALUsrcD
+    .ALUop (ALUop), // type of instruction 
+    .ALUsrc (ALUsrc), //ALUsrcD - mux for SrcBE
     .IMMsrc (IMMsrc), //IMMsrcD
-    .PCsrc (PCsrc), 
+    .PCsrc (PCsrc), // PCsrc[1] determines jump instruction, PCsrc[0] determines branch or not so flush 
     .ResultSrc (ResultSrc) //ResultSrcD
+);
+
+//part of control unit
+aludecode ALUDecode(
+    .func3 (instr[14:12]), 
+    .op5 (instr[5]), //1 bit - 5th bit of opcode
+    .func75 (instr[30]), //1 bit
+
+    .ALUop (ALUop), // 2 bits - link  between control unit and aludecode
+
+    .ALUctrl (ALUctrl) //3 bits
 );
 
 //sign extend
@@ -139,7 +150,7 @@ PCD PCDecode(
     .MemWriteD (RamWrite),
     //.JumpD (1'b0),  
     //.BranchD (1'b0), 
-    .ALUCtrlD (ALUop), 
+    .ALUCtrlD (ALUctrl), 
     .ALUSrcD (ALUsrc),
     .PCSrcD (PCSrc), 
 
@@ -175,6 +186,7 @@ HazardUnit HazardUnit (
 
     .branchD (branchD),
     .flag (ZeroE)
+    .flush (PCsrc[0])
 
     .RdM (RdM),
     .RdW (RdM),
@@ -185,7 +197,7 @@ HazardUnit HazardUnit (
 
     .ForwardAE (ForwardAE),
     .ForwardBE (ForwardAE),
-    .flush (flush)
+    
 
 );
 //hazard mux for SrcAE
@@ -207,43 +219,17 @@ ForwardBE_mux ForwardBE_mux (
     .WriteDataE (WriteDataE)
 );
 
-// i think implemented in the control unit so not needed 
-// PCSrcE_gate PCsrcE_gate (
-//     .BranchE (BranchE),
-//     .JumpeE (JumpE),
-//     .ZeroE (flag), // idk if thats right - need to understand control unit and alu design process
-
-//     .PCSrcE (PCSrcE), 
-// )
-
 //alu
 alu ALU(
     .ALUctrl (ALUCtrlE),
-    .ALUflag (ALUflag),
     .N1 (SrcAE), //formerly RD1E
-    .N2 (SrcBE), //SrcBE
+    .N2 (WriteDataE), //SrcBE
 
     .flag (ALUflag), //ZeroE
     .out (DOutAlu)
 );
 
-//part of control unit?
-aludecode ALUDecode(
-    .func3 (instr[14:12]), 
-    .op5 (instr[]),
-    .func75 (func75),
-    .ALUop (ALUop),
 
-    .ALUctrl (ALUctrl)
-);
-
-//part of control unit?
-aluflagdecode A12(
-    .func3 (func3),
-    .ALUop (ALUop),
-
-    .ALUflag (ALUflag) 
-);
 
 //mux
 SrcBEmux SrcBEmux(
