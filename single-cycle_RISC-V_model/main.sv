@@ -6,7 +6,8 @@ module main #(WA = 5, WD = 32)(
 
 // data transfer
 logic [WD-1:0] instr;
-logic [WD-1:0] IMM;
+logic [WD-1:0] PCaddIMM;
+logic [WD-1:0] PCadd4;
 logic [WD-1:0] PC;
 logic [WD-1:0] DOutAlu;
 
@@ -38,7 +39,8 @@ datapath1 D1(
     .ResultSrc(ResultSrc),
 
     // output
-    .IMM(IMM),
+    .PCaddIMM(PCaddIMM),
+    .PCadd4(PCadd4),
     .flag(flag),
     .A0(A0),
     .DOutAlu(DOutAlu)
@@ -61,7 +63,8 @@ datapath2 D2(
     .clk(clk),
     .rst(rst),
     .PCsrc(PCsrc),
-    .IMM(IMM),
+    .PCaddIMM(PCaddIMM),
+    .PCadd4(PCadd4),
 
     .instr(instr),
     .PC(PC),

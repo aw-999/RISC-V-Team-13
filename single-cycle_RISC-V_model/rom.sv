@@ -6,7 +6,7 @@ module rom #(parameter WAD = 16, WD = 8)(
 logic [WD-1: 0] RomArr [2**WAD-1: 0]; // too large to simulate 2**32 rom so using 2*16
 
 initial begin
-    $readmemh("asm4.mem", RomArr);
+    $readmemh("test.mem", RomArr);
 end;
 
 assign DOut = {RomArr[AddrIn], RomArr[AddrIn+1], RomArr[AddrIn+2], RomArr[AddrIn+3]};

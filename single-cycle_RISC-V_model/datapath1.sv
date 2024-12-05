@@ -13,12 +13,14 @@ module datapath1 #(parameter WAD = 5, WD = 32)(
 
     output logic [WD-1:0] A0,
     output logic flag,
-    output logic [WD-1:0] IMM,
+    output logic [WD-1:0] PCaddIMM,
+    output logic [WD-1:0] PCadd4,
     output logic [WD-1:0] DOutAlu
 );
 
 logic [WD-1:0] DOut1;
 logic [WD-1:0] DOut2;
+logic [WD-1:0] IMM;
 logic [WD-1:0] N2;
 logic [WD-1:0] DInReg;
 logic [WD-1:0] DOutRam;
@@ -40,14 +42,20 @@ assign func75 = instr[WD-2];
 
 
 always_comb begin
-    if (ALUsrc) N2 = IMM;
-    else N2 = DOut2;
+    case (ALUsrc)
+        1'b0: N2 = DOut2;
+        1'b1: N2 = IMM;
+        default N2 = IMM;
+    endcase
+
+    PCaddIMM = PC + IMM;
+    PCadd4 = PC + 4;
 
     case (ResultSrc)
         2'b00: DInReg = DOutAlu;
         2'b01: DInReg = DOutRam;
-        2'b10: DInReg = PC+4;
-        2'b11: DInReg = N2;
+        2'b10: DInReg = PCadd4;
+        2'b11: DInReg = PCaddIMM;
         default DInReg = DOutAlu;
     endcase 
 end

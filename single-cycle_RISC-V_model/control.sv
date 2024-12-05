@@ -96,14 +96,15 @@ always_comb begin
         7'b0100011: ALUop = 2'b00; // s-type
         7'b0000011: ALUop = 2'b00; // load
 
+        7'b1101111: ALUop = 2'b00; // j-type
+        7'b1100111: ALUop = 2'b00; // jalr
+
         7'b1100011: ALUop = 2'b01; // b-type
 
         7'b0010011: ALUop = 2'b10; // i-type
-        
         7'b0110011: ALUop = 2'b10; // r-type
 
-        7'b1101111: ALUop = 2'b11; // j-type
-        7'b1100111: ALUop = 2'b11; // jalr
+        7'b0110111: ALUop = 2'b11; // u-type
         7'b0010111: ALUop = 2'b11; // auipc
 
         default: ALUop = 2'b00;
@@ -147,7 +148,7 @@ always_comb begin
     case (op7)
         7'b0000011: ResultSrc = 2'b01; // load
         7'b1101111: ResultSrc = 2'b10; // j-type
-        7'b0110111: ResultSrc = 2'b11; // u-type
+        7'b0010111: ResultSrc = 2'b11; // auipc
         default: ResultSrc = 2'b00;
     endcase
 

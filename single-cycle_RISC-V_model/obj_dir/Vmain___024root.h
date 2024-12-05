@@ -43,27 +43,26 @@ class alignas(VL_CACHE_LINE_BYTES) Vmain___024root final : public VerilatedModul
     SData/*15:0*/ __VdfgRegularize_h6171c202_0_0;
     VL_OUT(A0,31,0);
     IData/*31:0*/ main__DOT__instr;
-    IData/*31:0*/ main__DOT__IMM;
+    IData/*31:0*/ main__DOT__PCaddIMM;
+    IData/*31:0*/ main__DOT__PCadd4;
     IData/*31:0*/ main__DOT__PC;
     IData/*31:0*/ main__DOT__DOutAlu;
     IData/*31:0*/ main__DOT__D1__DOT__DOut1;
     IData/*31:0*/ main__DOT__D1__DOT__DOut2;
+    IData/*31:0*/ main__DOT__D1__DOT__IMM;
     IData/*31:0*/ main__DOT__D1__DOT__N2;
     IData/*31:0*/ main__DOT__D1__DOT__DInReg;
     IData/*31:0*/ main__DOT__D1__DOT__DOutRam;
     IData/*19:0*/ main__DOT__D1__DOT__R2__DOT__AdM;
-    IData/*31:0*/ main__DOT__D2__DOT__PCN;
     IData/*23:0*/ __VdfgRegularize_h6171c202_0_1;
-    IData/*31:0*/ __Vtrigprevexpr___TOP__main__DOT__DOutAlu__0;
-    IData/*31:0*/ __Vtrigprevexpr___TOP__main__DOT__DOutAlu__1;
     IData/*31:0*/ __VactIterCount;
     VlUnpacked<IData/*31:0*/, 32> main__DOT__D1__DOT__R1__DOT__RegArr;
     VlUnpacked<CData/*7:0*/, 1048576> main__DOT__D1__DOT__R2__DOT__RamArray;
     VlUnpacked<CData/*7:0*/, 65536> main__DOT__D2__DOT__R1__DOT__RomArr;
-    VlUnpacked<CData/*0:0*/, 6> __Vm_traceActivity;
-    VlTriggerVec<3> __VstlTriggered;
-    VlTriggerVec<3> __VactTriggered;
-    VlTriggerVec<3> __VnbaTriggered;
+    VlUnpacked<CData/*0:0*/, 4> __Vm_traceActivity;
+    VlTriggerVec<2> __VstlTriggered;
+    VlTriggerVec<2> __VactTriggered;
+    VlTriggerVec<2> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     Vmain__Syms* const vlSymsp;
