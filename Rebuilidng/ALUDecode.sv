@@ -65,12 +65,34 @@ always_comb begin
 
             3'b010: ALUCtrl = 4'b1000; //Set Less Than Imm
             3'b011: ALUCtrl = 4'b1001; //Set Less Than Imm Unsigned
-        end
+        
 
             //idk if i should keep doing defaults for the rest of the ALUctrls
 
             default: ALUCtrl = 4'b0000;
             endcase
+        end
+
+        3'b100: begin
+            case(funct3)                            //need to set aluctrl values for branch intructions as well
+                3'b000: ALUCtrl = 4'b0001; //beq
+                3'b001: ALUCtrl = 4'b0001; //bne
+                3'b100: ALUCtrl = 4'b0001; //blt
+                3'b101: ALUCtrl = 4'b0001; //bge
+                3'b110: ALUCtrl = 4'b1001; //bltu -- ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0;
+                3'b111: ALUCtrl = 4'b1001; //bgeu same as bltu
+            default: ALUCtrl = 4'b0000;
+            endcase
+        end
+
+        3'b101: begin                       //jalr instr , looking back this is prob unnecessary :( 
+            case(funct3)
+                3'b000: ALUCtrl = 4'b0000;
+            default: ALUCtrl = 4'b0000;
+            endcase
+        end
+        default: ALUCtrl = 4'b0000;
+    endcase
 
     
 

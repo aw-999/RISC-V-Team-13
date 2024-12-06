@@ -2,6 +2,7 @@ module ControlUnit (
     input logic [6:0] opcode, // 6:0 of instr
     input logic ZeroFlag,
     input logic NegativeFlag,
+    input logic UnsignedLess,
     
     output logic [1:0] PCSrc,
     output logic [1:0] ResultSrc, // 4 different cases
@@ -29,6 +30,9 @@ module ControlUnit (
         7'b0100011: ALUop = 3'b011; //s-type
         7'b1100011: ALUop = 3'b100; //b-type
         7'b1101111: ALUop = 3'b101; //j-type + jump and link - distinguished using func3
+
+        7'b1100111: ALUop = 3'b101; //had to use this for jalr to make sense in the aludecode
+
         7'b0110111: ALUop = 3'b110; //u-type - lui
         7'b0010111: ALUop = 3'b111; //u-type auipc
 
@@ -164,8 +168,8 @@ module ControlUnit (
                 3'b001: if(~ZeroFlag) PCSrc = 2'b01; //bne
                 3'b100: if(NegativeFlag) PCSrc = 2'b01; //blt
                 3'b101: if(~NegativeFlag || ZeroFlag) PCSrc = 2'b01; //bge
-                3'b110: if(NegativeFlag) PCSrc = 2'b01; //bltu
-                3'b111: if(~NegativeFlag || ZeroFlag) PCSrc = 2'b01; //bgeu  
+                3'b110: if(Unsigned) = 2'b01; //bltu
+                3'b111: if(~Unsigned) PCSrc = 2'b01; //bgeu  
                 //how to deal with unsigned branch - bltu bgeu??
                 default: PCSrc = 2'b00;
             endcase
