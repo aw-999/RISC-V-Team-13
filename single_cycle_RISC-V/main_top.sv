@@ -1,4 +1,4 @@
-module main #(
+module main_top #(
     parameter DATA_WIDTH = 32
 )(
     input logic clk,
@@ -15,107 +15,130 @@ module main #(
     logic PCSrcE, ResultSrc, MemWriteM, RegWriteW, flag, ALUsrc, IMMsrc;
 
     // Instruction Memory
-    rom InstrMemory (
+    InstructionMemory InstructionMemory(
         .AddrIn (PC), 
-        .DOut (instr)
+        .instr (instr)
     );
 
     // PC Increment by 4
-    PCIncrementby4 PCIncrementby4 (
+    Incrementby4 Incrementby4 (
         .PC (PC), 
-        .PCPlus4 (PCPlus4F)
+        .PCPlus4 (PCPlus4)
     );
 
     // PC Source Mux
-    mux_PCSrc mux_PCSrc (
-        .PCTargetE (PCTargetE),
-        .PCSrcE (PCSrcE), 
-        .ALUResultM (ALUResultM),
-        .PCPlus4F (PCPlus4F),
+    PCSrc_mux PCSrc_mux(
+        .PCTarget (PCTarget),
+        .PCSrc (PCSrc), 
+        .ALUResultM (ALUResult),
+        .PCPlus4F (PCPlus4),
+
         .PCN (PCN) // Next PC
     );
 
     // Program Counter Register
-    pcreg PCReg (
+    PCReg PCReg (
         .clk (clk),
         .rst (rst),
         .PCN (PCN), // PC next
+
         .PC (PC)    // Current PC
     );
 
+    Branch Branch (
+        .PC (PC),
+        .ImmExt (ImmExt),
+        .PCTarget (PCTarget)
+    );
+
+    SrcB_mux SrcB_mux (
+        .ALUSrc (ALUSrc),
+        .RD2 (RD2),
+        .ImmExt (ImmExt),
+
+        .SrcB (SrcB)
+    );
+
     // Control Unit
-    control ControlUnit (
-        .instr (instr), 
-        .flag (flag), 
-        .RegWrite (RegWriteW), // Write enable for register file
-        .RamWrite (MemWriteM), // Memory write enable
-        .ALUop (ALUCtrlE), // ALU operation control
-        .ALUsrc (ALUsrc), // ALU source
-        .IMMsrc (IMMsrc), // Immediate source
-        .PCsrc (PCSrcE), 
-        .ResultSrc (ResultSrc)
+    ControlUnit ControlUnit (
+
+        .opcode (opcode),
+        .ZeroFlag (ZeroFlag),
+        .NegativeFlag (NegativeFlag),
+        .UnsignedLess (UnsignedLess),
+
+        .PCSrc (PCSrc),
+        .ResultSrc (ResultSrc),
+        .MemWrite (MemWrite),
+        .ALUSrc (ALUSrc),
+        .ImmSrc (ImmSrc),
+        .RegWrite (RegWrite),
+        .ALUop (ALUop)
+
     );
 
     // Immediate Sign Extend
-    imm Sign_Extend ( 
+    Extend Extend ( 
         .IMMsrc (IMMsrc),
-        .instr (instr[31:7]), 
-        .out (IMM)
+        .instr (instr), 
+        .ImmExt (ImmExt)
     );
 
     // Register File
-    regfile R1 (
+    RegisterFile RegisterFile (
+
         .clk (clk),
-        .write_addr (instr[11:7]), // Destination register
-        .A1 (instr[19:15]),       // Source register 1
-        .A2 (instr[24:20]),       // Source register 2
-        .WD3 (ResultW),           // Write data
-        .WE3 (RegWriteW),         // Write enable
-        .DOut1 (DOut1),           // Read data 1
-        .DOut2 (DOut2)            // Read data 2
+        .TRIGGER (TRIGGER),
+        .AdIn (instr[11:7]), // Destination register - A3
+        .AdOut1 (instr[19:15]),       // Source register 1
+        .AdOut2 (instr[24:20]),       // Source register 2
+        .DIn (DIn),           // Write data
+        .RegWrite (RegWrite),         // Write enable
+        .RD1 (RD1),           // Read data 1
+        .RD2 (RD2)            // Read data 2
     );
 
     // ALU
     alu ALU (
-        .ALUctrl (ALUCtrlE),
-        .ALUflag (ALUflag),
-        .N1 (SrcAE), 
-        .N2 (SrcBE), 
-        .flag (flag), 
-        .out (ALUResult)
+
+        .ALUCtrl (ALUCtrl),
+        .SrcA (RD1), 
+        .SrcB (SrcB), 
+
+        .ZeroFlag (ZeroFlag),
+        .NegativeFlag (NegativeFlag), 
+        .UnsignedLess (UnsignedLess),
+        .ALUResult (ALUResult)
     );
 
     // ALU Decode (part of Control Unit)
     aludecode ALUDecode (
-        .func3 (instr[14:12]), 
-        .op5 (instr[6:0]), 
-        .func7 (instr[31:25]),
-        .ALUop (ALUCtrlE)
+        .funct3 (instr[14:12]), 
+        .opcode5 (instr[5]), 
+        .funct75 (instr[31:25]),
+        .ALUop (ALUop),
+
+        .ALUCtrl (ALUCtrl)
     );
 
-    // ALU Flag Decode (optional)
-    aluflagdecode ALUFlagDecode (
-        .func3 (instr[14:12]),
-        .ALUop (ALUCtrlE),
-        .ALUflag (ALUflag)
-    );
 
-    // Data Memory
-    ram DataMemory (
+    // Data Memory formerly ram
+    DataMemory DataMemory (
         .clk (clk),
-        .DIn (DOut2),            // Write data
-        .Ad (ALUResultM),        // Address
-        .RamWrite (MemWriteM),   // Write enable
-        .func3 (instr[14:12]),   // Used for access width
-        .DOut (ReadData)         // Read data
+        .WriteData (DIn),            // Write data
+        .ALUResult (ALUResult),        // Address
+        .MemWrite (MemWrite),   // Write enable
+        .funct3 (instr[14:12]),   // Used for access width
+
+        .ReadData (ReadData)         // Read data
     );
 
     // Write-back Mux
-    writeback_mux WritebackMux (
+    WriteBack_mux WriteBack_mux (
         .ALUResult (ALUResult),
         .ReadData (ReadData),
         .ResultSrc (ResultSrc), 
-        .Result (ResultW)        // Write-back result
+        .Result (Result)        // Write-back result
     );
 
 endmodule

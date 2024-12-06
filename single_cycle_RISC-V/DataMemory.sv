@@ -1,8 +1,8 @@
 module DataMemory #(parameter WA = 32, WAM = 20, WB = 8, WD = 32)(
     input logic clk,
-    input logic [WA-1:0] AluResult, // aluresult formerly Ad
+    input logic [WA-1:0] ALUResult, // aluresult formerly Ad
     input logic MemWrite, 
-    input logic [2:0] func3,
+    input logic [2:0] funct3,
     input logic [WD-1:0] WriteData, //write data formerly DIn
     output logic [WD-1:0] ReadData
 );
@@ -17,8 +17,8 @@ initial begin
 end;
 
 always_comb begin 
-    AdM = AluResult[WAM-1:0];
-    case (func3) 
+    AdM = ALUResult[WAM-1:0];
+    case (funct3) 
         3'b000: ReadData = {{24{RamArray[AdM][WB-1]}},RamArray[AdM]}; // lb
         3'b001: ReadData = {{16{RamArray[AdM][WB-1]}},RamArray[AdM], RamArray[AdM+1]}; // lh
         3'b010: ReadData = {RamArray[AdM], RamArray[AdM+1], RamArray[AdM+2], RamArray[AdM+3]}; // lw
@@ -31,19 +31,19 @@ end
 always_ff@(posedge clk)
     if (MemWrite) 
     begin
-        if (func3[1:0] == 2'b10)
+        if (funct3[1:0] == 2'b10)
         begin
             RamArray[AdM] <= WriteData[WD-1:WD-8];
             RamArray[AdM+1] <= WriteData[WD-9:WD-16];
             RamArray[AdM+2] <= WriteData[WD-17:WD-24];
             RamArray[AdM+3] <= WriteData[WD-25:0];
         end
-        else if (func3[1:0] == 2'b01)
+        else if (funct3[1:0] == 2'b01)
         begin
             RamArray[AdM] <= WriteData[WD-17:WD-24];
             RamArray[AdM+1] <= WriteData[WD-25:0];
         end
-        else if (func3[1:0] == 2'b00) RamArray[AdM] < WriteData[WD-25:0];
+        else if (funct3[1:0] == 2'b00) RamArray[AdM] < WriteData[WD-25:0];
     end
 
 assign show = {RamArray[20'h10000], RamArray[20'h10001], RamArray[20'h10002], RamArray[20'h10003]};
