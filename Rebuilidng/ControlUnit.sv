@@ -162,7 +162,7 @@ module ControlUnit (
         PCSrc = 2'b11;*/
 
     case(opcode)
-        7b'1100011: 
+        7'b1100011: 
             case(func3)
                 3'b000: if(ZeroFlag) PCSrc = 2'b01; //beq
                 3'b001: if(~ZeroFlag) PCSrc = 2'b01; //bne
@@ -173,7 +173,7 @@ module ControlUnit (
                 //how to deal with unsigned branch - bltu bgeu??
                 default: PCSrc = 2'b00;
             endcase
-        7b'1100111: PCSrc = 2'b11;
+        7'b1100111: PCSrc = 2'b11;
     endcase
 
 
