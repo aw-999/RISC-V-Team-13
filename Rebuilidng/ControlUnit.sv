@@ -174,6 +174,7 @@ module ControlUnit (
                 default: PCSrc = 2'b00;
             endcase
         7'b1100111: PCSrc = 2'b11;
+        default: PCSrc = 2'b00;
     endcase
 
 
