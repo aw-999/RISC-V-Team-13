@@ -10,15 +10,15 @@
 
 #include "verilated.h"
 
-class Vmain__Syms;
-class Vmain___024root;
+class VMain__Syms;
+class VMain___024root;
 class VerilatedVcdC;
 
 // This class is the main interface to the Verilated model
-class alignas(VL_CACHE_LINE_BYTES) Vmain VL_NOT_FINAL : public VerilatedModel {
+class alignas(VL_CACHE_LINE_BYTES) VMain VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vmain__Syms* const vlSymsp;
+    VMain__Syms* const vlSymsp;
 
   public:
 
@@ -39,19 +39,19 @@ class alignas(VL_CACHE_LINE_BYTES) Vmain VL_NOT_FINAL : public VerilatedModel {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vmain___024root* const rootp;
+    VMain___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vmain(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vmain(const char* name = "TOP");
+    explicit VMain(VerilatedContext* contextp, const char* name = "TOP");
+    explicit VMain(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vmain();
+    virtual ~VMain();
   private:
-    VL_UNCOPYABLE(Vmain);  ///< Copying not allowed
+    VL_UNCOPYABLE(VMain);  ///< Copying not allowed
 
   public:
     // API METHODS

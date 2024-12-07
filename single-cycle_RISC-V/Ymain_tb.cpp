@@ -1,4 +1,4 @@
-#include "Vmain.h"
+#include "VMain.h"
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 
@@ -8,7 +8,7 @@ int main(int argc, char **argv, char **env)
 
     Verilated::commandArgs(argc, argv);
 
-    Vmain *top = new Vmain;
+    VMain *top = new VMain;
 
     // turning on signal tracing
     Verilated::traceEverOn(true);

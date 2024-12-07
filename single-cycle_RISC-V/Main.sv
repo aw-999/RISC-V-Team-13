@@ -1,4 +1,4 @@
-module main #(WAD = 5, W = 32)(
+module Main #(WAD = 5, W = 32)(
     input logic clk,
     input logic rst,
     output logic [W-1:0] A0

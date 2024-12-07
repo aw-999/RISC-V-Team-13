@@ -3,7 +3,7 @@
 //
 // Internal details; most user sources do not need this header,
 // unless using verilator public meta comments.
-// Suggest use Vmain.h instead.
+// Suggest use VMain.h instead.
 
 
 #ifndef VERILATED_VMAIN__PCH_H_
@@ -20,8 +20,8 @@
 
 #include "verilated.h"
 
-#include "Vmain__Syms.h"
-#include "Vmain.h"
+#include "VMain__Syms.h"
+#include "VMain.h"
 
 // Additional include files added using '--compiler-include'
 

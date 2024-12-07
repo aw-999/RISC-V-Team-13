@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See Vmain.mk for the caller.
+# See VMain.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -23,26 +23,26 @@ VM_TRACE_FST = 0
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	Vmain \
-	Vmain___024root__DepSet_hf7d72865__0 \
-	Vmain___024root__DepSet_ha6e06459__0 \
+	VMain \
+	VMain___024root__DepSet_h8a789d41__0 \
+	VMain___024root__DepSet_h3f3b479e__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	Vmain__ConstPool_0 \
-	Vmain___024root__Slow \
-	Vmain___024root__DepSet_hf7d72865__0__Slow \
-	Vmain___024root__DepSet_ha6e06459__0__Slow \
+	VMain__ConstPool_0 \
+	VMain___024root__Slow \
+	VMain___024root__DepSet_h8a789d41__0__Slow \
+	VMain___024root__DepSet_h3f3b479e__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
-	Vmain__Trace__0 \
+	VMain__Trace__0 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	Vmain__Syms \
-	Vmain__Trace__0__Slow \
-	Vmain__TraceDecls__0__Slow \
+	VMain__Syms \
+	VMain__Trace__0__Slow \
+	VMain__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

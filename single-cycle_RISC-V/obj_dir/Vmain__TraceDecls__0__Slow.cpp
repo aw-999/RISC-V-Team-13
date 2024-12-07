@@ -3,9 +3,9 @@
 #include "verilated_vcd_c.h"
 
 
-void Vmain___024root__traceDeclTypesSub0(VerilatedVcd* tracep) {
+void VMain___024root__traceDeclTypesSub0(VerilatedVcd* tracep) {
 }
 
-void Vmain___024root__trace_decl_types(VerilatedVcd* tracep) {
-    Vmain___024root__traceDeclTypesSub0(tracep);
+void VMain___024root__trace_decl_types(VerilatedVcd* tracep) {
+    VMain___024root__traceDeclTypesSub0(tracep);
 }

@@ -1,4 +1,4 @@
-module mux_Resultsrc #(parameter W = 32)(
+module MUX_Resultsrc #(parameter W = 32)(
     input logic [W-1:0] DOutAlu,
     input logic [W-1:0] DOutDM,
     input logic [W-1:0] PCadd4,

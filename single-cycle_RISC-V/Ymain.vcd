@@ -4,7 +4,7 @@ $timescale 1ps $end
   $var wire 1 d clk $end
   $var wire 1 e rst $end
   $var wire 32 f A0 [31:0] $end
-  $scope module main $end
+  $scope module Main $end
    $var wire 32 g WAD [31:0] $end
    $var wire 32 h W [31:0] $end
    $var wire 1 d clk $end
@@ -123,6 +123,7 @@ $timescale 1ps $end
     $var wire 5 A AdInReg [4:0] $end
     $var wire 5 B AdOutReg1 [4:0] $end
     $var wire 5 C AdOutReg2 [4:0] $end
+    $var wire 1 t trigger $end
     $var wire 32 . DInReg [31:0] $end
     $var wire 32 ( DOutReg1 [31:0] $end
     $var wire 32 ) DOutReg2 [31:0] $end
@@ -271,6 +272,7 @@ b00000000000000000000000000010100 p
 b00000000000000000000000000001000 q
 b00000000000000000000000000010000 r
 b00000000000000000000000000001010 s
+0t
 #1
 b00000000000000000000000011110100 &
 b00001111010000000000010110010011 '

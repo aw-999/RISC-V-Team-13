@@ -1,4 +1,4 @@
-module mux_PCsrc #(parameter W = 32)(
+module MUX_PCsrc #(parameter W = 32)(
     input logic [W-1:0] PCadd4,
     input logic [W-1:0] PCaddIMM,
     input logic [W-1:0] DOutAlu,
