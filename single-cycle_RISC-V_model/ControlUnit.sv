@@ -1,11 +1,12 @@
-module control #(parameter W = 32)(
-    input logic [W-1:0] instr,
+module ControlUnit (
+    input logic [6:0] Opcode,
     input logic flag,
+
     output logic RegWrite,
-    output logic RamWrite,
+    output logic DMwrite,
     output logic [1:0] ALUop,
     output logic ALUsrc,
-    output logic [2:0] IMMsrc,
+    output logic [2:0] IMMctrl,
     output logic [1:0] PCsrc,
     output logic [1:0] ResultSrc
 );
@@ -62,37 +63,31 @@ auipc   Rd, IMM         |
 
 */
 
-logic [6:0] op7;
-
-logic [1:0] PCsrc_req1;
 
 always_comb begin
-    op7 = instr[W-26:W-32];
-
 
     // IMMsrc to datapath1/imm
-    case (op7)
-        7'b0010011: IMMsrc = 3'b000; // i-type
-        7'b0000011: IMMsrc = 3'b000; 
-        7'b0011011: IMMsrc = 3'b000;
-        7'b1100111: IMMsrc = 3'b000; // jalr
+    case (Opcode)
+        7'b0010011: IMMctrl = 3'b000; // i-type
+        7'b0000011: IMMctrl = 3'b000; 
+        7'b0011011: IMMctrl = 3'b000;
+        7'b1100111: IMMctrl = 3'b000; // jalr
 
-        7'b0100011: IMMsrc = 3'b001; // s-type
+        7'b0100011: IMMctrl = 3'b001; // s-type
 
-        7'b1100011: IMMsrc = 3'b010; // b-type
+        7'b1100011: IMMctrl = 3'b010; // b-type
 
-        7'b0110111: IMMsrc = 3'b011; // u-type
-        7'b0010111: IMMsrc = 3'b011; // auipc
-
+        7'b0110111: IMMctrl = 3'b011; // u-type
+        7'b0010111: IMMctrl = 3'b011; // auipc
         
-        7'b1101111: IMMsrc = 3'b100; // j-type
+        7'b1101111: IMMctrl = 3'b100; // j-type
 
-        default: IMMsrc = 3'b000;
+        default: IMMctrl = 3'b000;
     endcase
 
 
     // ALUop to datapath1/alu
-    case (op7)
+    case (Opcode)
         7'b0100011: ALUop = 2'b00; // s-type
         7'b0000011: ALUop = 2'b00; // load
 
@@ -112,7 +107,7 @@ always_comb begin
 
 
     // RegWrite to datapath1/reg32
-    case (op7)
+    case (Opcode)
         7'b0110011: RegWrite = 1'b1; // r-type
         7'b0010011: RegWrite = 1'b1; // i-type
         7'b0011011: RegWrite = 1'b1;
@@ -126,26 +121,26 @@ always_comb begin
 
 
     // RamWrite to datapath1/ram
-    case (op7)
-        7'b0100011: RamWrite = 1'b1; // s-type
-        default: RamWrite = 1'b0;
+    case (Opcode)
+        7'b0100011: DMwrite = 1'b1; // s-type
+        default: DMwrite = 1'b0;
     endcase
 
 
     // ALUsrc to datapath1
-    case (op7)
+    case (Opcode)
         7'b0100011: ALUsrc = 1'b1; // s-type
         7'b0010011: ALUsrc = 1'b1; // i-type
         7'b0000011: ALUsrc = 1'b1; 
         7'b1100111: ALUsrc = 1'b1; // jalr
         7'b0110111: ALUsrc = 1'b1; // u-type
-        7'b0011011: ALUsrc = 1'b1; // unsigned
+        7'b0011011: ALUsrc = 1'b1;
         default: ALUsrc = 1'b0;
     endcase
 
 
     // ResultSrc to datapath1
-    case (op7)
+    case (Opcode)
         7'b0000011: ResultSrc = 2'b01; // load
         7'b1101111: ResultSrc = 2'b10; // j-type
         7'b0010111: ResultSrc = 2'b11; // auipc
@@ -154,15 +149,21 @@ always_comb begin
 
 
     // PCsrc to datapath2
-    case (op7)
-        7'b1100011: PCsrc_req1 = 2'b01; // b-type
-        7'b1101111: PCsrc_req1 = 2'b01; // j-type
-        7'b0010111: PCsrc_req1 = 2'b11; // auipc
-        7'b1100111: PCsrc_req1 = 2'b11; // jalr
-        default: PCsrc_req1 = 2'b00;
+    case (Opcode)
+        7'b1101111: PCsrc = 2'b01; // j-type
+        7'b0010111: PCsrc = 2'b10; // auipc
+        7'b1100111: PCsrc = 2'b10; // jalr
+        7'b1100011: PCsrc = 2'b11; // b-type
+        default: PCsrc = 2'b00;
     endcase
 
-    PCsrc = {PCsrc_req1[1], {PCsrc_req1[0] && flag}};
+    // case ({PCsrc, flag}): branch: 111; jump: 010; auipc, jalr: 100; common: 000, 110
+
+    // PCsrc'[1] = flag OR P2 AND NOT P1
+    // PCsrc'[0] = flag OR P1 AND NOT P2
+    
+
+    PCsrc = {{flag || (~PCsrc[0] && PCsrc[1])}, {flag || (PCsrc[0] && ~PCsrc[1])}}; 
 end
 
 endmodule

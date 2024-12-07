@@ -14,13 +14,13 @@ int main(int argc, char **argv, char **env)
     Verilated::traceEverOn(true);
     VerilatedVcdC *tfp = new VerilatedVcdC;
     top->trace(tfp, 99);
-    tfp->open("main.vcd");
+    tfp->open("Ymain.vcd");
 
     // input init
     top->clk = 0;
     top->rst = 0;
 
-    for (i = 0; i < 1000; i++)
+    for (i = 0; i < 10000; i++)
     {
         for (clk = 0; clk < 2; clk++)
         {

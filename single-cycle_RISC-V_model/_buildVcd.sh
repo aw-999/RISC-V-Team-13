@@ -1,7 +1,7 @@
 rm -rf obj_dir
-rm -f main.vcd
+rm -f Ymain.vcd
 
-verilator -Wall --cc --trace main.sv --exe main_tb.cpp # build obj_dir
+verilator -Wall --cc --trace main.sv --exe Ymain_tb.cpp # build obj_dir
 
 make -j -C obj_dir/ -f Vmain.mk Vmain # build c++ project
 

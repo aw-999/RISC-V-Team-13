@@ -1,74 +1,149 @@
-module main #(WA = 5, WD = 32)(
+module main #(WAD = 5, W = 32)(
     input logic clk,
     input logic rst,
-    output logic [WD-1:0] A0
+    output logic [W-1:0] A0
 );
 
-// data transfer
-logic [WD-1:0] instr;
-logic [WD-1:0] PCaddIMM;
-logic [WD-1:0] PCadd4;
-logic [WD-1:0] PC;
-logic [WD-1:0] DOutAlu;
+// PC
+logic [W-1:0] PC;
+logic [W-1:0] PCN;
+logic [W-1:0] PCadd4;
+logic [W-1:0] PCaddIMM;
 
-// control signals
-logic ALUsrc;
-logic [1:0] ALUop;
-logic RamWrite;
-logic RegWrite;
-logic [2:0] IMMsrc;
-logic [1:0] ResultSrc;
+// data
+logic [W-1:0] instr;
+logic [W-1:0] DOutReg1;
+logic [W-1:0] DOutReg2;
+logic [W-1:0] IMM;
+logic [W-1:0] N1;
+logic [W-1:0] N2;
+logic [W-1:0] DOutAlu;
+logic [W-1:0] AdDM;
+logic [W-1:0] DInDM;
+logic [W-1:0] DOutDM;
+logic [W-1:0] DInReg;
+
+// mux selection
 logic [1:0] PCsrc;
+logic ALUsrc;
+logic [1:0] ResultSrc;
 
+// control
+logic [6:0] Opcode;
+logic [2:0] func3;
+logic func75;
+logic op5;
+
+// alu
+logic [2:0] IMMctrl;
+logic [1:0] ALUop;
+logic [3:0] ALUctrl;
 logic flag;
 
+// write
+logic DMwrite;
+logic RegWrite;
 
-datapath1 D1(
-    .clk(clk),
-
-    // input data
-    .PC(PC),
-    .instr(instr),
-
-    // input control signals
-    .ALUsrc(ALUsrc),
-    .ALUop(ALUop),
-    .RamWrite(RamWrite),
-    .RegWrite(RegWrite),
-    .IMMsrc(IMMsrc),
-    .ResultSrc(ResultSrc),
-
-    // output
-    .PCaddIMM(PCaddIMM),
-    .PCadd4(PCadd4),
-    .flag(flag),
-    .A0(A0),
-    .DOutAlu(DOutAlu)
+Alu A1 (
+    .ALUctrl(ALUctrl),
+    .N1(DOutReg1),
+    .N2(N2),
+    .DOutAlu(DOutAlu),
+    .flag(flag)
 );
 
-control C1(
-    .instr(instr),
-    .flag(flag),
+AluDecode C1 (
+    .func3(instr[14:12]),
+    .ALUop(ALUop),
+    .func75(func75),
+    .op5(op5),
+    .ALUctrl(ALUctrl)
+);
 
+ControlUnit C2 (
+    .Opcode(instr[6:0]),
+    .flag(flag),
     .RegWrite(RegWrite),
-    .RamWrite(RamWrite),
+    .DMwrite(DMwrite),
     .ALUop(ALUop),
     .ALUsrc(ALUsrc),
-    .IMMsrc(IMMsrc),
+    .IMMctrl(IMMctrl),
     .PCsrc(PCsrc),
     .ResultSrc(ResultSrc)
 );
 
-datapath2 D2(
+DataMemory M1 (
+    .clk(clk),
+    .AdDM(DOutAlu),
+    .DMwrite(DMwrite),
+    .func3(instr[14:12]),
+    .DInDM(DOutReg2),
+    .DOutDM(DOutDM)
+);
+
+Extension E1 (
+    .IMMctrl(IMMctrl),
+    .instr(instr),
+    .IMM(IMM)
+);
+
+InstructionMemory M2 (
+    .PC(PC),
+    .instr(instr)
+);
+
+mux_ALUsrc S1 (
+    .DOutReg2(DOutReg2),
+    .IMM(IMM),
+    .ALUsrc(ALUsrc),
+    .N2(N2)
+);
+
+mux_PCsrc S2 (
+    .PCadd4(PCadd4),
+    .PCaddIMM(PCaddIMM),
+    .DOutAlu(DOutAlu),
+    .PCsrc(PCsrc),
+    .PCN(PCN)
+);
+
+mux_Resultsrc S3 (
+    .DOutAlu(DOutAlu),
+    .DOutDM(DOutDM),
+    .PCadd4(PCadd4),
+    .PCaddIMM(PCaddIMM),
+    .ResultSrc(ResultSrc),
+    .DInReg(DInReg)
+);
+
+add_pc_imm A2 (
+    .PC(PC),
+    .IMM(IMM),
+    .PCaddIMM(PCaddIMM)
+);
+
+PcIncrement4 A3 (
+    .PC(PC),
+    .PCadd4(PCadd4)
+);
+
+PcRegister M3 (
     .clk(clk),
     .rst(rst),
-    .PCsrc(PCsrc),
-    .PCaddIMM(PCaddIMM),
-    .PCadd4(PCadd4),
-
-    .instr(instr),
     .PC(PC),
-    .DOutAlu(DOutAlu)
+    .PCN(PCN)
+);
+
+RegisterFile M4 (
+    .clk(clk),
+    .RegWrite(RegWrite),
+    .AdInReg(instr[11:7]),
+    .AdOutReg1(instr[19:15]),
+    .AdOutReg2(instr[24:20]),
+    .DInReg(DInReg),
+    .DOutReg1(DOutReg1),
+    .DOutReg2(DOutReg2),
+    .A0(A0)
 );
 
 endmodule

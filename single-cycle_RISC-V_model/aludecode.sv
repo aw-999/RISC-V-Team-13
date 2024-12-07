@@ -1,4 +1,4 @@
-module aludecode (
+module AluDecode (
     input logic [2:0] func3,
     input logic [1:0] ALUop,
     input logic func75,

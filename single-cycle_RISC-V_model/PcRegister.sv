@@ -1,4 +1,4 @@
-module pcreg #(parameter W = 32)(
+module PcRegister #(parameter W = 32)(
     input logic clk,
     input logic rst,
     input logic [W-1: 0] PCN,
