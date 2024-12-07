@@ -11,8 +11,6 @@ module PCSrc_gate (
         
         PCSrc = 2'b00;
 
-
-   
         if (opcode == 7'b1101111) begin // JAL 
             PCSrc = 2'b11;
         end else if (opcode == 7'b1100111) begin // JALR 
