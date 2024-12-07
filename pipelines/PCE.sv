@@ -5,6 +5,7 @@ module PCExecute #(
     input logic clk,
     input logic rst,
 
+
     //Control
     input logic RegWriteE,
     input logic [1:0] ResultSrcE,
@@ -19,19 +20,20 @@ module PCExecute #(
 
     input logic [WIDTH - 1:0] ALUResultE,
     input logic [WIDTH - 1:0] WriteDataE,
-    input logic 4:0] RdE,
+    input logic [4:0] RdE,
     input logic [WIDTH - 1:0] PCPlus4E,
 
     output logic [WIDTH - 1:0] ALUResultM,
     output logic [WIDTH - 1:0] WriteDataM,
     output logic [4:0] RdM,
-    output logic [WIDTH - 1:0] PCPlus4M
+    output logic [WIDTH - 1:0] PCPlus4M,
+
 );
 
 always_ff @(posedge clk) begin
 
     if (rst) begin
-            //Control
+        //Control
         RegWriteM <= 0;
         ResultSrcM <= 0;
         MemWriteM <= 0
@@ -42,6 +44,7 @@ always_ff @(posedge clk) begin
         RdM <= 0;
         PCPlus4M <= P0;
     end
+
     else begin
 
         //Control

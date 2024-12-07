@@ -4,14 +4,15 @@ module PCFetch #(
     input logic clk,
     input logic rst,
     input logic flush,
+    input logic StallF,
 
     input logic [WIDTH - 1:0] InstrF,
     input logic [WIDTH - 1:0] PCF,
-    input logic [31:0] PCPlus4F,
+    input logic [WIDTH - 1:0] PCPlus4F,
     
     output logic [WIDTH - 1:0] InstrD,
     output logic [WIDTH - 1:0] PCD,
-    output logic [WIDTH - 1:0] PCPlus4D,
+    output logic [WIDTH - 1:0] PCPlus4D
     
 );
 
@@ -19,7 +20,7 @@ module PCFetch #(
 always_ff @(posedge clk or posedge rst) begin
 
     if (rst) begin
-        instrD <= 0;
+        InstrD <= 0;
         PCD <= 0;
         PCPlus4D <= 0;
     end
@@ -30,8 +31,8 @@ always_ff @(posedge clk or posedge rst) begin
         PCPlus4D <= PCPlus4F;
     end
 
-    else begin
-        instrD <= InstrF;
+    else if (StallF == 0) begin
+        InstrD <= InstrF;
         PCD <= PCF;
         PCPlus4D <= PCPlus4F;
     end

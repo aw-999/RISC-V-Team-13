@@ -80,7 +80,8 @@ PCReg PCReg (
 PCF PCFetch(
     .clk (clk),
     .rst (rst),
-    .flush (PCsrc[0]),
+    .flush (flush),
+    .StallF (StallF),
 
     .InstrF (instr), 
     .PCF (PC), 
@@ -163,6 +164,7 @@ PCD PCDecode(
     .PCPlus4D (PCPlus4F),  
     .Rs1D (instr[19:15]),
     .Rs2D (instr[24:20]),
+    .stallD (stallD),
     
     .RegWriteE (RegWriteE),
     .ResultSrcE (ResultSrcE),

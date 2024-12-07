@@ -6,6 +6,8 @@ module PCSrc_gate (
     input logic [2:0] func3,
     input logic Jump,
     input logic Branch,
+
+    
     output logic [1:0] PCSrc
 );
 

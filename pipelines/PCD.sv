@@ -25,7 +25,7 @@ module PCDecode #(
     output logic BranchE,
     output logic [2:0] ALUCtrlE,
     output logic ALUSrcE,
-    output logic [1:0] PCsrcE
+    output logic [1:0] PCsrcE,
 
 
     //DATA
@@ -41,14 +41,15 @@ module PCDecode #(
     output logic [WIDTH - 1:0] PCE,
     output logic [4:0] RdE,
     output logic [WIDTH - 1:0] ImmExtE,
-    output logic [WIDTH - 1:0] PCPlus4E
+    output logic [WIDTH - 1:0] PCPlus4E,
 
     //Hazard
     input logic [4:0] Rs1D,
     input logic [4:0] Rs2D,
+    input logic stallD,
 
     output logic [4:0] Rs1E,
-    output logic [4:0] Rs2E,
+    output logic [4:0] Rs2E
 
 );
 
@@ -78,7 +79,7 @@ always_ff @(posedge clk) begin
         Rs2E <= 0;
 
     end
-    else begin
+    else if (stallD == 0) begin
         //control
         RegWriteE <= RegWriteD;
         ResultSrcE <= ResulSrcD;
