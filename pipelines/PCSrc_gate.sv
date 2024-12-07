@@ -10,14 +10,18 @@ module PCSrc_gate (
 );
 
     always_comb begin
-        // Default value
+        
         PCSrc = 2'b00;
 
-        // Jump logic
-        if (Jump) begin
-            PCSrc = 2'b11; // Jump case
+
+   
+        if (Jump && opcode == 7'b1101111) begin // JAL 
+            PCSrc = 2'b11;
+        end else if (Jump && opcode == 7'b1100111) begin // JALR 
+            PCSrc = 2'b11;
         end
-        // Branch logic
+
+       
         else if (Branch && opcode == 7'b1100011) begin
             case (func3)
                 3'b000: if (ZeroFlag) PCSrc = 2'b01; // BEQ
@@ -26,7 +30,7 @@ module PCSrc_gate (
                 3'b101: if (~NegativeFlag || ZeroFlag) PCSrc = 2'b01; // BGE
                 3'b110: if (Unsigned) PCSrc = 2'b01; // BLTU
                 3'b111: if (~Unsigned) PCSrc = 2'b01; // BGEU
-                default: PCSrc = 2'b00; // Default case for branches
+                default: PCSrc = 2'b00; 
             endcase
         end
     end
