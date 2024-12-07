@@ -104,14 +104,15 @@ module main_top #(
         .AdIn (instr[11:7]), // Destination register - A3
         .AdOut1 (instr[19:15]),       // Source register 1
         .AdOut2 (instr[24:20]),       // Source register 2
-        .DIn (DIn),           // Write data
+        .DIn (Result),           // Write data
         .RegWrite (RegWrite),         // Write enable
         .RD1 (RD1),           // Read data 1
-        .RD2 (RD2)            // Read data 2
+        .RD2 (RD2),           // Read data 2
+        .A0 (A0)
     );
 
     // ALU
-    alu ALU (
+    ALU ALU (
 
         .ALUCtrl (ALUCtrl),
         .SrcA (RD1), 
