@@ -3,7 +3,8 @@ module PL_ControlUnit (
     input logic ZeroFlag,         
     input logic NegativeFlag,     
     input logic UnsignedLess,     
-    
+    input logic [2:0] funct3, //needed to distinguish between branch instr
+
     output logic branch,          
     output logic jump,            
     output logic [1:0] ResultSrc, 
