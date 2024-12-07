@@ -4,6 +4,9 @@ module PCDecode #(
 )(
 
     input logic clk,
+    input logic rst,
+
+    //input logic [WIDTH-1:0] instr,
 
     //Control
     input logic RegWriteD,
@@ -13,6 +16,7 @@ module PCDecode #(
     input logic BranchD,
     input logic [2:0] ALUCtrlD,
     input logic ALUSrcD,
+    input logic [1:0] PCsrcD,
 
     output logic RegWriteE,
     output logic [1:0] ResultSrcE,
@@ -21,6 +25,7 @@ module PCDecode #(
     output logic BranchE,
     output logic [2:0] ALUCtrlE,
     output logic ALUSrcE,
+    output logic [1:0] PCsrcE
 
 
     //DATA
@@ -38,27 +43,65 @@ module PCDecode #(
     output logic [WIDTH - 1:0] ImmExtE,
     output logic [WIDTH - 1:0] PCPlus4E
 
+    //Hazard
+    input logic [4:0] Rs1D,
+    input logic [4:0] Rs2D,
+
+    output logic [4:0] Rs1E,
+    output logic [4:0] Rs2E,
+
 );
 
 always_ff @(posedge clk) begin
 
-    //control
-    RegWriteE <= RegWriteD;
-    ResultSrcE <= ResulSrcD;
-    MemWriteE <= MemWriteD;
-    JumpE <= JumpD;
-    BranchE <= BranchD;
-    ALUCtrlE <= ALUCtrlD;
-    ALUSrcE <= ALUSrcD;
+    if (rst) begin
+        //control
+        RegWriteE <= 0;
+        ResultSrcE <= 0;
+        MemWriteE <= 0;
+        JumpE <= 0;
+        BranchE <= 0;
+        ALUCtrlE <= 0;
+        ALUSrcE <= 0;
+        PCsrcE <= 0;
 
-    //data
+        //data
+        RD1E <= 0;
+        RD2E <= 0;
+        PCE <= 0;
+        RdE <= 0;
+        ImmExtE <= 0;
+        PCPlus4E <= 0;
 
-    RD1E <= RD1D;
-    RD2E <= RD2D;
-    PCE <= PCD;
-    RdE <= RdD;
-    ImmExtE <= ImmExtD;
-    PCPlus4E <= PCPlus4D;
+        //Hazard
+        Rs1E <= 0;
+        Rs2E <= 0;
+
+    end
+    else begin
+        //control
+        RegWriteE <= RegWriteD;
+        ResultSrcE <= ResulSrcD;
+        MemWriteE <= MemWriteD;
+        JumpE <= JumpD;
+        BranchE <= BranchD;
+        ALUCtrlE <= ALUCtrlD;
+        ALUSrcE <= ALUSrcD;
+
+        //data
+
+        RD1E <= RD1D;
+        RD2E <= RD2D;
+        PCE <= PCD;
+        RdE <= RdD;
+        ImmExtE <= ImmExtD;
+        PCPlus4E <= PCPlus4D;
+        PCsrcE <= PCsrcD;
+
+         //Hazard
+        Rs1E <= Rs1D;
+        Rs2E <= Rs2D;
+    end
 end
 
 endmodule

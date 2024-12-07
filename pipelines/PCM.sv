@@ -3,6 +3,8 @@ module PCMemory #(
 )(
 
     input logic clk,
+    input logic rst,
+
 
     //Control
     input logic RegWriteM,
@@ -18,7 +20,7 @@ module PCMemory #(
     input logic [WIDTH - 1:0] PCPlus4M,
 
     output logic [WIDTH - 1:0] ReadDataW,
-    output logic [WIDTH - 1:0] ALuResultW,
+    output logic [WIDTH - 1:0] ALUResultW,
     output logic [4:0] RdW,
     output logic [WIDTH - 1:0] PCPlus4W
 
@@ -26,15 +28,30 @@ module PCMemory #(
 
 always_ff @(posedge clk) begin
 
-    //control
-    RegWriteW <= RegWriteM;
-    ResultSrcW <= ResultSrcM;
+    if (rst) begin
 
-    //data
-    ReadDataW <= ReadDataM;
-    ALuResultW<= ALuResultM;
-    RdW <= RdM;
-    PCPlus4W <= PCPlus4W;
+        //control
+        RegWriteW <= 0;
+        ResultSrcW <= 0;
+
+        //data
+        ReadDataW <= 0;
+        ALUResultW <= 0;
+        RdW <= 0;
+        PCPlus4W <= 0;
+    end
+    else begin
+        
+        //control
+        RegWriteW <= RegWriteM;
+        ResultSrcW <= ResultSrcM;
+
+        //data
+        ReadDataW <= ReadDataM;
+        ALUResultW <= ALUResultM;
+        RdW <= RdM;
+        PCPlus4W <= PCPlus4W;
+    end
 end
 
 endmodule
