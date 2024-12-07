@@ -7,12 +7,24 @@ module main_top #(
 );
 
     // Internal signals
-    logic [DATA_WIDTH-1:0] PC, PCN, PCPlus4F, PCTargetE, ALUResultM;
-    logic [DATA_WIDTH-1:0] instr, IMM, DOut1, DOut2, WriteDataM, ReadData, ResultW, SrcAE, SrcBE, ALUResult;
-    logic [3:0] ALUCtrlE, ALUflag;
-    logic [2:0] func3;
-    logic [6:0] func7;
-    logic PCSrcE, ResultSrc, MemWriteM, RegWriteW, flag, ALUsrc, IMMsrc;
+    logic [DATA_WIDTH-1:0] PC;
+    logic [DATA_WIDTH-1:0] PCN;        // Next PC
+    logic [DATA_WIDTH-1:0] PCPlus4;   // PC + 4
+    logic [DATA_WIDTH-1:0] PCTarget;  // Branch Target
+    logic [DATA_WIDTH-1:0] instr;     // Current instruction
+    logic [DATA_WIDTH-1:0] ImmExt;    // Extended immediate
+    logic [DATA_WIDTH-1:0] RD1, RD2;  // Register read data
+    logic [DATA_WIDTH-1:0] SrcB;      // ALU operand B
+    logic [DATA_WIDTH-1:0] ALUResult; // ALU result
+    logic [DATA_WIDTH-1:0] ReadData;  // Memory read data
+    logic [DATA_WIDTH-1:0] DIn;       // Data to write to memory
+
+    // Control signals
+    logic PCSrc, ResultSrc, MemWrite, ALUSrc, RegWrite;
+    logic [2:0] ImmSrc;
+    logic [1:0] ALUop;
+    logic [3:0] ALUCtrl;
+    logic ZeroFlag, NegativeFlag, UnsignedLess;
 
     // Instruction Memory
     InstructionMemory InstructionMemory(
