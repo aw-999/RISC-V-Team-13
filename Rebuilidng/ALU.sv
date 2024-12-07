@@ -1,4 +1,4 @@
-module alu #(
+module ALU #(
     parameter W = 32
 )(
     //from Registerfiles
@@ -29,7 +29,7 @@ always_comb begin
             4'b0101: ALUResult = SrcA << SrcB[4:0];  // Shift Left Logical
             4'b0110: ALUResult = SrcA >> SrcB[4:0];  // Shift Right Logical
             4'b0111: ALUResult = $signed(SrcA) >>> SrcB[4:0];  // Shift Right Arithmetic
-            4'b1000: ALUResult = (SrcA < SrcB) ? 1 : 0;  // Set Less Than signed
+            4'b1000: ALUResult = (SrcA < SrcB) ? 1 : 0;  // Set Less Than Unsigned
             4'b1001: ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0;  // Set Less Than Unsigned
             default: ALUResult = 0; 
     endcase
@@ -41,9 +41,8 @@ always_comb begin
         
         NegativeFlag = ALUResult[W-1];
 
-        if(ALUCtrl == 4'b1001)
-            UnsignedLess = ALUResult;
-
+        if(ALUCtrl == 4'b1001) //if instr is bltu or bgeu, check if unsigned srca is less than b, and set to 1, 0 accordingly
+            UnsignedLess = (ALUResult == 0) ? 1 : 0;
 
     end
 

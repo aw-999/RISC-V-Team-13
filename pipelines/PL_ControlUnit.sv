@@ -3,9 +3,7 @@ module PL_ControlUnit (
     input logic ZeroFlag,         
     input logic NegativeFlag,     
     input logic UnsignedLess,     
-    
-    output logic branch,          
-    output logic jump,            
+          
     output logic [1:0] ResultSrc, 
     output logic MemWrite,        
     output logic ALUSrc,          
@@ -75,9 +73,9 @@ module PL_ControlUnit (
     end
 
 
-    always_comb begin
+    /*always_comb begin
         branch = (opcode == 7'b1100011); // Branch
         jump = (opcode == 7'b1101111 || opcode == 7'b1100111); // JAL or JALR
-    end
+    end*/
 
 endmodule
