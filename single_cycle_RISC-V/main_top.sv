@@ -42,7 +42,7 @@ module main_top #(
     PCSrc_mux PCSrc_mux(
         .PCTarget (PCTarget),
         .PCSrc (PCSrc), 
-        .ALUResultM (ALUResult),
+        .ALUResult (ALUResult),
         .PCPlus4F (PCPlus4),
 
         .PCN (PCN) // Next PC
