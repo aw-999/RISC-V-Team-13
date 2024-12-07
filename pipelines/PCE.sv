@@ -3,6 +3,7 @@ module PCExecute #(
 )(
 
     input logic clk,
+    input logic rst,
 
     //Control
     input logic RegWriteE,
@@ -29,16 +30,31 @@ module PCExecute #(
 
 always_ff @(posedge clk) begin
 
-    //Control
-    RegWriteM <= RegWriteE;
-    ResultSrcM <= ResultSrcE;
-    MemWriteM <= MemWriteE;
+    if (rst) begin
+            //Control
+        RegWriteM <= 0;
+        ResultSrcM <= 0;
+        MemWriteM <= 0
 
-    //Data
-    ALUResultM <= ALUResultE;
-    WriteDataM <= WriteDataE;
-    RdM <= RdM;
-    PCPlus4M <= PCPlus4E;
+        //Data
+        ALUResultM <= 0;
+        WriteDataM <= 0;
+        RdM <= 0;
+        PCPlus4M <= P0;
+    end
+    else begin
+
+        //Control
+        RegWriteM <= RegWriteE;
+        ResultSrcM <= ResultSrcE;
+        MemWriteM <= MemWriteE;
+
+        //Data
+        ALUResultM <= ALUResultE;
+        WriteDataM <= WriteDataE;
+        RdM <= RdM;
+        PCPlus4M <= PCPlus4E;
+    end
 end
 
 endmodule
