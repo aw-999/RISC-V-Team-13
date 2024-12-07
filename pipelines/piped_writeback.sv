@@ -1,6 +1,5 @@
-module Writeback #(
-    parameter W = 32,
-    parameter AW = 5
+module PL_WriteBack #(
+    parameter W = 32
 )(
     input logic [1:0] ResultSrcW,
     input logic [W-1:0] ALUResultW,

@@ -26,7 +26,7 @@ module PCExecute #(
     output logic [WIDTH - 1:0] ALUResultM,
     output logic [WIDTH - 1:0] WriteDataM,
     output logic [4:0] RdM,
-    output logic [WIDTH - 1:0] PCPlus4M,
+    output logic [WIDTH - 1:0] PCPlus4M
 
 );
 

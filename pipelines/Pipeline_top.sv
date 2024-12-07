@@ -305,7 +305,7 @@ PCM PCMemory(
 );
 
 //mux4
-WriteBack mux4WriteBack (
+PL_WriteBack mux4WriteBack (
 
     .ResultSrcW(ResultSrcW),       
     .ALUResultW(ALUResultW),       
