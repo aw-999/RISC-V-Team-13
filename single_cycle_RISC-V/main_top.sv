@@ -124,7 +124,7 @@ module main_top #(
     );
 
     // ALU Decode (part of Control Unit)
-    aludecode ALUDecode (
+    ALUDecode ALUDecode (
         .funct3 (instr[14:12]), 
         .opcode5 (instr[5]), 
         .funct75 (instr[31:25]),
