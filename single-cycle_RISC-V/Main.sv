@@ -92,14 +92,14 @@ InstructionMemory M2 (
     .instr(instr)
 );
 
-mux_ALUsrc S1 (
+MUX_ALUsrc S1 (
     .DOutReg2(DOutReg2),
     .IMM(IMM),
     .ALUsrc(ALUsrc),
     .N2(N2)
 );
 
-mux_PCsrc S2 (
+MUX_PCsrc S2 (
     .PCadd4(PCadd4),
     .PCaddIMM(PCaddIMM),
     .DOutAlu(DOutAlu),
@@ -107,7 +107,7 @@ mux_PCsrc S2 (
     .PCN(PCN)
 );
 
-mux_Resultsrc S3 (
+MUX_Resultsrc S3 (
     .DOutAlu(DOutAlu),
     .DOutDM(DOutDM),
     .PCadd4(PCadd4),
@@ -116,7 +116,7 @@ mux_Resultsrc S3 (
     .DInReg(DInReg)
 );
 
-add_pc_imm A2 (
+Add_pc_imm A2 (
     .PC(PC),
     .IMM(IMM),
     .PCaddIMM(PCaddIMM)
