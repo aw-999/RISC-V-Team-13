@@ -74,7 +74,7 @@ module main_top #(
     // Control Unit
     ControlUnit ControlUnit (
 
-        .opcode (opcode),
+        .opcode (instr[6:0]),
         .ZeroFlag (ZeroFlag),
         .NegativeFlag (NegativeFlag),
         .UnsignedLess (UnsignedLess),
