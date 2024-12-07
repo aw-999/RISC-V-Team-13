@@ -3,6 +3,7 @@ module ControlUnit (
     input logic ZeroFlag,
     input logic NegativeFlag,
     input logic UnsignedLess,
+    input logic [2:0] funct3,
     
     output logic [1:0] PCSrc,
     output logic [1:0] ResultSrc, // 4 different cases
@@ -168,8 +169,8 @@ module ControlUnit (
                 3'b001: if(~ZeroFlag) PCSrc = 2'b01; //bne
                 3'b100: if(NegativeFlag) PCSrc = 2'b01; //blt
                 3'b101: if(~NegativeFlag || ZeroFlag) PCSrc = 2'b01; //bge
-                3'b110: if(Unsigned) = 2'b01; //bltu
-                3'b111: if(~Unsigned) PCSrc = 2'b01; //bgeu  
+                3'b110: if(UnsignedLess) = 2'b01; //bltu
+                3'b111: if(~UnsignedLess) PCSrc = 2'b01; //bgeu  
                 //how to deal with unsigned branch - bltu bgeu??
                 default: PCSrc = 2'b00;
             endcase
