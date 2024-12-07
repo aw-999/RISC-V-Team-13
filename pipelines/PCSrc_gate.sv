@@ -1,0 +1,34 @@
+module PCSrc_gate (
+    input logic ZeroFlag,
+    input logic NegativeFlag,
+    input logic Unsigned,
+    input logic [6:0] opcode,
+    input logic [2:0] func3,
+    input logic Jump,
+    input logic Branch,
+    output logic [1:0] PCSrc
+);
+
+    always_comb begin
+        // Default value
+        PCSrc = 2'b00;
+
+        // Jump logic
+        if (Jump) begin
+            PCSrc = 2'b11; // Jump case
+        end
+        // Branch logic
+        else if (Branch && opcode == 7'b1100011) begin
+            case (func3)
+                3'b000: if (ZeroFlag) PCSrc = 2'b01; // BEQ
+                3'b001: if (~ZeroFlag) PCSrc = 2'b01; // BNE
+                3'b100: if (NegativeFlag) PCSrc = 2'b01; // BLT
+                3'b101: if (~NegativeFlag || ZeroFlag) PCSrc = 2'b01; // BGE
+                3'b110: if (Unsigned) PCSrc = 2'b01; // BLTU
+                3'b111: if (~Unsigned) PCSrc = 2'b01; // BGEU
+                default: PCSrc = 2'b00; // Default case for branches
+            endcase
+        end
+    end
+
+endmodule

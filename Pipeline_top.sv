@@ -92,7 +92,7 @@ PCF PCFetch(
 );
 
 // Control Unit
-ControlUnit ControlUnit (
+PL_ControlUnit PL_ControlUnit (
 
     .opcode (instr[6:0]),
     .ZeroFlag (ZeroFlag),
