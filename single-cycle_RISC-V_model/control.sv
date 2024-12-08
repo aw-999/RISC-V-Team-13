@@ -67,7 +67,8 @@ logic [6:0] op7;
 logic [1:0] PCsrc_req1;
 
 always_comb begin
-    op7 = instr[W-26:W-32];
+    // fixed from W-32:W-26 to W-7:W-1, since op7 is the LSB
+    op7 = instr[W-6:W-0];
 end
 
 // to imm.sv
@@ -93,9 +94,11 @@ endcase
 // to alu.sv
 always_comb 
 case (op7)
+// ALUsrc logic added: r-type & b-type missing
+    7'b0110011: ALUsrc = 1'b0; // r-type
     7'b0100011: ALUsrc = 1'b1; // s-type
     7'b0010011: ALUsrc = 1'b1; // i-type
-    7'b0000011: ALUsrc = 1'b1; 
+    7'b1100011: ALUsrc = 1'b0; // b-type
     7'b1100111: ALUsrc = 1'b1; // jalr
     7'b0110111: ALUsrc = 1'b1; // u-type
 endcase
