@@ -74,7 +74,7 @@ module Main_Top #(
     // Control Unit
     ControlUnit ControlUnit (
 
-        .opcode (opcode),
+        .opcode (instr[6:0]),
         .ZeroFlag (ZeroFlag),
         .NegativeFlag (NegativeFlag),
         .UnsignedLess (UnsignedLess),
@@ -104,14 +104,15 @@ module Main_Top #(
         .AdIn (instr[11:7]), // Destination register - A3
         .AdOut1 (instr[19:15]),       // Source register 1
         .AdOut2 (instr[24:20]),       // Source register 2
-        .DIn (DIn),           // Write data
+        .DIn (Result),           // Write data
         .RegWrite (RegWrite),         // Write enable
         .RD1 (RD1),           // Read data 1
-        .RD2 (RD2)            // Read data 2
+        .RD2 (RD2),           // Read data 2
+        .A0 (A0)
     );
 
     // ALU
-    alu ALU (
+    ALU ALU (
 
         .ALUCtrl (ALUCtrl),
         .SrcA (RD1), 
@@ -124,7 +125,7 @@ module Main_Top #(
     );
 
     // ALU Decode (part of Control Unit)
-    aludecode ALUDecode (
+    ALUDecode ALUDecode (
         .funct3 (instr[14:12]), 
         .opcode5 (instr[5]), 
         .funct75 (instr[31:25]),
