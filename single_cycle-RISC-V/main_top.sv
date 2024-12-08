@@ -1,4 +1,4 @@
-module Pipelined_Top #(
+module Main_Top #(
     parameter DATA_WIDTH = 32
 )(
     input logic clk,
