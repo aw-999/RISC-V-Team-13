@@ -11,3 +11,6 @@ use input logic trigger_in to call at testbench
 // trigger is saved on t0 (x5) register, as a temporary variable with a value 1 when activated (set in reg32.sv)
 // main.sv also need to be wired uo to add trigger as a major input
 // then the logic input inside testbench can be tested 
+
+fixed op7 posiioning and ALUSRC logic 8/12/2024
+F1 test ready now!
