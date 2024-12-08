@@ -3,17 +3,23 @@ module PL_ControlUnit (
     input logic ZeroFlag,         
     input logic NegativeFlag,     
     input logic UnsignedLess,     
+
+    //hazard
+    input logic stall,
           
     output logic [1:0] ResultSrc, 
     output logic MemWrite,        
     output logic ALUSrc,          
     output logic [2:0] ImmSrc,    
     output logic RegWrite,        
-    output logic [2:0] ALUop      
+    output logic [2:0] ALUop    
+
+   
 );
 
     // ALU operation decoding
     always_comb begin
+        if (stall)
         case (opcode)
             7'b0110011: ALUop = 3'b000; // R-type
             7'b0010011: ALUop = 3'b001; // I-type
@@ -40,7 +46,12 @@ module PL_ControlUnit (
 
 
     always_comb begin
-        MemWrite = (opcode == 7'b0100011); // Store
+        if (stall) begin
+            MemWrite = 1'b0;
+        end
+        else begin
+            MemWrite = (opcode == 7'b0100011); // Store
+        end
     end
 
    
@@ -64,12 +75,17 @@ module PL_ControlUnit (
 
     
     always_comb begin
-        case (opcode)
-            7'b0110011, 7'b0010011, 7'b0000011, 7'b1101111, 7'b1100111, 7'b0110111, 7'b0010111: 
-                RegWrite = 1'b1; 
-            default: 
-                RegWrite = 1'b0; 
-        endcase
+        if (stall) begin
+            RegWrite = 1'b0;
+        end
+        else begin
+            case (opcode)
+                7'b0110011, 7'b0010011, 7'b0000011, 7'b1101111, 7'b1100111, 7'b0110111, 7'b0010111: 
+                    RegWrite = 1'b1; 
+                default: 
+                    RegWrite = 1'b0; 
+            endcase
+        end
     end
 
 

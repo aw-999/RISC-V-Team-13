@@ -63,7 +63,7 @@ PCSrc_mux PCSrc_mux(
     .PCTarget (PCTargetE),
     .PCSrc (PCSrcE), 
     .ALUResult (ALUResultM),
-    .PCPlus4F (PCPlus4F),
+    .PCPlus4 (PCPlus4F),
 
     .PCN (PCN) // Next PC
 );
@@ -156,6 +156,9 @@ PCD PCDecode(
     .ALUSrcD (ALUSrc),
     .PCSrcD (PCSrc), 
 
+    .opcodeD (instr[6:0]),
+    .funct3D (instr[14:12]),
+
     .RD1D (RD1),   
     .RD2D (RD2),   
     .PCD (PC),       
@@ -174,6 +177,9 @@ PCD PCDecode(
     .ALUCtrlE (ALUCtrlE),
     .ALUSrcE (ALUSrcE),
     .PCSrcE (PCSrcE), 
+
+    .opcodeE (opcodeE),
+    .funct3E (funct3E),
     
     .RD1E (RD1E),
     .RD2E (RD2E),
@@ -200,6 +206,8 @@ HazardUnit HazardUnit (
 
     .ForwardAE (ForwardAE),
     .ForwardBE (ForwardAE),
+    .stallF (stallF),
+    .stallD (stallD)
     
 
 );
@@ -250,6 +258,18 @@ ALU ALU (
     .ALUResult (ALUResult)
 );
 
+PCSrc_gate PCSrc_gate (
+
+    .ZeroFlag (ZeroFlag),
+    .NegativeFlag (NegativeFlag),
+    .UnsignedLess (UnsignedLess),
+
+    .opcode (opcodeE),
+    .funct3 (funct3E),
+
+    .PCSrc (PCSrc)
+);
+
 PCE PCExecute (
     .clk (clk),
     .rst (rst),
@@ -273,17 +293,7 @@ PCE PCExecute (
     .PCPlus4M (PCPlus4M)
 );
 
-PCSrc_gate PCSrc_gate (
-    .ZeroFlag (ZeroFlag),
-    .NegativeFlag (NegativeFlag),
-    .UnsignedLess (UnsignedLess),
-    .opcode (instr[6:0]),
-    .funct3 (instr[14:12]),
-    .Jump (JumpE),
-    .Branch (BranchE),
 
-    .PCSrc (PCSrc)
-);
 
 
 
