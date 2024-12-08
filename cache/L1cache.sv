@@ -1,7 +1,7 @@
-`define UPD_SHIFT_REG (shift_register, new_value) 
-  for (int i = 1; i < DEGREES; i++) begin
-    shift_register[i] <= shift_register[i-1];
-  end
+`define UPD_SHIFT_REG (shift_register, new_value) \ 
+  for (int i = 1; i < DEGREES; i++) begin \
+    shift_register[i] <= shift_register[i-1]; \
+  end \
   shift_register[0] <= new_value;
 
 
@@ -29,9 +29,9 @@
 
 module L1cache #(
     parameter DEGREES = 4,
-    parameter SETNUM = 16,
-    parameter BYTE_ADDR_BITS = 16,
-    parameter TAGSIZE = 32 - $clog2(SETNUM) - BYTE_ADDR_BITS
+    parameter SETNUM = 64,
+    parameter BYTE_ADDR_BITS = 4,
+    parameter   TAGSIZE = 32 - $clog2(SETNUM) - BYTE_ADDR_BITS;
 
 ) (
     input logic clk_i,
@@ -127,11 +127,29 @@ always_comb begin
 
     OUTPUT: begin
       cpu_data_out.Ready = 1'b1;
-      next_state = TAG;`
+      next_state = TAG;
       degree_index = last_used_shift_reg[0];
     end
 	endcase
 end
 
+typedef struct packed {
+	logic 			      Valid; // when data is not being changed valid is low. Valid is high for Load/Store
+	logic 			        Wen;
+	logic 	[31:0]	   Addr; 
+	logic 	[7:0]	 ByteData;
+} L1DataIn_t;
+
+typedef struct packed { 
+  logic             Ready;
+	logic 	[7:0]	  ByteOut;
+} L1DataOut_t;
+
+typedef struct packed {
+	logic Valid;
+	logic Dirty;
+	logic [TAGSIZE-1:0] Tag;
+	logic [BLOCKSIZE-1:0] Data;
+} cache_entry;
 
 endmodule
