@@ -150,8 +150,8 @@ PCD PCDecode(
     .RegWriteD (RegWrite),
     .ResultSrcD (ResultSrc),
     .MemWriteD (MemWrite),
-    //.JumpD (1'b0),  
-    //.BranchD (1'b0), 
+    .JumpD (Jump),  
+    .BranchD (Branch), 
     .ALUCtrlD (ALUCtrl), 
     .ALUSrcD (ALUSrc),
     .PCSrcD (PCSrc), 
@@ -169,8 +169,8 @@ PCD PCDecode(
     .RegWriteE (RegWriteE),
     .ResultSrcE (ResultSrcE),
     .MemWriteE (MemWriteE),
-    //.JumpE (JumpE), 
-    //.BranchE (BranchE),
+    .JumpE (JumpE), 
+    .BranchE (BranchE),
     .ALUCtrlE (ALUCtrlE),
     .ALUSrcE (ALUSrcE),
     .PCSrcE (PCSrcE), 
@@ -272,6 +272,20 @@ PCE PCExecute (
     .RdM (RdM),
     .PCPlus4M (PCPlus4M)
 );
+
+PCSrc_gate PCSrc_gate (
+    .ZeroFlag (ZeroFlag),
+    .NegativeFlag (NegativeFlag),
+    .UnsignedLess (UnsignedLess),
+    .opcode (instr[6:0]),
+    .funct3 (instr[14:12]),
+    .Jump (JumpE),
+    .Branch (BranchE),
+
+    .PCSrc (PCSrc)
+);
+
+
 
 // Data Memory formerly ram
 DataMemory DataMemory (

@@ -3,7 +3,7 @@ module PCSrc_gate (
     input logic NegativeFlag,
     input logic UnsignedLess,
     input logic [6:0] opcode,
-    input logic [2:0] func3,
+    input logic [2:0] funct3,
     input logic Jump,
     input logic Branch,
     output logic [1:0] PCSrc
@@ -22,7 +22,7 @@ module PCSrc_gate (
  for JAL/JALR, pcsrc set to 2'b11 automatically. */
        
         else if (opcode == 7'b1100011) begin          
-            case (func3)
+            case (funct3)
                 3'b000: if (ZeroFlag) PCSrc = 2'b01; // BEQ
                 3'b001: if (~ZeroFlag) PCSrc = 2'b01; // BNE
                 3'b100: if (NegativeFlag) PCSrc = 2'b01; // BLT
