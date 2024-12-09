@@ -8,7 +8,7 @@ main:
 	jal ra, flag_test
 	li a0, 0xE2D
 	auipc t2, 1 # end
-	# (I choose not to simulate a program with instruction number over 0xfff)
+	# (I choose not to simulate a program with too large instruction number)
 	beq x0, x0, error10
 
 
@@ -22,7 +22,7 @@ arithmetic_test:
 	srli t2, t2, 2
 	slli t2, t2, 3
 	srai t1, t1, 2
-	add t1, t1, t2
+	and t1, t1, t2
 	li t3, 0xfd008800 # already calculated using python 
 	bne t1, t3, error1
 	slt t3, a3, a4 # z(-24173257) < z(82700), so t3 = 1
@@ -33,14 +33,14 @@ arithmetic_test:
 
 datamemory_test:
 	sw a2, 8(a4)
-	sh a2, 8(a4)
-	sb a2, 8(a4) # datamem[8:11]: 0xfcfc00fc
+	sh a2, 10(a4)
+	sb a2, 11(a4) # datamem[8:11]: 0xfcfc00fc
 	lw t1, 8(a4) # 0xfcfc00fc
-	lh t2, 8(a4) # 0xffffcfc
+	lh t2, 10(a4) # 0xffffcfc
 	add t1, t2, t1 
 	lb t2, 8(a4) # 0xffffffc
 	add t1, t2, t1 
-	lhu t2, 8(a4) # 0x0000fcfc
+	lhu t2, 10(a4) # 0x0000fcfc
 	add t1, t2, t1
 	lbu t2, 8(a4) # 0x000000fc
 	add t1, t2, t1
@@ -88,6 +88,3 @@ error1:
 	add a0, a0, t1
 errorend:
 	beq x0, x0, errorend
-	
-
-
