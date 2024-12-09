@@ -1,4 +1,4 @@
-module PCDecode #(
+module PCD #(
     parameter WIDTH = 32
 
 )(

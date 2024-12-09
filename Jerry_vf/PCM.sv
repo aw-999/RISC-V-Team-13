@@ -1,4 +1,4 @@
-module PCMemory #(
+module PCM #(
     parameter WIDTH = 32
 )(
 

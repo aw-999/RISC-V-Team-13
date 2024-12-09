@@ -1,4 +1,4 @@
-module PCExecute #(
+module PCE #(
     parameter WIDTH = 32
 )(
 

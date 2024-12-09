@@ -1,4 +1,4 @@
-module PCFetch #(
+module PCF #(
     parameter WIDTH = 32,
 )(
     input logic clk,
