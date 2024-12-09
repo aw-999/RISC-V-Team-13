@@ -4,6 +4,45 @@ module PL_Main #(WAD = 5, W = 32)(
     output logic [W-1:0] A0
 );
 
+//pipeline fetch
+logic [DATA_WIDTH-1:0] PCPlus4F;
+logic [DATA_WIDTH-1:0] InstrD;
+logic [DATA_WIDTH-1:0] PCD;
+logic [DATA_WIDTH-1:0] PCPlus4D;
+
+//pipeline Decode
+logic [DATA_WIDTH-1:0] RD1D, RD2D, PCD, ImmExtD, PCPlus4D;
+logic [4:0] RdD;
+logic [1:0] ResultSrcD;
+logic MemWriteD, JumpD, BranchD;
+logic [2:0] ALUCtrlD;
+logic ALUSrcD;
+logic [4:0] Rs1D;
+logic [4:0] Rs2D;
+
+//pipeline execute
+logic [1:0] ResultSrcE;
+logic MemWriteE, JumpE, BranchE;
+logic [2:0] ALUCtrlE;
+logic ALUSrcE;
+logic [DATA_WIDTH-1:0] RD1E, RD2E, PCE, ImmExtE, PCPlus4E;
+logic [4:0] RdE;
+logic [4:0] Rs1E;
+logic [4:0] Rs2E;
+
+//pipeline memory
+logic RegWriteM;
+logic [1:0] ResultSrcM;
+logic MemWriteM;
+logic [DATA_WIDTH-1:0] ALUResultM, WriteDataM, PCPlus4M;
+logic [4:0] RdM;
+
+//write back
+logic RegWriteW;
+logic [1:0] ResultSrcW;
+logic [DATA_WIDTH-1:0] ReadDataW, ALUResultW, PCPlus4W;
+logic [4:0] RdW;
+
 HazardUnit HazardUnit (
 
     //.branchD (branchD), //need to fix dont need
@@ -86,24 +125,31 @@ PCF PCFetch(
     .PCPlus4D (PCPlus4D)
 );
 
-ControlUnit ControlUnit (
-    .Opcode(instrD[6:0]),
-    
-    .RegWrite(RegWrite),
-    .DMwrite(DMwrite),
-    .ALUop(ALUop),
-    .ALUsrc(ALUsrc),
-    .IMMctrl(IMMctrl),
-    .ResultSrc(ResultSrc)
+//using Arjuns and Doms
+PL_ControlUnit PL_ControlUnit (
+
+    .opcode (instrD[6:0]),
+    .ZeroFlag (ZeroFlag),
+    .NegativeFlag (NegativeFlag),
+    .UnsignedLess (UnsignedLess),
+
+    .ResultSrc (ResultSrc),
+    .MemWrite (MemWrite),
+    .ALUSrc (ALUSrc),
+    .ImmSrc (ImmSrc),
+    .RegWrite (RegWrite),
+    .ALUop (ALUop)
+
 );
 
-AluDecode AluDecode (
-    .func3(instrD[14:12]),
-    .ALUop(ALUop),
-    .func75(instrD[30]),
-    .op5(instrD[5]),
+//using Arjuns and Doms
+ALUDecode ALUDecode (
+    .funct3 (instrD[14:12]), 
+    .opcode5 (instrD[5]), 
+    .funct75 (instrD[31:25]),
+    .ALUop (ALUop),
 
-    .ALUctrl(ALUctrl)
+    .ALUCtrl (ALUCtrl)
 );
 
 RegisterFile M4 (
@@ -139,15 +185,10 @@ PCD PCDecode(
     //control unit
     .RegWriteD (RegWrite),
     .ResultSrcD (ResultSrc),
-    .MemWriteD (DMWrite),
+    .MemWriteD (MemWrite),
 
-    //need to implement these two
-    .JumpD (Jump),  
-    .BranchD (Branch), 
-
-    .ALUCtrlD (ALUctrl), 
-    .ALUSrcD (ALUsrc),
-    .PCSrcD (PCsrc), 
+    .ALUCtrlD (ALUCtrl), 
+    .ALUSrcD (ALUSrc),
 
     //for datamemory
     .funct3D (instrD[14:12]),
@@ -188,10 +229,14 @@ PCD PCDecode(
     .Rs2E (Rs2E)
 );
 
-PCSrc_Gate PCSrc_Gate (
-    .flag (flag),
-    .BranchE (BranchE),
-    .JumpE (JumpE),
+//using Arjuns and Doms
+PCSrc_gate PCSrc_gate (
+    .ZeroFlag (ZeroFlag),
+    .NegativeFlag (NegativeFlag),
+    .UnsignedLess (UnsignedLess),
+
+    .opcode (opcodeE),
+    .funct3 (funct3E),
 
     .PCSrcE (PCSrcE)
 );
@@ -233,14 +278,19 @@ Add_pc_imm Add_pc_imm (
     .PCaddIMM(PCaddIMM) //PCTargetE
 );
 
-Alu Alu (
-    .ALUctrl(ALUCtrlE),
-    .N1(SrcAE),
-    .N2(N2),
+//using Arjuns and Doms
+ALU ALU (
 
-    .DOutAlu(DOutAlu),
-    .flag(flag)
+    .ALUCtrl (ALUCtrlE),
+    .SrcA (SrcAE), 
+    .SrcB (N2), 
+
+    .ZeroFlag (ZeroFlag),
+    .NegativeFlag (NegativeFlag), 
+    .UnsignedLess (UnsignedLess),
+    .ALUResult (ALUResult)
 );
+
 
 PCE PCExecute (
     .clk (clk),
@@ -251,10 +301,11 @@ PCE PCExecute (
     .ResultSrcE (ResultSrcE),
     .MemWriteE (MemWriteE),
 
-    .ALUResultE (DOutAlu),   
+    .ALUResultE (ALUResult),   
     .WriteDataE (WriteDataE),     
     .RdE (RdE),               
     .PCPlus4E (PCPlus4E),   
+
     //for datamemory
     .funct3E (funct3E),
 
@@ -276,7 +327,7 @@ DataMemory DataMemory (
     .clk(clk),
     .AdDM(ALUResultM),
     .DMwrite(MemWriteM),
-    //if we do this im assuming need to pipeline instr[14:12] two more times
+    
     .func3(funct3M),
 
     .DInDM(WriteDataM),
