@@ -1,4 +1,4 @@
-module ram #(parameter WA = 32, WAM = 18, WB = 8, WD = 32)(
+module ram #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
     input logic clk,
     input logic [WA-1:0] Ad,
     input logic RamWrite,
