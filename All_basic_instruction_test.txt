@@ -1,0 +1,93 @@
+main:
+	addi a2, x0, 252
+	li a3, -24173257
+	li a4, 82700
+	
+	jal ra, arithmetic_test
+	jal ra, datamemory_test
+	jal ra, flag_test
+	li a0, 0xE2D
+	auipc t2, 1 # end
+	# (I choose not to simulate a program with instruction number over 0xfff)
+	beq x0, x0, error10
+
+
+arithmetic_test:
+	or t1, a3, a4
+	add t1, t1, a2
+	sub t1, t1, a2
+	and t1, a3, t1
+	xor t1, a4, t1
+	add t2, t2, t1
+	srli t2, t2, 2
+	slli t2, t2, 3
+	srai t1, t1, 2
+	add t1, t1, t2
+	li t3, 0xfd008800 # already calculated using python 
+	bne t1, t3, error1
+	slt t3, a3, a4 # z(-24173257) < z(82700), so t3 = 1
+	sltu t4, a3, a4 # u(-24173257) > u(82700), so t4 = 0
+	bge t4, t3, error2
+	ret
+	beq x0, x0, error3
+
+datamemory_test:
+	sw a2, 8(a4)
+	sh a2, 8(a4)
+	sb a2, 8(a4) # datamem[8:11]: 0xfcfc00fc
+	lw t1, 8(a4) # 0xfcfc00fc
+	lh t2, 8(a4) # 0xffffcfc
+	add t1, t2, t1 
+	lb t2, 8(a4) # 0xffffffc
+	add t1, t2, t1 
+	lhu t2, 8(a4) # 0x0000fcfc
+	add t1, t2, t1
+	lbu t2, 8(a4) # 0x000000fc
+	add t1, t2, t1
+	li t3, 0xfcfcfbec
+	bne t1, t3, error4
+	ret
+
+
+flag_test:
+	li t1, 0x90000000
+	li t2, 0x70000000
+	# t1 = - t2, because we use minus to get flags
+	blt t2, t1, error6
+	bltu t1, t2, error7
+	bge t1, t2, error8
+	bgeu t2, t1, error9
+	li t1, 0xe0000000
+	li t2, 0x10000000
+	bltu t1, t2, error7
+	bgeu t2, t1, error9
+	ret
+
+error10:
+	addi a0, x0, 1
+error9:
+	addi a0, a0, 1
+error8:
+	addi a0, a0, 1
+error7:
+	addi a0, a0, 1
+error6:
+	addi a0, a0, 1
+error5:
+	addi a0, a0, 1
+error4:
+	addi a0, a0, 1
+error3:
+	addi a0, a0, 1
+error2:
+	addi a0, a0, 1
+error1:
+	addi a0, a0, 1
+
+	li t1, 0xEFF0F000
+	add a0, a0, t1
+errorend:
+	beq x0, x0, errorend
+	
+
+
