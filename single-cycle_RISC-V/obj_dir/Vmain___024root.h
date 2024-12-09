@@ -19,10 +19,6 @@ class alignas(VL_CACHE_LINE_BYTES) VMain___024root final : public VerilatedModul
     CData/*1:0*/ Main__DOT__PCsrc;
     CData/*0:0*/ Main__DOT__ALUsrc;
     CData/*1:0*/ Main__DOT__ResultSrc;
-    CData/*6:0*/ Main__DOT__Opcode;
-    CData/*2:0*/ Main__DOT__func3;
-    CData/*0:0*/ Main__DOT__func75;
-    CData/*0:0*/ Main__DOT__op5;
     CData/*2:0*/ Main__DOT__IMMctrl;
     CData/*1:0*/ Main__DOT__ALUop;
     CData/*3:0*/ Main__DOT__ALUctrl;

@@ -28,12 +28,6 @@ logic [1:0] PCsrc;
 logic ALUsrc;
 logic [1:0] ResultSrc;
 
-// control
-logic [6:0] Opcode;
-logic [2:0] func3;
-logic func75;
-logic op5;
-
 // alu
 logic [2:0] IMMctrl;
 logic [1:0] ALUop;
@@ -55,8 +49,8 @@ Alu A1 (
 AluDecode C1 (
     .func3(instr[14:12]),
     .ALUop(ALUop),
-    .func75(func75),
-    .op5(op5),
+    .func75(instr[30]),
+    .op5(instr[5]),
     .ALUctrl(ALUctrl)
 );
 

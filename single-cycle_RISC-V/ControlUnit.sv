@@ -23,6 +23,8 @@ xori    Rd, Ra, IMM12   |   0010011 100     x
 srli    Rd, Ra, IMM12   |   0010011 101     x
 ori     Rd, Ra, IMM12   |   0010011 110     x
 andi    Rd, Ra, IMM12   |   0010011 111     x
+sltui   Rd, Ra, Rb      |   0110011 011     x     
+srai    Rd, Ra, Rb      |   0110011 101     x
 
 add     Rd, Ra, Rb      |   0110011 000     0000000 
 sub     Rd, Ra, Rb      |   0110011 000     0100000
@@ -32,8 +34,15 @@ xor     Rd, Ra, Rb      |   0110011 100     0000000
 srl     Rd, Ra, Rb      |   0110011 101     0000000     logic shift right
 or      Rd, Ra, Rb      |   0110011 110     0000000
 and     Rd, Ra, Rb      |   0110011 111     0000000
+sltu    Rd, Ra, Rb      |   0110011 011     0000000     
+sra     Rd, Ra, Rb      |   0110011 101     0100000     arithmetic shift left
 
 lui     Rd, IMM20       |   0110111 x       x
+auipc   Rd, IMM         |   0010111 x       x
+
+00e6ae33 0000 000 (0 1110) (0110 1) 010 (1110 0) 011 0011
+00008067 0000 000 (0 0000) (0000 1) 000 (0000 0) 110 0111
+00001397 0000 0000 0000 0000 0001 0011 1 001 0111
 
 bne     Rd, Ra, IMM     |   1100011 001     x
 beq     Rd, Ra, IMM     |   1100011 000     x
@@ -55,11 +64,8 @@ lhu     Rd, IMM12(Ra)   |   0000011 101     x
 jal     Rd, IMM20       |   1101111 x       x
 jalr    Rd, Ra, IMM12   |   1100111 000     x           actually belongs to i-type
 
-under-testing instructions:
 
-sltu    Rd, Ra, Rb      |   0110011 011     0000000     
-sra     Rd, Ra, Rb      |   0110011 101     0100000     arithmetic shift left
-auipc   Rd, IMM         |   
+ 
 
 */
 
@@ -151,19 +157,19 @@ always_comb begin
     // PCsrc to datapath2
     case (Opcode)
         7'b1101111: PCsrc = 2'b01; // j-type
-        7'b0010111: PCsrc = 2'b10; // auipc
+        7'b0010111: PCsrc = 2'b01; // auipc
         7'b1100111: PCsrc = 2'b10; // jalr
         7'b1100011: PCsrc = 2'b11; // b-type
         default: PCsrc = 2'b00;
     endcase
 
-    // case ({PCsrc, flag}): branch: 111; jump: 010; auipc, jalr: 100; common: 000, 110
+    // case ({PCsrc, flag}): branch: 111; jump: 010; auipc, jalr: 100; common: 000, 110 (branch, flag = 9), 001 (consider slt and sltu)
 
     // PCsrc'[1] = flag OR P2 AND NOT P1
     // PCsrc'[0] = flag OR P1 AND NOT P2
     
 
-    PCsrc = {{flag || (~PCsrc[0] && PCsrc[1])}, {flag || (PCsrc[0] && ~PCsrc[1])}}; 
+    PCsrc = {{(flag && PCsrc[0]) || (~PCsrc[0] && PCsrc[1])}, {(flag && PCsrc[1]) || (PCsrc[0] && ~PCsrc[1])}}; 
 end
 
 endmodule

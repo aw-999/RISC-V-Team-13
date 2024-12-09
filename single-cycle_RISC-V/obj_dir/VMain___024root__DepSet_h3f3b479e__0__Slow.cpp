@@ -33,7 +33,7 @@ VL_ATTR_COLD void VMain___024root___eval_initial__TOP(VMain___024root* vlSelf) {
     auto &vlSelfRef = std::ref(*vlSelf).get();
     // Init
     VlWide<4>/*127:0*/ __Vtemp_1;
-    VlWide<3>/*95:0*/ __Vtemp_2;
+    VlWide<4>/*127:0*/ __Vtemp_2;
     // Body
     __Vtemp_1[0U] = 0x2e6d656dU;
     __Vtemp_1[1U] = 0x7369616eU;
@@ -44,8 +44,9 @@ VL_ATTR_COLD void VMain___024root___eval_initial__TOP(VMain___024root* vlSelf) {
                  , 0x10000U, ~0ULL);
     __Vtemp_2[0U] = 0x2e6d656dU;
     __Vtemp_2[1U] = 0x74657374U;
-    __Vtemp_2[2U] = 0x5aU;
-    VL_READMEM_N(true, 8, 65536, 0, VL_CVT_PACK_STR_NW(3, __Vtemp_2)
+    __Vtemp_2[2U] = 0x616c6c5fU;
+    __Vtemp_2[3U] = 0x5aU;
+    VL_READMEM_N(true, 8, 65536, 0, VL_CVT_PACK_STR_NW(4, __Vtemp_2)
                  ,  &(vlSelfRef.Main__DOT__M2__DOT__RomArray)
                  , 0, ~0ULL);
 }
@@ -382,7 +383,7 @@ VL_ATTR_COLD void VMain___024root___stl_sequent__TOP__0(VMain___024root* vlSelf)
                     if ((1U & (IData)(vlSelfRef.Main__DOT____Vcellinp__C2__Opcode))) {
                         vlSelfRef.Main__DOT__ALUop = 3U;
                         vlSelfRef.Main__DOT__IMMctrl = 3U;
-                        vlSelfRef.Main__DOT__PCsrc = 2U;
+                        vlSelfRef.Main__DOT__PCsrc = 1U;
                     } else {
                         vlSelfRef.Main__DOT__ALUop = 0U;
                         vlSelfRef.Main__DOT__IMMctrl = 0U;
@@ -448,10 +449,12 @@ VL_ATTR_COLD void VMain___024root___stl_sequent__TOP__0(VMain___024root* vlSelf)
     vlSelfRef.Main__DOT__instr = ((vlSelfRef.Main__DOT__M2__DOT__RomArray
                                    [(0xffffU & vlSelfRef.Main__DOT__PC)] 
                                    << 0x18U) | vlSelfRef.__VdfgRegularize_h6171c202_0_1);
-    __Vtableidx1 = (((IData)(vlSelfRef.Main__DOT__func75) 
-                     << 6U) | (((IData)(vlSelfRef.Main__DOT__op5) 
-                                << 5U) | (((IData)(vlSelfRef.Main__DOT____Vcellinp__C1__func3) 
-                                           << 2U) | (IData)(vlSelfRef.Main__DOT__ALUop))));
+    __Vtableidx1 = ((0x40U & vlSelfRef.Main__DOT__M2__DOT__RomArray
+                     [(0xffffU & vlSelfRef.Main__DOT__PC)]) 
+                    | ((0x20U & vlSelfRef.Main__DOT__M2__DOT__RomArray
+                        [(0xffffU & ((IData)(3U) + vlSelfRef.Main__DOT__PC))]) 
+                       | (((IData)(vlSelfRef.Main__DOT____Vcellinp__C1__func3) 
+                           << 2U) | (IData)(vlSelfRef.Main__DOT__ALUop))));
     vlSelfRef.Main__DOT__ALUctrl = VMain__ConstPool__TABLE_hf299bc9d_0
         [__Vtableidx1];
     vlSelfRef.Main__DOT__DOutReg2 = vlSelfRef.Main__DOT__M4__DOT__RegArray
@@ -548,13 +551,21 @@ VL_ATTR_COLD void VMain___024root___stl_sequent__TOP__0(VMain___024root* vlSelf)
                                              ? ((1U 
                                                  & (IData)(vlSelfRef.Main__DOT__ALUctrl))
                                                  ? 
-                                                VL_SHIFTRS_III(32,32,32, vlSelfRef.Main__DOT__DOutReg1, vlSelfRef.Main__DOT__N2)
+                                                VL_SHIFTRS_III(32,32,5, vlSelfRef.Main__DOT__DOutReg1, 
+                                                               (0x1fU 
+                                                                & vlSelfRef.Main__DOT__N2))
                                                  : 
-                                                VL_SHIFTR_III(32,32,32, vlSelfRef.Main__DOT__DOutReg1, vlSelfRef.Main__DOT__N2))
+                                                (vlSelfRef.Main__DOT__DOutReg1 
+                                                 >> 
+                                                 (0x1fU 
+                                                  & vlSelfRef.Main__DOT__N2)))
                                              : ((1U 
                                                  & (IData)(vlSelfRef.Main__DOT__ALUctrl))
                                                  ? 
-                                                VL_SHIFTL_III(32,32,32, vlSelfRef.Main__DOT__DOutReg1, vlSelfRef.Main__DOT__N2)
+                                                (vlSelfRef.Main__DOT__DOutReg1 
+                                                 << 
+                                                 (0x1fU 
+                                                  & vlSelfRef.Main__DOT__N2))
                                                  : 
                                                 (vlSelfRef.Main__DOT__DOutReg1 
                                                  ^ vlSelfRef.Main__DOT__N2)))
@@ -577,10 +588,22 @@ VL_ATTR_COLD void VMain___024root___stl_sequent__TOP__0(VMain___024root* vlSelf)
     vlSelfRef.Main__DOT__A1__DOT__flagS = (vlSelfRef.Main__DOT__DOutAlu 
                                            >> 0x1fU);
     vlSelfRef.Main__DOT__A1__DOT__flagZ = (0U == vlSelfRef.Main__DOT__DOutAlu);
-    vlSelfRef.Main__DOT__A1__DOT__flagV = ((vlSelfRef.Main__DOT__DOutReg1 
-                                            >> 0x1fU) 
-                                           & (~ (vlSelfRef.Main__DOT__N2 
-                                                 >> 0x1fU)));
+    vlSelfRef.Main__DOT__A1__DOT__flagV = (1U & (((
+                                                   (~ 
+                                                    (vlSelfRef.Main__DOT__DOutReg1 
+                                                     >> 0x1fU)) 
+                                                   & (vlSelfRef.Main__DOT__N2 
+                                                      >> 0x1fU)) 
+                                                  & (vlSelfRef.Main__DOT__DOutAlu 
+                                                     >> 0x1fU)) 
+                                                 | (((vlSelfRef.Main__DOT__DOutReg1 
+                                                      >> 0x1fU) 
+                                                     & (~ 
+                                                        (vlSelfRef.Main__DOT__N2 
+                                                         >> 0x1fU))) 
+                                                    & (~ 
+                                                       (vlSelfRef.Main__DOT__DOutAlu 
+                                                        >> 0x1fU)))));
     vlSelfRef.Main__DOT__flag = ((1U & ((IData)(vlSelfRef.Main__DOT__ALUctrl) 
                                         >> 3U)) && 
                                  (1U & ((4U & (IData)(vlSelfRef.Main__DOT__ALUctrl))
@@ -611,11 +634,18 @@ VL_ATTR_COLD void VMain___024root___stl_sequent__TOP__0(VMain___024root* vlSelf)
          | (0xeU == (IData)(vlSelfRef.Main__DOT__ALUctrl)))) {
         vlSelfRef.Main__DOT__DOutAlu = vlSelfRef.Main__DOT__flag;
     }
-    vlSelfRef.Main__DOT__PCsrc = ((((IData)(vlSelfRef.Main__DOT__flag) 
-                                    | (2U == (IData)(vlSelfRef.Main__DOT__PCsrc))) 
-                                   << 1U) | ((IData)(vlSelfRef.Main__DOT__flag) 
-                                             | (1U 
-                                                == (IData)(vlSelfRef.Main__DOT__PCsrc))));
+    vlSelfRef.Main__DOT__PCsrc = ((2U & ((((IData)(vlSelfRef.Main__DOT__flag) 
+                                           & (IData)(vlSelfRef.Main__DOT__PCsrc)) 
+                                          | (IData)(
+                                                    (2U 
+                                                     == (IData)(vlSelfRef.Main__DOT__PCsrc)))) 
+                                         << 1U)) | 
+                                  (1U & (((IData)(vlSelfRef.Main__DOT__flag) 
+                                          & ((IData)(vlSelfRef.Main__DOT__PCsrc) 
+                                             >> 1U)) 
+                                         | (IData)(
+                                                   (1U 
+                                                    == (IData)(vlSelfRef.Main__DOT__PCsrc))))));
     vlSelfRef.Main__DOT__M1__DOT__Ad = (0xfffffU & vlSelfRef.Main__DOT__DOutAlu);
     vlSelfRef.Main__DOT__DOutDM = ((4U & (IData)(vlSelfRef.Main__DOT____Vcellinp__C1__func3))
                                     ? ((2U & (IData)(vlSelfRef.Main__DOT____Vcellinp__C1__func3))
@@ -797,10 +827,6 @@ VL_ATTR_COLD void VMain___024root___ctor_var_reset(VMain___024root* vlSelf) {
     vlSelf->Main__DOT__PCsrc = VL_RAND_RESET_I(2);
     vlSelf->Main__DOT__ALUsrc = VL_RAND_RESET_I(1);
     vlSelf->Main__DOT__ResultSrc = VL_RAND_RESET_I(2);
-    vlSelf->Main__DOT__Opcode = VL_RAND_RESET_I(7);
-    vlSelf->Main__DOT__func3 = VL_RAND_RESET_I(3);
-    vlSelf->Main__DOT__func75 = VL_RAND_RESET_I(1);
-    vlSelf->Main__DOT__op5 = VL_RAND_RESET_I(1);
     vlSelf->Main__DOT__IMMctrl = VL_RAND_RESET_I(3);
     vlSelf->Main__DOT__ALUop = VL_RAND_RESET_I(2);
     vlSelf->Main__DOT__ALUctrl = VL_RAND_RESET_I(4);
