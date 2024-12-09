@@ -185,7 +185,7 @@ PL_ControlUnit PL_ControlUnit (
 ALUDecode ALUDecode (
     .funct3 (instrD[14:12]), 
     .opcode5 (instrD[5]), 
-    .funct75 (instrD[31:25]),
+    .funct75 (instrD[30]),
     .ALUop (ALUop),
 
     .ALUCtrl (ALUCtrl)
