@@ -214,7 +214,7 @@ TEST_F(ControlUnitTest, BranchBgeNegativeFlag) {
 
 // Test: bltu (branch if less than, unsigned comparison)
 TEST_F(ControlUnitTest, BranchBltuUnsignedLess) {
-    dut->opcode = 0b1100011; // Branch opcode
+    dut->opcoade = 0b1100011; // Branch opcode
     dut->funct3 = 0b110; // bltu
     dut->UnsignedLess = 1; // UnsignedLess flag set (less than)
     evaluate();
