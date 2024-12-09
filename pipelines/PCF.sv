@@ -3,8 +3,8 @@ module PCFetch #(
 )(
     input logic clk,
     input logic rst,
-    input logic flush,
-    input logic StallF,
+    input logic flushD,
+    input logic StallD,
 
     input logic [WIDTH - 1:0] InstrF,
     input logic [WIDTH - 1:0] PCF,
@@ -25,13 +25,13 @@ always_ff @(posedge clk or posedge rst) begin
         PCPlus4D <= 0;
     end
 
-    else if (flush) begin 
+    else if (flushD) begin 
         InstrD <= {27{1'b0}, 5'b10011};
         PCD <= PCF;
         PCPlus4D <= PCPlus4F;
     end
 
-    else if (StallF == 0) begin
+    else if (StallD == 0) begin
         InstrD <= InstrF;
         PCD <= PCF;
         PCPlus4D <= PCPlus4F;

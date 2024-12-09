@@ -5,6 +5,7 @@ module PCDecode #(
 
     input logic clk,
     input logic rst,
+    
 
     //input logic [WIDTH-1:0] instr,
 
@@ -52,7 +53,7 @@ module PCDecode #(
     //Hazard
     input logic [4:0] Rs1D,
     input logic [4:0] Rs2D,
-    input logic stallD,
+    input logic flush,
 
     output logic [4:0] Rs1E,
     output logic [4:0] Rs2E
@@ -61,7 +62,7 @@ module PCDecode #(
 
 always_ff @(posedge clk) begin
 
-    if (rst) begin
+    if (flush) begin
         //control
         RegWriteE <= 0;
         ResultSrcE <= 0;
@@ -88,7 +89,7 @@ always_ff @(posedge clk) begin
         Rs2E <= 0;
 
     end
-    else if (stallD == 0) begin
+    else begin
         //control
         RegWriteE <= RegWriteD;
         ResultSrcE <= ResulSrcD;
