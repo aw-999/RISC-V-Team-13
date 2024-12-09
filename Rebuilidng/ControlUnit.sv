@@ -157,21 +157,7 @@ module ControlUnit (
         7'b1101111: PCSrc = 2'b01;  //jal - might need to look into that later?
         default: PCSrc = 2'b00;
     endcase
-
-
-
 end
-
-
-
-
-
-
-
-    
-
-
-
 
 
 endmodule
