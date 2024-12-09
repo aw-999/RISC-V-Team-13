@@ -1,82 +1,120 @@
-module PL_Main #(WAD = 5, W = 32)(
+module PL_Main #(parameter WAD = 5, parameter DATA_WIDTH = 32)(
     input logic clk,
     input logic rst,
-    output logic [W-1:0] A0
+    output logic [DATA_WIDTH-1:0] A0
 );
 
-//pipeline fetch
-logic [DATA_WIDTH-1:0] PCPlus4F;
+//hazardUnit
+logic [1:0] ForwardAE, ForwardBE;
+logic stallF, stallD, flushD, flushE;
+
+//Mux_PCsrc
+logic [DATA_WIDTH-1:0] PCN;
+
+//PcRegister
+logic [DATA_WIDTH-1:0] PC;
+
+//incrementby4
+logic [DATA_WIDTH-1:0] PCadd4;
+
+//instructionmemory 
+logic [DATA_WIDTH-1:0] instr;
+
+//PCFetch
+
 logic [DATA_WIDTH-1:0] InstrD;
 logic [DATA_WIDTH-1:0] PCD;
 logic [DATA_WIDTH-1:0] PCPlus4D;
 
-//pipeline Decode
-logic [DATA_WIDTH-1:0] RD1D, RD2D, PCD, ImmExtD, PCPlus4D;
-logic [4:0] RdD;
-logic [1:0] ResultSrcD;
-logic MemWriteD, JumpD, BranchD;
-logic [2:0] ALUCtrlD;
-logic ALUSrcD;
-logic [4:0] Rs1D;
-logic [4:0] Rs2D;
 
-//pipeline execute
+//Pl_controlunit
+logic [1:0] ResultSrc;
+logic MemWrite, RegWrite, ALUSrc;
+logic [2:0] ImmSrc, ALUop;
+
+//aludecode
+logic [3:0] ALUCtrl;
+
+//RegisterFile
+logic [DATA_WIDTH-1:0] DOutReg1, DOutReg2;
+
+//extension
+logic [DATA_WIDTH-1:0] IMM;
+
+//pipeline Decode
+logic RegWriteE;
 logic [1:0] ResultSrcE;
-logic MemWriteE, JumpE, BranchE;
+logic MemWriteE;
 logic [2:0] ALUCtrlE;
 logic ALUSrcE;
-logic [DATA_WIDTH-1:0] RD1E, RD2E, PCE, ImmExtE, PCPlus4E;
-logic [4:0] RdE;
-logic [4:0] Rs1E;
-logic [4:0] Rs2E;
+logic [2:0] funct3E;
+logic [6:0] opcodeE;
 
-//pipeline memory
+
+//PCSrc_gate
+logic [1:0] PCSrcE;
+
+//ForwardAE_mux
+logic [DATA_WIDTH-1:0] SrcAE;
+
+//ForwardBE_mux
+logic [DATA_WIDTH-1:0] WriteDataE;
+
+//MUX_ALUsrc
+logic [DATA_WIDTH-1:0] SrcBE;
+
+//add_pc_imm
+logic [DATA_WIDTH-1:0] PCaddIMM;
+
+//ALU
+logic ZeroFlag, NegativeFlag, UnsignedLess;
+logic [DATA_WIDTH-1:0] ALUResult;
+
+//pipeline execute
 logic RegWriteM;
 logic [1:0] ResultSrcM;
 logic MemWriteM;
 logic [DATA_WIDTH-1:0] ALUResultM, WriteDataM, PCPlus4M;
 logic [4:0] RdM;
+logic [2:0] funct3M;
 
-//write back
+//DataMemory
+logic [DATA_WIDTH-1:0] DOutM;
+
+
+//PCMemory
 logic RegWriteW;
 logic [1:0] ResultSrcW;
 logic [DATA_WIDTH-1:0] ReadDataW, ALUResultW, PCPlus4W;
 logic [4:0] RdW;
 
+//MUX_Resultsrc
+logic [DATA_WIDTH-1:0] DInReg; //resultW
+
 HazardUnit HazardUnit (
 
-    //.branchD (branchD), //need to fix dont need
-    //.flag (ZeroE) //need to fix dont need
-    //.flush (PCsrc[0]) //need to fix re added it as pcsrcE
-
+    .RdE (RdE),
     .RdM (RdM),
     .RdW (RdW),
     .RegWriteM (RegWriteM),
     .RegWriteW (RegWriteW),
-
-    //need to add
-    .RdE (RdE),
-
     .ResultSrcE (ResultSrcE[0]),
     .PCSrcE (PCSrcE[0]),
 
     .Rs1D (instrD[19:15]),
     .Rs2D (instrD[24:20]),
-
     .Rs1E (Rs1E),
-    .Rs2E (Rs1E),
+    .Rs2E (Rs2E),
 
     //outputs
     .ForwardAE (ForwardAE),
-    .ForwardBE (ForwardAE),
+    .ForwardBE (ForwardBE),
 
-    //need to fix
     .stallF (stallF), //for PCreg
     .stallD (stallD), //for PCFetch
     .flushD (flushD), //for PCFetch
     .flushE (flushE), //for PCDecode
     
-
 );
 
 MUX_PCsrc MUX_PCsrc (
@@ -91,8 +129,9 @@ MUX_PCsrc MUX_PCsrc (
 PcRegister PcRegister (
     .clk(clk),
     .rst(rst),
-    .PC(PC),
-    .PCN(PCN)
+    .PCN (PCN),
+
+    .PC (PC)
 );
 
 InstructionMemory InstructionMemory (
@@ -169,8 +208,8 @@ RegisterFile M4 (
 );
 
 Extension Extension (
-    .IMMctrl(IMMctrl),
-    .instr(instr),
+    .IMMctrl (ImmSrc),
+    .instr(instrD),
     .IMM(IMM)
 );
 
@@ -186,10 +225,12 @@ PCD PCDecode(
     .RegWriteD (RegWrite),
     .ResultSrcD (ResultSrc),
     .MemWriteD (MemWrite),
+    .opcodeD (instrD[6:0]),
 
     .ALUCtrlD (ALUCtrl), 
     .ALUSrcD (ALUSrc),
 
+    opcodeE (opcodeE),
     //for datamemory
     .funct3D (instrD[14:12]),
 
@@ -209,12 +250,8 @@ PCD PCDecode(
     .RegWriteE (RegWriteE),
     .ResultSrcE (ResultSrcE),
     .MemWriteE (MemWriteE),
-    .JumpE (JumpE), 
-    .BranchE (BranchE),
     .ALUCtrlE (ALUCtrlE),
     .ALUSrcE (ALUSrcE),
-    .PCSrcE (PCSrcE), 
-
     
     //for datamemory
     .funct3E (funct3E),
@@ -228,7 +265,6 @@ PCD PCDecode(
     .Rs1E (Rs1E),
     .Rs2E (Rs2E)
 );
-
 //using Arjuns and Doms
 PCSrc_gate PCSrc_gate (
     .ZeroFlag (ZeroFlag),
@@ -245,7 +281,7 @@ PCSrc_gate PCSrc_gate (
 ForwardAE_mux ForwardAE_mux (
 
     .RD1E (RD1E),
-    .ResultW (ResultW),
+    .ResultW (DInReg),
     .ALUResultM (ALUResultM),
     .ForwardAE (ForwardAE),
 
@@ -256,7 +292,7 @@ ForwardAE_mux ForwardAE_mux (
 ForwardBE_mux ForwardBE_mux (
 
     .RD2E (RD2E),
-    .ResultW (ResultW),
+    .ResultW (DInReg),
     .ALUResultM (ALUResultM),
     .ForwardBE (ForwardBE),
 
@@ -266,9 +302,9 @@ ForwardBE_mux ForwardBE_mux (
 MUX_ALUsrc MUX_ALUsrc (
     .DOutReg2(WriteDataE),
     .IMM(IMM),
-    .ALUsrc(ALUsrc),
+    .ALUsrc(ALUsrcE),
 
-    .N2(N2)//SrcBE
+    .N2(SrcBE)
 );
 
 //adding immedeiate
@@ -283,7 +319,7 @@ ALU ALU (
 
     .ALUCtrl (ALUCtrlE),
     .SrcA (SrcAE), 
-    .SrcB (N2), 
+    .SrcB (SrcBE), 
 
     .ZeroFlag (ZeroFlag),
     .NegativeFlag (NegativeFlag), 

@@ -1,4 +1,4 @@
-module DataMemory #(parameter WA = 32, WAM = 20, WB = 8, WD = 32)(
+module DataMemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
     input logic clk,
     input logic [WA-1:0] ALUResult, // aluresult formerly Ad
     input logic MemWrite, 
@@ -17,7 +17,7 @@ initial begin
 end;
 
 always_comb begin 
-    AdM = ALUResult[WAM-1:0];
+    AdM = ALUResult[16:0];
     case (funct3) 
         3'b000: ReadData = {{24{RamArray[AdM][WB-1]}},RamArray[AdM]}; // lb
         3'b001: ReadData = {{16{RamArray[AdM][WB-1]}},RamArray[AdM], RamArray[AdM+1]}; // lh
