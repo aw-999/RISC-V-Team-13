@@ -44,7 +44,8 @@ MUX_PCsrc MUX_PCsrc (
     .PCadd4(PCadd4),
     .PCaddIMM(PCaddIMM),
     .DOutAlu(DOutAlu),
-    .PCsrc(PCsrc),
+    .PCsrc(PCsrcE),
+
     .PCN(PCN)
 );
 
@@ -87,13 +88,12 @@ PCF PCFetch(
 
 ControlUnit ControlUnit (
     .Opcode(instrD[6:0]),
-    .flag(flag), //zeroflag stuff
+    
     .RegWrite(RegWrite),
     .DMwrite(DMwrite),
     .ALUop(ALUop),
     .ALUsrc(ALUsrc),
     .IMMctrl(IMMctrl),
-    .PCsrc(PCsrc), //will need to remove and make separate
     .ResultSrc(ResultSrc)
 );
 
@@ -134,7 +134,6 @@ PCD PCDecode(
     .clk (clk),
     .rst (rst),
 
-    //need to implement
     .flushE (flushE),
 
     //control unit
@@ -150,9 +149,8 @@ PCD PCDecode(
     .ALUSrcD (ALUsrc),
     .PCSrcD (PCsrc), 
 
-
-    // .opcodeD (instr[6:0]),
-    // .funct3D (instr[14:12]),
+    //for datamemory
+    .funct3D (instrD[14:12]),
 
     //data
     .RD1D (DOutReg1),   
@@ -176,8 +174,9 @@ PCD PCDecode(
     .ALUSrcE (ALUSrcE),
     .PCSrcE (PCSrcE), 
 
-    // .opcodeE (opcodeE),
-    // .funct3E (funct3E),
+    
+    //for datamemory
+    .funct3E (funct3E),
     
     .RD1E (RD1E),
     .RD2E (RD2E),
@@ -190,7 +189,11 @@ PCD PCDecode(
 );
 
 PCSrc_Gate PCSrc_Gate (
-    //need to implement
+    .flag (flag),
+    .BranchE (BranchE),
+    .JumpE (JumpE),
+
+    .PCSrcE (PCSrcE)
 );
 
 //hazard mux for SrcAE
@@ -252,6 +255,8 @@ PCE PCExecute (
     .WriteDataE (WriteDataE),     
     .RdE (RdE),               
     .PCPlus4E (PCPlus4E),   
+    //for datamemory
+    .funct3E (funct3E),
 
     .RegWriteM (RegWriteM),
     .ResultSrcM (ResultSrcM),
@@ -261,6 +266,10 @@ PCE PCExecute (
     .WriteDataM (WriteDataM),
     .RdM (RdM),
     .PCPlus4M (PCPlus4M)
+
+    //for datamemory
+    .funct3M (funct3M),
+
 );
 
 DataMemory DataMemory (
@@ -268,7 +277,7 @@ DataMemory DataMemory (
     .AdDM(ALUResultM),
     .DMwrite(MemWriteM),
     //if we do this im assuming need to pipeline instr[14:12] two more times
-    .func3(instr[14:12]),
+    .func3(funct3M),
 
     .DInDM(WriteDataM),
 
