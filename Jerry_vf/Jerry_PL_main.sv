@@ -113,7 +113,7 @@ HazardUnit HazardUnit (
     .stallF (stallF), //for PCreg
     .stallD (stallD), //for PCFetch
     .flushD (flushD), //for PCFetch
-    .flushE (flushE), //for PCDecode
+    .flushE (flushE) //for PCDecode
     
 );
 
@@ -355,7 +355,7 @@ PCE PCExecute (
     .PCPlus4M (PCPlus4M)
 
     //for datamemory
-    .funct3M (funct3M),
+    .funct3M (funct3M)
 
 );
 
@@ -363,9 +363,7 @@ DataMemory DataMemory (
     .clk(clk),
     .AdDM(ALUResultM),
     .DMwrite(MemWriteM),
-    
     .func3(funct3M),
-
     .DInDM(WriteDataM),
 
     .DOutDM(DOutDM)
@@ -396,7 +394,6 @@ MUX_Resultsrc MUX_Resultsrc (
     .DOutDM(ReadDataW),
     .PCadd4(PCPlus4W),
 
-    //why is this here when you also do the same in pcreg?
     .PCaddIMM(PCaddIMM),
 
     .ResultSrc(ResultSrcW),
