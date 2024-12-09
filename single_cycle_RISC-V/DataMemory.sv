@@ -13,7 +13,7 @@ logic [WAM-1:0] AdM; // reduced in size, 2**32 is too large to simulate
 logic [WD-1:0] show; // used for testing
 
 initial begin
-    $readmemh("gaussian.mem", RamArray, 20'h10000);
+    $readmemh("program.hex", RamArray);
 end;
 
 always_comb begin 
@@ -43,7 +43,8 @@ always_ff@(posedge clk)
             RamArray[AdM] <= WriteData[WD-17:WD-24];
             RamArray[AdM+1] <= WriteData[WD-25:0];
         end
-        else if (funct3[1:0] == 2'b00) RamArray[AdM] < WriteData[WD-25:0];
+        else if (funct3[1:0] == 2'b00) 
+            RamArray[AdM] <= WriteData[WD-25:0];
     end
 
 assign show = {RamArray[20'h10000], RamArray[20'h10001], RamArray[20'h10002], RamArray[20'h10003]};

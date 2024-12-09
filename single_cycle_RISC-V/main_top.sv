@@ -1,9 +1,38 @@
-module Main_Top #(
+module main_top #(
     parameter DATA_WIDTH = 32
 )(
     input logic clk,
     input logic rst,
-    output logic [DATA_WIDTH-1:0] Result
+    output logic [DATA_WIDTH-1:0] Result,
+    output logic [DATA_WIDTH-1:0] a0,
+    output logic [DATA_WIDTH-1:0] a1,
+    output logic [DATA_WIDTH-1:0] a2,
+    output logic [DATA_WIDTH-1:0] a3,
+    output logic [DATA_WIDTH-1:0] a4,
+    output logic [DATA_WIDTH-1:0] a5,
+    output logic [DATA_WIDTH-1:0] a6,
+    output logic [DATA_WIDTH-1:0] a7,
+
+    output logic [DATA_WIDTH-1:0] s0,
+    output logic [DATA_WIDTH-1:0] s1,
+    output logic [DATA_WIDTH-1:0] s2,
+    output logic [DATA_WIDTH-1:0] s3,
+    output logic [DATA_WIDTH-1:0] s4,
+    output logic [DATA_WIDTH-1:0] s5,
+    output logic [DATA_WIDTH-1:0] s6,
+    output logic [DATA_WIDTH-1:0] s7,
+    output logic [DATA_WIDTH-1:0] s8,
+    output logic [DATA_WIDTH-1:0] s9,
+    output logic [DATA_WIDTH-1:0] s10,
+    output logic [DATA_WIDTH-1:0] s11,
+
+    output logic [DATA_WIDTH-1:0] t0,
+    output logic [DATA_WIDTH-1:0] t1,
+    output logic [DATA_WIDTH-1:0] t2,
+    output logic [DATA_WIDTH-1:0] t3,
+    output logic [DATA_WIDTH-1:0] t4,
+    output logic [DATA_WIDTH-1:0] t5,
+    output logic [DATA_WIDTH-1:0] t6
 );
 
     // Internal signals
@@ -20,11 +49,16 @@ module Main_Top #(
     logic [DATA_WIDTH-1:0] DIn;       // Data to write to memory
 
     // Control signals
-    logic PCSrc, ResultSrc, MemWrite, ALUSrc, RegWrite;
-    logic [2:0] ImmSrc;
-    logic [1:0] ALUop;
+    logic MemWrite, ALUSrc, RegWrite;
+    logic [1:0] PCSrc;
+    logic [1:0] ResultSrc;
+    logic [2:0] IMMsrc;
+    logic [2:0] ALUop;
     logic [3:0] ALUCtrl;
     logic ZeroFlag, NegativeFlag, UnsignedLess;
+
+
+
 
     // Instruction Memory
     InstructionMemory InstructionMemory(
@@ -43,7 +77,7 @@ module Main_Top #(
         .PCTarget (PCTarget),
         .PCSrc (PCSrc), 
         .ALUResult (ALUResult),
-        .PCPlus4F (PCPlus4),
+        .PCPlus4 (PCPlus4),
 
         .PCN (PCN) // Next PC
     );
@@ -53,7 +87,6 @@ module Main_Top #(
         .clk (clk),
         .rst (rst),
         .PCN (PCN), // PC next
-
         .PC (PC)    // Current PC
     );
 
@@ -78,7 +111,7 @@ module Main_Top #(
         .ZeroFlag (ZeroFlag),
         .NegativeFlag (NegativeFlag),
         .UnsignedLess (UnsignedLess),
-
+        .funct3(instr[14:12]),
         .PCSrc (PCSrc),
         .ResultSrc (ResultSrc),
         .MemWrite (MemWrite),
@@ -108,7 +141,37 @@ module Main_Top #(
         .RegWrite (RegWrite),         // Write enable
         .RD1 (RD1),           // Read data 1
         .RD2 (RD2),           // Read data 2
-        .A0 (A0)
+
+        .a0 (a0),
+        .a1 (a1),
+        .a2 (a2),
+        .a3 (a3),
+        .a4 (a4),
+        .a5 (a5),
+        .a6 (a6),
+        .a7 (a7),
+
+        .s0 (s0),
+        .s1 (s1),
+        .s2 (s2),
+        .s3 (s3),
+        .s4 (s4),
+        .s5 (s5),
+        .s6 (s6),
+        .s7 (s7),
+        .s8 (s8),
+        .s9 (s9),
+        .s10 (s10),
+        .s11 (s11),
+
+        .t0 (t0),
+        .t1 (t1),
+        .t2 (t2),
+        .t3 (t3),
+        .t4 (t4),
+        .t5 (t5),
+        .t6 (t6)
+
     );
 
     // ALU
@@ -128,7 +191,7 @@ module Main_Top #(
     ALUDecode ALUDecode (
         .funct3 (instr[14:12]), 
         .opcode5 (instr[5]), 
-        .funct75 (instr[31:25]),
+        .funct75 (instr[30]),
         .ALUop (ALUop),
 
         .ALUCtrl (ALUCtrl)

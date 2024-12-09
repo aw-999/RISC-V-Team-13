@@ -1,12 +1,12 @@
-module InstructionMemory #(parameter WAD = 16, WD = 8)(
-    input logic [WAD-1: 0] AddrIn,
+module InstructionMemory #(parameter WAD = 16, WD = 8, DATA_WIDTH = 32)(
+    input logic [DATA_WIDTH-1: 0] AddrIn,
     output logic [WD*4-1: 0] instr //formerly Dout
 );
 
 logic [WD-1: 0] RomArr [2**WAD-1: 0]; // too large to simulate 2**32 rom so using 2*16
 
 initial begin
-    $readmemh("test.mem", RomArr);
+    $readmemh("program.hex", RomArr);
 end;
 
 assign instr = {RomArr[AddrIn], RomArr[AddrIn+1], RomArr[AddrIn+2], RomArr[AddrIn+3]};

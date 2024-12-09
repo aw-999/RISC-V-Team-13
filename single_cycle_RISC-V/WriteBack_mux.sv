@@ -6,7 +6,7 @@ module WriteBack_mux #(
     input logic ResultSrc,
 
     output logic [W-1:0] Result
-)
+);
 
 always_comb begin
     case(ResultSrc)

@@ -11,11 +11,11 @@ module SrcB_mux #(
 );
 
 always_comb begin 
-    if(ALUSrcE) begin
-        SrcBE = ImmExtE;
+    if(ALUSrc) begin
+        SrcB = ImmExt;
     end
     else begin 
-        SrcBE = RD2E;
+        SrcB = RD2;
     end
 end
 
