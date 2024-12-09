@@ -52,4 +52,28 @@ end
     
 endmodule
 
+/*  ALUdecode Logbook text:
+
+The input logics of ALUdecode and the way to decode them are listed below:
+
+ALUop indicates whether to use func3 and flags: 
+For load, s-type, j-type instructions, ALUop = 0, ALUctrl = 0, ALU simply adds 2 operand
+For u-type instruction, ALUop = 3, ALUctrl = 1, ALU simply equates the output to N2 (IMM), since no registers are involved.
+For most i-type and r-type instructions, we look at func3 but not flag value (except slt and sltu). ALUop = 2
+For b-type instructions, we look at both func3 and flag values.
+
+func3 determined what type of operation that is going to conduct, 
+according to the instruction list, I implement cases of {op, func3} and it set ALUctrl[3:0],
+which is the output linked to ALU to match each instructions to specific calculations. The following tables shows instructions, func3 and ALUctrl values.
+
+Generally, I use ALUctrl[3] to determine whether this is a flag operation, though there are some special ALUctrl values:
+For sub, ALUctrl is 0b1010, this is because sub is used to determine the values of the flags. 
+The ALUctrl of slt is exactly same as blt, and ALUctrl of sltu is exactly same as bltu. This is because they can be seen as the same operation.
+The difference is that slt/sltu write whether N1 < N2 to regfile, while their flag results are considered invalid in control unit (see Control Unit at page _)
+
+Additionally, operation pair (add, sub), pair (srl, srla), pair (srli and srai) are distinguised by func7[5] (func75); 
+since there is no subi, which is exactly the same as addi, Opcode[5] (op5) is used to indicate whether IMM is used.
+Therefore, I add extra case statements considering func75 and op5 to change ALUctrl.
+
+END */
 

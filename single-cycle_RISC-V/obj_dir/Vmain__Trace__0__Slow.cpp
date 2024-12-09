@@ -283,22 +283,22 @@ VL_ATTR_COLD void VMain___024root__trace_full_0_sub_0(VMain___024root* vlSelf, V
     bufp->fullBit(oldp+25,(vlSelfRef.Main__DOT__A1__DOT__flagV));
     bufp->fullCData(oldp+26,(vlSelfRef.Main__DOT____Vcellinp__C1__func3),3);
     bufp->fullBit(oldp+27,((1U & (vlSelfRef.Main__DOT__M2__DOT__RomArray
-                                  [(0xffffU & vlSelfRef.Main__DOT__PC)] 
-                                  >> 6U))));
-    bufp->fullBit(oldp+28,((1U & (vlSelfRef.Main__DOT__M2__DOT__RomArray
                                   [(0xffffU & ((IData)(3U) 
                                                + vlSelfRef.Main__DOT__PC))] 
+                                  >> 6U))));
+    bufp->fullBit(oldp+28,((1U & (vlSelfRef.Main__DOT__M2__DOT__RomArray
+                                  [(0xffffU & vlSelfRef.Main__DOT__PC)] 
                                   >> 5U))));
     bufp->fullCData(oldp+29,(vlSelfRef.Main__DOT____Vcellinp__C2__Opcode),7);
     bufp->fullIData(oldp+30,(vlSelfRef.Main__DOT__M1__DOT__Ad),20);
     bufp->fullIData(oldp+31,(((vlSelfRef.Main__DOT__M1__DOT__RamArray
-                               [0x10000U] << 0x18U) 
+                               [0x10003U] << 0x18U) 
                               | ((vlSelfRef.Main__DOT__M1__DOT__RamArray
-                                  [0x10001U] << 0x10U) 
+                                  [0x10002U] << 0x10U) 
                                  | ((vlSelfRef.Main__DOT__M1__DOT__RamArray
-                                     [0x10002U] << 8U) 
+                                     [0x10001U] << 8U) 
                                     | vlSelfRef.Main__DOT__M1__DOT__RamArray
-                                    [0x10003U])))),32);
+                                    [0x10000U])))),32);
     bufp->fullSData(oldp+32,((0xffffU & vlSelfRef.Main__DOT__PC)),16);
     bufp->fullCData(oldp+33,((0x1fU & ((IData)(vlSelfRef.__VdfgRegularize_h6171c202_0_0) 
                                        >> 7U))),5);

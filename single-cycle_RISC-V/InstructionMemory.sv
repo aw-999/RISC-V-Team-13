@@ -11,7 +11,7 @@ initial begin
 end;
 
 assign AInIM = PC[WAD-1: 0];
-assign instr = {RomArray[AInIM], RomArray[AInIM+1], RomArray[AInIM+2], RomArray[AInIM+3]};
+assign instr = {RomArray[AInIM+3], RomArray[AInIM+2], RomArray[AInIM+1], RomArray[AInIM]};
 
 /*
 Already successfully tested program

@@ -66,22 +66,22 @@ void VMain___024root__trace_chg_0_sub_0(VMain___024root* vlSelf, VerilatedVcd::B
         bufp->chgBit(oldp+24,(vlSelfRef.Main__DOT__A1__DOT__flagV));
         bufp->chgCData(oldp+25,(vlSelfRef.Main__DOT____Vcellinp__C1__func3),3);
         bufp->chgBit(oldp+26,((1U & (vlSelfRef.Main__DOT__M2__DOT__RomArray
-                                     [(0xffffU & vlSelfRef.Main__DOT__PC)] 
-                                     >> 6U))));
-        bufp->chgBit(oldp+27,((1U & (vlSelfRef.Main__DOT__M2__DOT__RomArray
                                      [(0xffffU & ((IData)(3U) 
                                                   + vlSelfRef.Main__DOT__PC))] 
+                                     >> 6U))));
+        bufp->chgBit(oldp+27,((1U & (vlSelfRef.Main__DOT__M2__DOT__RomArray
+                                     [(0xffffU & vlSelfRef.Main__DOT__PC)] 
                                      >> 5U))));
         bufp->chgCData(oldp+28,(vlSelfRef.Main__DOT____Vcellinp__C2__Opcode),7);
         bufp->chgIData(oldp+29,(vlSelfRef.Main__DOT__M1__DOT__Ad),20);
         bufp->chgIData(oldp+30,(((vlSelfRef.Main__DOT__M1__DOT__RamArray
-                                  [0x10000U] << 0x18U) 
+                                  [0x10003U] << 0x18U) 
                                  | ((vlSelfRef.Main__DOT__M1__DOT__RamArray
-                                     [0x10001U] << 0x10U) 
+                                     [0x10002U] << 0x10U) 
                                     | ((vlSelfRef.Main__DOT__M1__DOT__RamArray
-                                        [0x10002U] 
+                                        [0x10001U] 
                                         << 8U) | vlSelfRef.Main__DOT__M1__DOT__RamArray
-                                       [0x10003U])))),32);
+                                       [0x10000U])))),32);
         bufp->chgSData(oldp+31,((0xffffU & vlSelfRef.Main__DOT__PC)),16);
         bufp->chgCData(oldp+32,((0x1fU & ((IData)(vlSelfRef.__VdfgRegularize_h6171c202_0_0) 
                                           >> 7U))),5);
