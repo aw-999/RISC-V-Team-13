@@ -4,7 +4,7 @@
 # Execute this makefile from the object directory:
 #    make -f VJerry_PL_main.mk
 
-default: libVJerry_PL_main
+default: VJerry_PL_main
 
 ### Constants...
 # Perl executable (from $PERL, defaults to 'perl' if not set)
@@ -40,9 +40,11 @@ VM_USER_CFLAGS = \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
+	-lgtest -lgtest_main -lpthread \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
+	1_addi_bne \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
@@ -55,9 +57,15 @@ include VJerry_PL_main_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
 
-### Library rules (default lib mode)
-libVJerry_PL_main.a: $(VK_OBJS) $(VK_USER_OBJS) $(VM_HIER_LIBS)
-libverilated.a: $(VK_GLOBAL_OBJS)
-libVJerry_PL_main: libVJerry_PL_main.a libverilated.a $(VM_PREFIX)__ALL.a
+### Executable rules... (from --exe)
+VPATH += $(VM_USER_DIR)
+
+1_addi_bne.o: 1_addi_bne.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+
+### Link rules... (from --exe)
+VJerry_PL_main: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
+	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
+
 
 # Verilated -*- Makefile -*-

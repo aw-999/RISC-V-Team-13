@@ -28,10 +28,6 @@ verilator -Wall --trace \
           ForwardBE_mux.sv \
           PL_Add_PC_imm.sv \
           PL_MUX_Resultsrc.sv \
-
-
-
-
           --exe 1_addi_bne.cpp \
           --prefix "VJerry_PL_main" \
           -o VJerry_PL_main \

@@ -14,7 +14,7 @@ int main(int argc, char **argv, char **env) {
 
   Verilated::commandArgs(argc, argv);
   // init top verilog instance
-  Vmain_top * top = new Vmain_top;
+  VJerry_PL_main * top = new VJerry_PL_main;
   // init trace dump
   Verilated::traceEverOn(true);
   VerilatedVcdC* tfp = new VerilatedVcdC;
@@ -37,7 +37,7 @@ int main(int argc, char **argv, char **env) {
     if (Verilated::gotFinish())  exit(0);
   }
 
-  std::cout << "a0: " << top->a0 << std::endl;
+  std::cout << "a0: " << top->A0 << std::endl;
   std::cout << "a1: " << top->a1 << std::endl;
   tfp->close(); 
   exit(0);
