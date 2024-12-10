@@ -50,16 +50,4 @@ assign show = {RamArray[20'h10003], RamArray[20'h10002], RamArray[20'h10001], Ra
 
 endmodule
 
-/*  Data Memory Logbook text 
 
-BEGIN
-
-A typical data memory have address input (AdIn), data input (DInDM), data write enabler (DMwrite), data output (DOutDM) and clock signal. 
-Additionally, func3 is also introduced because there are different read and write instructions:
-
-In RISC-V architecture, memory is stored in bytes. For storing word, the direction is such that the address byte stores word[7:0], the address+1 byte stores word[15:8]... and so on
-This means reading bit should start from address+n and output[7+8n:8n] ... to address and output[7:0]
-
-There are 5 load instructions and 3 store instructions, and the exact way I implement them: 
-
-END */
