@@ -11,7 +11,7 @@ ___
 * Module: ALU Decode
 * Module: ALU
 * Module: Control Unit
-** related selection modules: ALUsrc, Resultsrc, PCsrc
+    * related selection modules: ALUsrc, Resultsrc, PCsrc
 * Module: Data Memory
 
 <br>
