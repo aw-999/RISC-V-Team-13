@@ -1,6 +1,6 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
-#include "Vmain_top.h"
+#include "VJerry_PL_main.h"
 
 #include <iostream>   
 

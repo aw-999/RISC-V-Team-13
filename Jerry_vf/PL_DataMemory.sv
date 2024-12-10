@@ -1,6 +1,6 @@
-module PL_DataMemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
+module PL_DataMemory #(parameter WAM = 17, WB = 8, WD = 32)(
     input logic clk,
-    input logic [WA-1:0] AdDM,
+    input logic [WAM-1:0] AdDM,
     input logic DMwrite,
     input logic [2:0] func3,
     input logic [WD-1:0] DInDM,

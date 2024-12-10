@@ -181,7 +181,7 @@ HU_PcRegister HU_PcRegister (
 );
 
 PL_InstructionMemory PL_InstructionMemory (
-    .PC(PC),
+    .PC(PC[15:0]),
     .instr(instr)
 );
 
@@ -440,7 +440,7 @@ PCE PCExecute (
 
 PL_DataMemory DataMemory (
     .clk(clk),
-    .AdDM(ALUResultM),
+    .AdDM(ALUResultM[16:0]),
     .DMwrite(MemWriteM),
     .func3(funct3M),
     .DInDM(WriteDataM),

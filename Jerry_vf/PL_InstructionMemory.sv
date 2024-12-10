@@ -1,5 +1,5 @@
-module PL_InstructionMemory #(parameter WD = 32, WAD = 16, WB = 8)(
-    input logic [WD-1: 0] PC,
+module PL_InstructionMemory #(parameter WAD = 16, WB = 8)(
+    input logic [WAD-1: 0] PC,
     output logic [WB*4-1: 0] instr
 );
 
