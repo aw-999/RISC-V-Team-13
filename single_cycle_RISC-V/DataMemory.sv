@@ -1,4 +1,6 @@
-module DataMemory #(parameter WA = 32, WAM = 20, WB = 8, WD = 32)(
+/* verilator lint_off UNUSED*/
+
+module DataMemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
     input logic clk,
     input logic [WA-1:0] ALUResult, // aluresult formerly Ad
     input logic MemWrite, 
@@ -10,7 +12,6 @@ module DataMemory #(parameter WA = 32, WAM = 20, WB = 8, WD = 32)(
 logic [WB-1:0] RamArray [2**WAM-1:0]; // stored in byte
 logic [WAM-1:0] AdM; // reduced in size, 2**32 is too large to simulate
 
-logic [WD-1:0] show; // used for testing
 
 initial begin
     $readmemh("program.hex", RamArray);
@@ -21,10 +22,10 @@ always_comb begin
     case (funct3) 
         3'b000: ReadData = {{24{RamArray[AdM][WB-1]}},RamArray[AdM]}; // lb
         3'b001: ReadData = {{16{RamArray[AdM][WB-1]}},RamArray[AdM], RamArray[AdM+1]}; // lh
-        3'b010: ReadData = {RamArray[AdM], RamArray[AdM+1], RamArray[AdM+2], RamArray[AdM+3]}; // lw
+        3'b010: ReadData = {RamArray[AdM+3], RamArray[AdM+2], RamArray[AdM+1], RamArray[AdM]}; // lw
         3'b100: ReadData = {{24'b0},RamArray[AdM]}; // lbu
         3'b101: ReadData = {{16'b0},RamArray[AdM], RamArray[AdM+1]}; // lhu
-        default: ReadData = {RamArray[AdM], RamArray[AdM+1], RamArray[AdM+2], RamArray[AdM+3]}; // lw
+        default: ReadData = {RamArray[AdM+3], RamArray[AdM+2], RamArray[AdM+1], RamArray[AdM]}; // lw
     endcase
 end
 
@@ -47,6 +48,5 @@ always_ff@(posedge clk)
             RamArray[AdM] <= WriteData[WD-25:0];
     end
 
-assign show = {RamArray[20'h10000], RamArray[20'h10001], RamArray[20'h10002], RamArray[20'h10003]};
 
 endmodule

@@ -3,8 +3,10 @@ module main_top #(
 )(
     input logic clk,
     input logic rst,
+    input logic TRIGGER,
     output logic [DATA_WIDTH-1:0] Result,
-    output logic [DATA_WIDTH-1:0] a0,
+    output logic [DATA_WIDTH-1:0] a0
+    /*
     output logic [DATA_WIDTH-1:0] a1,
     output logic [DATA_WIDTH-1:0] a2,
     output logic [DATA_WIDTH-1:0] a3,
@@ -32,7 +34,7 @@ module main_top #(
     output logic [DATA_WIDTH-1:0] t3,
     output logic [DATA_WIDTH-1:0] t4,
     output logic [DATA_WIDTH-1:0] t5,
-    output logic [DATA_WIDTH-1:0] t6
+    output logic [DATA_WIDTH-1:0] t6    */
 );
 
     // Internal signals
@@ -55,7 +57,9 @@ module main_top #(
     logic [2:0] IMMsrc;
     logic [2:0] ALUop;
     logic [3:0] ALUCtrl;
-    logic ZeroFlag, NegativeFlag, UnsignedLess;
+    
+    //logic ZeroFlag, NegativeFlag, UnsignedLess; 
+    logic branch;
 
 
 
@@ -108,15 +112,18 @@ module main_top #(
     ControlUnit ControlUnit (
 
         .opcode (instr[6:0]),
+        /*
         .ZeroFlag (ZeroFlag),
         .NegativeFlag (NegativeFlag),
         .UnsignedLess (UnsignedLess),
-        .funct3(instr[14:12]),
+        */
+        .branch(branch),
+        //.funct3(instr[14:12]),
         .PCSrc (PCSrc),
         .ResultSrc (ResultSrc),
         .MemWrite (MemWrite),
         .ALUSrc (ALUSrc),
-        .ImmSrc (ImmSrc),
+        .ImmSrc (IMMsrc),
         .RegWrite (RegWrite),
         .ALUop (ALUop)
 
@@ -142,7 +149,8 @@ module main_top #(
         .RD1 (RD1),           // Read data 1
         .RD2 (RD2),           // Read data 2
 
-        .a0 (a0),
+        .a0 (a0)
+        /*
         .a1 (a1),
         .a2 (a2),
         .a3 (a3),
@@ -171,6 +179,7 @@ module main_top #(
         .t4 (t4),
         .t5 (t5),
         .t6 (t6)
+        */
 
     );
 
@@ -180,17 +189,20 @@ module main_top #(
         .ALUCtrl (ALUCtrl),
         .SrcA (RD1), 
         .SrcB (SrcB), 
-
+        .branch(branch),
+        /*
         .ZeroFlag (ZeroFlag),
         .NegativeFlag (NegativeFlag), 
         .UnsignedLess (UnsignedLess),
+        */
+
         .ALUResult (ALUResult)
     );
 
     // ALU Decode (part of Control Unit)
     ALUDecode ALUDecode (
         .funct3 (instr[14:12]), 
-        .opcode5 (instr[5]), 
+        //.opcode5 (instr[5]), 
         .funct75 (instr[30]),
         .ALUop (ALUop),
 

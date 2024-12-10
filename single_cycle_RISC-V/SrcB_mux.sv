@@ -1,6 +1,6 @@
 module SrcB_mux #(
-    parameter W = 32,
-    parameter AW = 5
+    parameter W = 32
+    //parameter AW = 5
 )(
     input logic ALUSrc,
     input logic [W-1:0] RD2,

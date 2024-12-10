@@ -15,6 +15,7 @@ class Vmain_top___024root final : public VerilatedModule {
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
     VL_IN8(rst,0,0);
+    VL_IN8(TRIGGER,0,0);
     CData/*0:0*/ main_top__DOT__MemWrite;
     CData/*0:0*/ main_top__DOT__ALUSrc;
     CData/*0:0*/ main_top__DOT__RegWrite;
@@ -23,43 +24,11 @@ class Vmain_top___024root final : public VerilatedModule {
     CData/*2:0*/ main_top__DOT__IMMsrc;
     CData/*2:0*/ main_top__DOT__ALUop;
     CData/*3:0*/ main_top__DOT__ALUCtrl;
-    CData/*0:0*/ main_top__DOT__ZeroFlag;
-    CData/*0:0*/ main_top__DOT__NegativeFlag;
-    CData/*0:0*/ main_top__DOT__UnsignedLess;
-    CData/*2:0*/ main_top__DOT____Vcellout__ControlUnit__ImmSrc;
-    CData/*0:0*/ main_top__DOT__TRIGGER;
+    CData/*0:0*/ main_top__DOT__branch;
     CData/*0:0*/ __Vclklast__TOP__clk;
-    CData/*0:0*/ __Vchglast__TOP__main_top__DOT__ZeroFlag;
-    CData/*0:0*/ __Vchglast__TOP__main_top__DOT__NegativeFlag;
-    CData/*0:0*/ __Vchglast__TOP__main_top__DOT__UnsignedLess;
+    CData/*0:0*/ __Vchglast__TOP__main_top__DOT__branch;
     VL_OUT(Result,31,0);
     VL_OUT(a0,31,0);
-    VL_OUT(a1,31,0);
-    VL_OUT(a2,31,0);
-    VL_OUT(a3,31,0);
-    VL_OUT(a4,31,0);
-    VL_OUT(a5,31,0);
-    VL_OUT(a6,31,0);
-    VL_OUT(a7,31,0);
-    VL_OUT(s0,31,0);
-    VL_OUT(s1,31,0);
-    VL_OUT(s2,31,0);
-    VL_OUT(s3,31,0);
-    VL_OUT(s4,31,0);
-    VL_OUT(s5,31,0);
-    VL_OUT(s6,31,0);
-    VL_OUT(s7,31,0);
-    VL_OUT(s8,31,0);
-    VL_OUT(s9,31,0);
-    VL_OUT(s10,31,0);
-    VL_OUT(s11,31,0);
-    VL_OUT(t0,31,0);
-    VL_OUT(t1,31,0);
-    VL_OUT(t2,31,0);
-    VL_OUT(t3,31,0);
-    VL_OUT(t4,31,0);
-    VL_OUT(t5,31,0);
-    VL_OUT(t6,31,0);
     IData/*31:0*/ main_top__DOT__PC;
     IData/*31:0*/ main_top__DOT__PCN;
     IData/*31:0*/ main_top__DOT__instr;
@@ -69,10 +38,10 @@ class Vmain_top___024root final : public VerilatedModule {
     IData/*31:0*/ main_top__DOT__ALUResult;
     IData/*31:0*/ main_top__DOT__ReadData;
     IData/*31:0*/ main_top__DOT__DIn;
-    IData/*19:0*/ main_top__DOT__DataMemory__DOT__AdM;
-    VlUnpacked<CData/*7:0*/, 65536> main_top__DOT__InstructionMemory__DOT__RomArr;
+    IData/*16:0*/ main_top__DOT__DataMemory__DOT__AdM;
+    VlUnpacked<CData/*7:0*/, 131072> main_top__DOT__InstructionMemory__DOT__RomArr;
     VlUnpacked<IData/*31:0*/, 32> main_top__DOT__RegisterFile__DOT__RegArr;
-    VlUnpacked<CData/*7:0*/, 1048576> main_top__DOT__DataMemory__DOT__RamArray;
+    VlUnpacked<CData/*7:0*/, 131072> main_top__DOT__DataMemory__DOT__RamArray;
     VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;
 
     // INTERNAL VARIABLES

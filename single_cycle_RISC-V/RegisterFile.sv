@@ -1,4 +1,4 @@
-module RegisterFile #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] or reg 01010
+module RegisterFile #(parameter WAD = 5, WD = 32)( // A0 = reg[10] or reg 01010   R0 = 10 NOT USED
     input logic clk,
     input logic RegWrite,
     input logic TRIGGER, 
@@ -10,7 +10,8 @@ module RegisterFile #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] or r
     output logic [WD-1:0] RD1, //formerly Dout1
     output logic [WD-1:0] RD2, //formerly Dout2
     
-    output logic [WD-1:0] a0,
+    output logic [WD-1:0] a0
+    /*
     output logic [WD-1:0] a1,
     output logic [WD-1:0] a2,
     output logic [WD-1:0] a3,
@@ -39,6 +40,7 @@ module RegisterFile #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] or r
     output logic [WD-1:0] t4,
     output logic [WD-1:0] t5,
     output logic [WD-1:0] t6
+    */
 );
 
 logic [WD-1: 0] RegArr [2**WAD-1: 0];
@@ -53,17 +55,18 @@ begin
 
     RegArr[0] <= 32'b0;
 end
-
-assign RD1 = RegArr[AdOut1];
-assign RD2 = RegArr[AdOut2];
-
 always_comb begin
+    RD1 = RegArr[AdOut1];
+    RD2 = RegArr[AdOut2];
+end
+
+assign a0 = RegArr[10];
+/*always_comb begin
     t0 = RegArr[5];
     t1 = RegArr[6];
     t2 = RegArr[7];
     s0 = RegArr[8];
     s1 = RegArr[9];
-    a0 = RegArr[10];
     a1 = RegArr[11];
     a2 = RegArr[12];
     a3 =  RegArr[13];
@@ -86,6 +89,7 @@ always_comb begin
     t5 =  RegArr[30];
     t6 = RegArr[31];
 end
+*/
 
 endmodule
 

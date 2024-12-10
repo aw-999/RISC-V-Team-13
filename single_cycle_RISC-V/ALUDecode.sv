@@ -1,5 +1,5 @@
 module ALUDecode (
-    input logic opcode5, // 5:5 of instr
+    //input logic opcode5, // 5:5 of instr
     input logic [2:0] funct3, //14:12 of instr
     input logic funct75, //30:30 bit of instr
     
@@ -75,12 +75,12 @@ always_comb begin
 
         3'b100: begin
             case(funct3)                            //need to set aluctrl values for branch intructions as well
-                3'b000: ALUCtrl = 4'b0001; //beq
-                3'b001: ALUCtrl = 4'b0001; //bne
-                3'b100: ALUCtrl = 4'b0001; //blt
-                3'b101: ALUCtrl = 4'b0001; //bge
-                3'b110: ALUCtrl = 4'b1001; //bltu -- ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0;
-                3'b111: ALUCtrl = 4'b1001; //bgeu same as bltu
+                3'b000: ALUCtrl = 4'b1010; //beq
+                3'b001: ALUCtrl = 4'b1011; //bne
+                3'b100: ALUCtrl = 4'b1100; //blt
+                3'b101: ALUCtrl = 4'b1101; //bge
+                3'b110: ALUCtrl = 4'b1110; //bltu -- ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0;
+                3'b111: ALUCtrl = 4'b1111; //bgeu same as bltu
             default: ALUCtrl = 4'b0000;
             endcase
         end

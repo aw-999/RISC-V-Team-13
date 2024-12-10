@@ -1,4 +1,4 @@
-module InstructionMemory #(parameter WAD = 16, WD = 8, DATA_WIDTH = 32)(
+module InstructionMemory #(parameter WAD = 17, WD = 8, DATA_WIDTH = 32)(
     input logic [DATA_WIDTH-1: 0] AddrIn,
     output logic [WD*4-1: 0] instr //formerly Dout
 );
@@ -9,7 +9,7 @@ initial begin
     $readmemh("program.hex", RomArr);
 end;
 
-assign instr = {RomArr[AddrIn], RomArr[AddrIn+1], RomArr[AddrIn+2], RomArr[AddrIn+3]};
+assign instr = {RomArr[AddrIn+3], RomArr[AddrIn+2], RomArr[AddrIn+1], RomArr[AddrIn]};
 
 /*
 Already successfully tested program

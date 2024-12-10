@@ -1,9 +1,13 @@
 module ControlUnit (
     input logic [6:0] opcode, // 6:0 of instr
+    
+    /*
     input logic ZeroFlag,
     input logic NegativeFlag,
     input logic UnsignedLess,
-    input logic [2:0] funct3,
+    */
+    input logic branch,
+    //input logic [2:0] funct3,
     
     output logic [1:0] PCSrc,
     output logic [1:0] ResultSrc, // 4 different cases
@@ -144,6 +148,9 @@ module ControlUnit (
 
     case(opcode)
         7'b1100011: 
+            if(branch) PCSrc = 2'b01;
+            else PCSrc = 2'b00;
+            /*
             case(funct3)
                 3'b000: if(ZeroFlag) PCSrc = 2'b01; //beq
                 3'b001: if(~ZeroFlag) PCSrc = 2'b01; //bne
@@ -153,6 +160,7 @@ module ControlUnit (
                 3'b111: if(~UnsignedLess) PCSrc = 2'b01; //bgeu  
                 default: PCSrc = 2'b00;
             endcase
+            */
         7'b1100111: PCSrc = 2'b11;  //jalr
         7'b1101111: PCSrc = 2'b01;  //jal - might need to look into that later?
         default: PCSrc = 2'b00;

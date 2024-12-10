@@ -13,34 +13,9 @@ Vmain_top::Vmain_top(VerilatedContext* _vcontextp__, const char* _vcname__)
     , vlSymsp{new Vmain_top__Syms(contextp(), _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
     , rst{vlSymsp->TOP.rst}
+    , TRIGGER{vlSymsp->TOP.TRIGGER}
     , Result{vlSymsp->TOP.Result}
     , a0{vlSymsp->TOP.a0}
-    , a1{vlSymsp->TOP.a1}
-    , a2{vlSymsp->TOP.a2}
-    , a3{vlSymsp->TOP.a3}
-    , a4{vlSymsp->TOP.a4}
-    , a5{vlSymsp->TOP.a5}
-    , a6{vlSymsp->TOP.a6}
-    , a7{vlSymsp->TOP.a7}
-    , s0{vlSymsp->TOP.s0}
-    , s1{vlSymsp->TOP.s1}
-    , s2{vlSymsp->TOP.s2}
-    , s3{vlSymsp->TOP.s3}
-    , s4{vlSymsp->TOP.s4}
-    , s5{vlSymsp->TOP.s5}
-    , s6{vlSymsp->TOP.s6}
-    , s7{vlSymsp->TOP.s7}
-    , s8{vlSymsp->TOP.s8}
-    , s9{vlSymsp->TOP.s9}
-    , s10{vlSymsp->TOP.s10}
-    , s11{vlSymsp->TOP.s11}
-    , t0{vlSymsp->TOP.t0}
-    , t1{vlSymsp->TOP.t1}
-    , t2{vlSymsp->TOP.t2}
-    , t3{vlSymsp->TOP.t3}
-    , t4{vlSymsp->TOP.t4}
-    , t5{vlSymsp->TOP.t5}
-    , t6{vlSymsp->TOP.t6}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context

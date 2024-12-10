@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **env) {
   Verilated::traceEverOn(true);
   VerilatedVcdC* tfp = new VerilatedVcdC;
   top->trace (tfp, 99);
-  tfp->open ("VCD/Test1.vcd");
+  tfp->open ("obj_dir/Test1.vcd");
 
   // initialise simulation inputs
   top->clk = 1;
@@ -38,7 +38,6 @@ int main(int argc, char **argv, char **env) {
   }
 
   std::cout << "a0: " << top->a0 << std::endl;
-  std::cout << "a1: " << top->a1 << std::endl;
   tfp->close(); 
   exit(0);
 }
