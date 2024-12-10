@@ -11,7 +11,7 @@ module HazardUnit (
     input logic [4:0] Rs2E,
 
     input logic PCSrcE,//first bit of PCSrcE
-    input logic ResultSrce, //first bit of ResultSrcE
+    input logic ResultSrcE, //first bit of ResultSrcE
 
     output logic [1:0] ForwardAE,
     output logic [1:0] ForwardBE,
@@ -58,7 +58,7 @@ module HazardUnit (
             ForwardBE = 2'b00;
         end
 
-        if (ResultSrce && ((RdE == Rs1D) || (RdE == Rs2D))) begin
+        if (ResultSrcE && ((RdE == Rs1D) || (RdE == Rs2D))) begin
             stallF = 1'b1;  
             stallD = 1'b1;  
             flushE = 1'b1; 

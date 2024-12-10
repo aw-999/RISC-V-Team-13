@@ -1,4 +1,4 @@
-module InstructionMemory #(parameter WD = 32, WAD = 16, WB = 8)(
+module PL_InstructionMemory #(parameter WD = 32, WAD = 16, WB = 8)(
     input logic [WD-1: 0] PC,
     output logic [WB*4-1: 0] instr
 );
@@ -33,3 +33,4 @@ Undertest program
  */
 
 endmodule
+

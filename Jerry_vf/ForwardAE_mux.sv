@@ -1,5 +1,5 @@
 module ForwardAE_mux #(
-    parameter W = 32;
+    parameter W = 32
 )(
     input logic [W-1:0] ResultW,
     input logic [W-1:0] RD1E,
@@ -10,7 +10,7 @@ module ForwardAE_mux #(
 );
 
 always_comb begin
-    case(ForwardBE)
+    case(ForwardAE)
         2'b00: SrcAE = RD1E;
         2'b01: SrcAE = ResultW;
         2'b10: SrcAE = ALUResultM;
@@ -19,3 +19,5 @@ always_comb begin
 end 
 
 endmodule
+
+

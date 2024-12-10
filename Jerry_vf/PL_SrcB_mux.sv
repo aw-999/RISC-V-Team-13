@@ -1,4 +1,4 @@
-module MUX_ALUsrc #(parameter W = 32)(
+module PL_SrcB_mux #(parameter W = 32)(
     input logic [W-1:0] DOutReg2,
     input logic [W-1:0] IMM,
     input logic ALUsrc,

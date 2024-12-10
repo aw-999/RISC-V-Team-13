@@ -6,7 +6,7 @@ rm -f Vmain_top
 
 verilator -Wall --trace \
           -cc Jerry_PL_main.sv \
-          -top-module Jerry_Pl_main \
+          -top-module Jerry_PL_main \
           PL_ALU.sv \
           PL_ALUDecode.sv \
           PL_ControlUnit.sv \
@@ -18,16 +18,17 @@ verilator -Wall --trace \
           PL_InstructionMemory.sv \
           PL_PCSrc_mux.sv \
           PL_RegisterFile.sv \
-          PL_SrcB_mux.sv \ 
-          PL_Add_PC_imm.sv \
-          PL_WriteBack_mux.sv \
+          PL_SrcB_mux.sv \
           PCD.sv \
           PCE.sv \
-          PCF.sv \ 
-          PCM.sv \ 
-          HazardUnit.sv \ 
+          PCF.sv \
+          PCM.sv \
+          HazardUnit.sv \
           ForwardAE_mux.sv \
           ForwardBE_mux.sv \
+          PL_Add_PC_imm.sv \
+          PL_MUX_Resultsrc.sv \
+
 
 
 

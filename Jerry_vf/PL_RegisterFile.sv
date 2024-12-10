@@ -1,14 +1,15 @@
-module RegisterFile #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] or reg 01010
+module PL_RegisterFile #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] or reg 01010
+
     input logic clk,
     input logic RegWrite,
     input logic TRIGGER, 
 
-    input logic [WAD-1:0] AdIn, //A3, instr[11:7]
-    input logic [WAD-1:0] AdOut1, //instr[19:15]
-    input logic [WAD-1:0] AdOut2, //instr[24:20]
-    output logic [WD-1:0] DIn, //formerly DIn
-    output logic [WD-1:0] RD1, //formerly Dout1
-    output logic [WD-1:0] RD2, //formerly Dout2
+    input logic [WAD-1:0] AdInReg, //A3, instr[11:7]
+    input logic [WAD-1:0] AdOutReg1, //instr[19:15]
+    input logic [WAD-1:0] AdOutReg2, //instr[24:20]
+    output logic [WD-1:0] DInReg, //formerly DIn
+    output logic [WD-1:0] DOutReg1, //formerly Dout1
+    output logic [WD-1:0] DOutReg2, //formerly Dout2
     
     output logic [WD-1:0] a0,
     output logic [WD-1:0] a1,
@@ -45,7 +46,7 @@ logic [WD-1: 0] RegArr [2**WAD-1: 0];
 
 always_ff@(posedge clk)
 begin
-    if (RegWrite) RegArr[AdIn] <= DIn;
+    if (RegWrite) RegArr[AdInReg] <= DInReg;
 
     if (TRIGGER) begin
         RegArr[5] <= 32'b1; 
@@ -54,8 +55,8 @@ begin
     RegArr[0] <= 32'b0;
 end
 
-assign RD1 = RegArr[AdOut1];
-assign RD2 = RegArr[AdOut2];
+assign DOutReg1 = RegArr[AdOutReg1];
+assign DOutReg2 = RegArr[AdOutReg2];
 
 always_comb begin
     t0 = RegArr[5];

@@ -1,4 +1,4 @@
-module PcIncrement4 #(parameter W = 32)(
+module PL_Incrementby4 #(parameter W = 32)(
     input logic [W-1:0] PC,
     output logic [W-1:0] PCadd4
 );

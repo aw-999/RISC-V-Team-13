@@ -22,11 +22,13 @@ module PCE #(
     input logic [WIDTH - 1:0] WriteDataE,
     input logic [4:0] RdE,
     input logic [WIDTH - 1:0] PCPlus4E,
+    input logic [2:0] funct3E,
 
     output logic [WIDTH - 1:0] ALUResultM,
     output logic [WIDTH - 1:0] WriteDataM,
     output logic [4:0] RdM,
-    output logic [WIDTH - 1:0] PCPlus4M
+    output logic [WIDTH - 1:0] PCPlus4M,
+    output logic [2:0] funct3M
 
 );
 
@@ -36,13 +38,15 @@ always_ff @(posedge clk) begin
         //Control
         RegWriteM <= 0;
         ResultSrcM <= 0;
-        MemWriteM <= 0
+        MemWriteM <= 0;
 
         //Data
         ALUResultM <= 0;
         WriteDataM <= 0;
         RdM <= 0;
-        PCPlus4M <= P0;
+        PCPlus4M <= 0;
+        funct3M <= 0;
+
     end
 
     else begin
@@ -57,6 +61,7 @@ always_ff @(posedge clk) begin
         WriteDataM <= WriteDataE;
         RdM <= RdM;
         PCPlus4M <= PCPlus4E;
+        funct3M <= funct3E;
     end
 end
 

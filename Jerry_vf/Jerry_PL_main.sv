@@ -1,7 +1,38 @@
-module PL_Main #(parameter WAD = 5, parameter DATA_WIDTH = 32)(
+module Jerry_PL_main #(parameter WAD = 5, parameter DATA_WIDTH = 32)(
     input logic clk,
     input logic rst,
-    output logic [DATA_WIDTH-1:0] A0
+    output logic [DATA_WIDTH-1:0] A0,
+
+    
+    output logic [DATA_WIDTH-1:0] a1,
+    output logic [DATA_WIDTH-1:0] a2,
+    output logic [DATA_WIDTH-1:0] a3,
+    output logic [DATA_WIDTH-1:0] a4,
+    output logic [DATA_WIDTH-1:0] a5,
+    output logic [DATA_WIDTH-1:0] a6,
+    output logic [DATA_WIDTH-1:0] a7,
+
+    output logic [DATA_WIDTH-1:0] s0,
+    output logic [DATA_WIDTH-1:0] s1,
+    output logic [DATA_WIDTH-1:0] s2,
+    output logic [DATA_WIDTH-1:0] s3,
+    output logic [DATA_WIDTH-1:0] s4,
+    output logic [DATA_WIDTH-1:0] s5,
+    output logic [DATA_WIDTH-1:0] s6,
+    output logic [DATA_WIDTH-1:0] s7,
+    output logic [DATA_WIDTH-1:0] s8,
+    output logic [DATA_WIDTH-1:0] s9,
+    output logic [DATA_WIDTH-1:0] s10,
+    output logic [DATA_WIDTH-1:0] s11,
+
+    output logic [DATA_WIDTH-1:0] t0,
+    output logic [DATA_WIDTH-1:0] t1,
+    output logic [DATA_WIDTH-1:0] t2,
+    output logic [DATA_WIDTH-1:0] t3,
+    output logic [DATA_WIDTH-1:0] t4,
+    output logic [DATA_WIDTH-1:0] t5,
+    output logic [DATA_WIDTH-1:0] t6
+
 );
 
 //hazardUnit
@@ -37,6 +68,7 @@ logic [3:0] ALUCtrl;
 
 //RegisterFile
 logic [DATA_WIDTH-1:0] DOutReg1, DOutReg2;
+logic TRIGGER;
 
 //extension
 logic [DATA_WIDTH-1:0] IMM;
@@ -49,6 +81,12 @@ logic [2:0] ALUCtrlE;
 logic ALUSrcE;
 logic [2:0] funct3E;
 logic [6:0] opcodeE;
+logic [DATA_WIDTH-1:0] PCE;
+logic [DATA_WIDTH-1:0] PCPlus4E;
+logic [DATA_WIDTH-1:0] ImmExtE;
+logic [DATA_WIDTH-1:0] RD1E;
+logic [DATA_WIDTH-1:0] RD2E;
+
 
 
 //PCSrc_gate
@@ -79,7 +117,7 @@ logic [4:0] RdM;
 logic [2:0] funct3M;
 
 //DataMemory
-logic [DATA_WIDTH-1:0] DOutM;
+logic [DATA_WIDTH-1:0] DOutDM;
 
 
 //PCMemory
@@ -117,29 +155,31 @@ HazardUnit HazardUnit (
     
 );
 
-MUX_PCsrc MUX_PCsrc (
+PL_PCSrc_mux PL_PCSrc_mux ( 
     .PCadd4(PCadd4),
     .PCaddIMM(PCaddIMM),
     .DOutAlu(DOutAlu),
-    .PCsrc(PCsrcE),
+    .PCsrc(PCSrcE),
 
     .PCN(PCN)
 );
 
-PcRegister PcRegister (
+
+HU_PcRegister HU_PcRegister (
     .clk(clk),
     .rst(rst),
     .PCN (PCN),
+    .stall (stallF),
 
     .PC (PC)
 );
 
-InstructionMemory InstructionMemory (
+PL_InstructionMemory PL_InstructionMemory (
     .PC(PC),
     .instr(instr)
 );
 
-PcIncrement4 PcIncrement4 (
+PL_Incrementby4 PL_Increment4 (
     .PC(PC),
     .PCadd4(PCadd4)
 );
@@ -151,7 +191,7 @@ PCF PCFetch(
 
     //hazard
     .flushD (flushD), //clr
-    .StallD (StallD), //en
+    .StallD (stallD), //en
 
     //inputs
     .InstrF (instr), 
@@ -182,7 +222,7 @@ PL_ControlUnit PL_ControlUnit (
 );
 
 //using Arjuns and Doms
-ALUDecode ALUDecode (
+PL_ALUDecode PL_ALUDecode (
     .funct3 (instrD[14:12]), 
     .opcode5 (instrD[5]), 
     .funct75 (instrD[30]),
@@ -191,9 +231,12 @@ ALUDecode ALUDecode (
     .ALUCtrl (ALUCtrl)
 );
 
-RegisterFile M4 (
+
+
+PL_RegisterFile M4 (
     .clk(clk),
     .RegWrite(RegWriteW),
+    .TRIGGER (TRIGGER),
 
     .AdInReg(RdW),
 
@@ -204,13 +247,43 @@ RegisterFile M4 (
 
     .DOutReg1(DOutReg1), //RD1D
     .DOutReg2(DOutReg2), //RD2D
-    .A0(A0)
+
+        .a0 (A0),
+        .a1 (a1),
+        .a2 (a2),
+        .a3 (a3),
+        .a4 (a4),
+        .a5 (a5),
+        .a6 (a6),
+        .a7 (a7),
+
+        .s0 (s0),
+        .s1 (s1),
+        .s2 (s2),
+        .s3 (s3),
+        .s4 (s4),
+        .s5 (s5),
+        .s6 (s6),
+        .s7 (s7),
+        .s8 (s8),
+        .s9 (s9),
+        .s10 (s10),
+        .s11 (s11),
+
+        .t0 (t0),
+        .t1 (t1),
+        .t2 (t2),
+        .t3 (t3),
+        .t4 (t4),
+        .t5 (t5),
+        .t6 (t6)
+
 );
 
-Extension Extension (
-    .IMMctrl (ImmSrc),
+PL_Extend PL_Extend (
+    .IMMsrc (ImmSrc),
     .instr(instrD),
-    .IMM(IMM)
+    .ImmExt(IMM)
 );
 
 
@@ -219,7 +292,7 @@ PCD PCDecode(
     .clk (clk),
     .rst (rst),
 
-    .flushE (flushE),
+    .flush (flushE),
 
     //control unit
     .RegWriteD (RegWrite),
@@ -230,7 +303,7 @@ PCD PCDecode(
     .ALUCtrlD (ALUCtrl), 
     .ALUSrcD (ALUSrc),
 
-    opcodeE (opcodeE),
+    .opcodeE (opcodeE),
     //for datamemory
     .funct3D (instrD[14:12]),
 
@@ -252,9 +325,9 @@ PCD PCDecode(
     .MemWriteE (MemWriteE),
     .ALUCtrlE (ALUCtrlE),
     .ALUSrcE (ALUSrcE),
-    
-    //for datamemory
+
     .funct3E (funct3E),
+    
     
     .RD1E (RD1E),
     .RD2E (RD2E),
@@ -266,7 +339,7 @@ PCD PCDecode(
     .Rs2E (Rs2E)
 );
 //using Arjuns and Doms
-PCSrc_gate PCSrc_gate (
+PL_PCSrc_gate PL_PCSrc_gate (
     .ZeroFlag (ZeroFlag),
     .NegativeFlag (NegativeFlag),
     .UnsignedLess (UnsignedLess),
@@ -299,23 +372,23 @@ ForwardBE_mux ForwardBE_mux (
     .WriteDataE (WriteDataE)
 );
 
-MUX_ALUsrc MUX_ALUsrc (
+PL_SrcB_mux PL_SrcB_mux ( //formerly MUX_ALUsrc
     .DOutReg2(WriteDataE),
     .IMM(IMM),
-    .ALUsrc(ALUsrcE),
+    .ALUsrc(ALUSrcE),
 
     .N2(SrcBE)
 );
 
 //adding immedeiate
-Add_pc_imm Add_pc_imm (
+PL_Add_PC_imm PL_Add_PC_imm (
     .PC(PCE),
     .IMM(ImmExtE),
     .PCaddIMM(PCaddIMM) //PCTargetE
 );
 
 //using Arjuns and Doms
-ALU ALU (
+PL_ALU PL_ALU (
 
     .ALUCtrl (ALUCtrlE),
     .SrcA (SrcAE), 
@@ -341,8 +414,6 @@ PCE PCExecute (
     .WriteDataE (WriteDataE),     
     .RdE (RdE),               
     .PCPlus4E (PCPlus4E),   
-
-    //for datamemory
     .funct3E (funct3E),
 
     .RegWriteM (RegWriteM),
@@ -352,14 +423,14 @@ PCE PCExecute (
     .ALUResultM (ALUResultM),
     .WriteDataM (WriteDataM),
     .RdM (RdM),
-    .PCPlus4M (PCPlus4M)
+    .PCPlus4M (PCPlus4M),
 
     //for datamemory
     .funct3M (funct3M)
 
 );
 
-DataMemory DataMemory (
+PL_DataMemory DataMemory (
     .clk(clk),
     .AdDM(ALUResultM),
     .DMwrite(MemWriteM),
@@ -389,7 +460,7 @@ PCM PCMemory(
     .PCPlus4W (PCPlus4W)
 );
 
-MUX_Resultsrc MUX_Resultsrc (
+PL_MUX_Resultsrc PL_MUX_Resultsrc (
     .DOutAlu(ALUResultM),
     .DOutDM(ReadDataW),
     .PCadd4(PCPlus4W),
@@ -399,6 +470,7 @@ MUX_Resultsrc MUX_Resultsrc (
     .ResultSrc(ResultSrcW),
     .DInReg(DInReg)
 );
+
 
 endmodule
 

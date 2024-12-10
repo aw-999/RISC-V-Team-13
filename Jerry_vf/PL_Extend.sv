@@ -1,4 +1,4 @@
-module Extend #(parameter W = 32)(
+module PL_Extend #(parameter W = 32)(
     input logic [2:0] IMMsrc,
     input logic [W-1:0] instr,
     output logic [W-1:0] ImmExt

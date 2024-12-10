@@ -1,5 +1,5 @@
 module ForwardBE_mux #(
-    parameter W = 32;
+    parameter W = 32
 )(
     input logic [W-1:0] ResultW,
     input logic [W-1:0] RD2E,

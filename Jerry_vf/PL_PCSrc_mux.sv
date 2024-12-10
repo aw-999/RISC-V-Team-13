@@ -1,23 +1,22 @@
-module PCSrc_mux #(
-    parameter DATA_WIDTH = 32 // Default data width
-)(
-    input logic [DATA_WIDTH-1:0] PCTarget,  
-    input logic [1:0]            PCSrc,  
-    input logic [DATA_WIDTH-1:0] PCPlus4,
-    input logic [DATA_WIDTH-1:0] ALUResult,
 
-    output logic [DATA_WIDTH-1:0] PCN   
+module  PL_PCSrc_mux #(parameter W = 32)(
+    input logic [W-1:0] PCadd4,
+    input logic [W-1:0] PCaddIMM,
+    input logic [W-1:0] DOutAlu,
+
+    input logic [1:0] PCsrc,
+
+    output logic [W-1:0] PCN
 );
 
+always_comb 
+    case (PCsrc)
+        2'b00: PCN = PCadd4; // common
+        2'b01: PCN = PCaddIMM; // jal, auipc
+        2'b10: PCN = DOutAlu; // jalr
+        2'b11: PCN = PCaddIMM; // branch
 
-    always_comb begin
-        case (PCSrc)
-            2'b00: PCN = PCPlus4;
-            2'b01: PCN = PCTarget;
-            2'b11: PCN = ALUResult;
-
-        default: PCN = PCPlus4;
+        default PCN = PCadd4;
     endcase
-    end
-
+    
 endmodule

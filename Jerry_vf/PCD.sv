@@ -20,7 +20,7 @@ module PCD #(
 
     input logic [2:0] ALUCtrlD,
     input logic ALUSrcD,
-    input logic [1:0] PCsrcD,
+    
 
     output logic RegWriteE,
     output logic [1:0] ResultSrcE,
@@ -32,7 +32,7 @@ module PCD #(
 
     output logic [2:0] ALUCtrlE,
     output logic ALUSrcE,
-    output logic [1:0] PCsrcE,
+    
 
 
     //DATA

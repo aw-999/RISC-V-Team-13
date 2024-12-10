@@ -4,8 +4,8 @@ module PL_ControlUnit (
     input logic NegativeFlag,     
     input logic UnsignedLess,     
 
-    //hazard
-    input logic stall,
+
+    
           
     output logic [1:0] ResultSrc, 
     output logic MemWrite,        
@@ -19,7 +19,6 @@ module PL_ControlUnit (
 
     // ALU operation decoding
     always_comb begin
-        if (stall)
         case (opcode)
             7'b0110011: ALUop = 3'b000; // R-type
             7'b0010011: ALUop = 3'b001; // I-type
@@ -46,12 +45,7 @@ module PL_ControlUnit (
 
 
     always_comb begin
-        if (stall) begin
-            MemWrite = 1'b0;
-        end
-        else begin
-            MemWrite = (opcode == 7'b0100011); // Store
-        end
+        MemWrite = (opcode == 7'b0100011); // Store
     end
 
    
