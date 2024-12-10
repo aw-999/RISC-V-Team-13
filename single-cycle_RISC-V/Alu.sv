@@ -52,24 +52,4 @@ end
 
 endmodule
 
-/*  ALU Logbook text 
-
-BEGIN
-
-According to ALUctrl, I match the calculation logics to instructions.
-Note that the maximum value shifted is 31, so we only need to take 5 bits from N2
-
-For flag operations, I use flagZ (output == zero), flagS (output[31]), flagC (carry) and flagV(overflow)
-
-To implement flagC, I change the subtraction logic so that it first implement 2's complement to N2, add an extra bit to the top and add them together. 
-(The other way is to add an extra bit equal to their first bit) and the output gives its carry bit
-For flagV, I list case of overflow: if N1 and -N2 are all positive but N1-N2 is negative; if N1 and -N2 are all negative but N1-N2 are positive, overflow happens
-so I write:
-
-After getting the four flags, I can implement flag operations: 
-
-Finally, the output of slt, slti, sltu and sltui should be {31'b0, flag}, we do not care about the alu output of branch instructions
-
-END */
-
 
