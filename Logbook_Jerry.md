@@ -103,7 +103,7 @@ Finally, the output of slt, slti, sltu and sltui should be {31'b0, flag}, we do 
 
 <br>
 
-# Module: Data Memory
+## Module: Data Memory
 ___
 
 A typical data memory have address input (AdIn), data input (DInDM), data write enabler (DMwrite), data output (DOutDM) and clock signal. 
