@@ -10,6 +10,7 @@ ___
 ## Content
 * Module: ALU Decode
 * Module: ALU
+* Module: Control Unit
 * Module: Data Memory
 
 <br>
@@ -100,6 +101,12 @@ After getting the four flags, I can implement flag operations:
     endcase
 ```
 Finally, the output of slt, slti, sltu and sltui should be {31'b0, flag}, we do not care about the alu output of branch instructions
+
+<br>
+
+## Module: Control Unit
+___
+
 
 <br>
 
