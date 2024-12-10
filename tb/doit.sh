@@ -35,7 +35,7 @@ for file in "${files[@]}"; do
 
     # If verify.cpp -> we are testing the top module
     if [ $name == "verify.cpp" ]; then
-        name="top"
+        name="main_top"
     fi
 
     # Translate Verilog -> C++ including testbench
