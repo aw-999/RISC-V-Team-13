@@ -19,6 +19,7 @@ always_comb begin
     ALUResult = 0;
     ZeroFlag = 0;
     NegativeFlag = 0;
+    UnsignedLess = 0;
     
     case(ALUCtrl)
             4'b0000: ALUResult = SrcA + SrcB;  // ADD
@@ -46,7 +47,7 @@ always_comb begin
             UnsignedLess = ALUResult[0];
         end
 
-    end
+end
 
 endmodule
     

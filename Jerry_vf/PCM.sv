@@ -3,7 +3,7 @@ module PCM #(
 )(
 
     input logic clk,
-    input logic rst,
+    //input logic rst,
 
 
     //Control
@@ -18,29 +18,32 @@ module PCM #(
     input logic [WIDTH - 1:0] ALUResultM,
     input logic [4:0] RdM,
     input logic [WIDTH - 1:0] PCPlus4M,
+    input logic [WIDTH-1:0] ImmExtM,
 
     output logic [WIDTH - 1:0] ReadDataW,
     output logic [WIDTH - 1:0] ALUResultW,
     output logic [4:0] RdW,
-    output logic [WIDTH - 1:0] PCPlus4W
+    output logic [WIDTH - 1:0] PCPlus4W,
+    output logic [WIDTH-1:0] ImmExtW
 
 );
 
 always_ff @(posedge clk) begin
 
-    if (rst) begin
+    // if (rst) begin
 
-        //control
-        RegWriteW <= 0;
-        ResultSrcW <= 0;
+    //     //control
+    //     RegWriteW <= 0;
+    //     ResultSrcW <= 0;
 
-        //data
-        ReadDataW <= 0;
-        ALUResultW <= 0;
-        RdW <= 0;
-        PCPlus4W <= 0;
-    end
-    else begin
+    //     //data
+    //     ReadDataW <= 0;
+    //     ALUResultW <= 0;
+    //     RdW <= 0;
+    //     PCPlus4W <= 0;
+    //     ImmExtW <= 0;
+    // end
+    // else begin
         
         //control
         RegWriteW <= RegWriteM;
@@ -50,8 +53,9 @@ always_ff @(posedge clk) begin
         ReadDataW <= ReadDataM;
         ALUResultW <= ALUResultM;
         RdW <= RdM;
-        PCPlus4W <= PCPlus4W;
-    end
+        PCPlus4W <= PCPlus4M;
+        ImmExtW <= ImmExtM;
+    //end
 end
 
 endmodule

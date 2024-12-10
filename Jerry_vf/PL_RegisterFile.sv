@@ -1,4 +1,4 @@
-module PL_RegisterFile #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] or reg 01010
+module PL_RegisterFile #(parameter WAD = 5, WD = 32)( // A0 = reg[10] or reg 01010
 
     input logic clk,
     input logic RegWrite,
@@ -7,7 +7,7 @@ module PL_RegisterFile #(parameter WAD = 5, WD = 32, R0 = 10)( // A0 = reg[10] o
     input logic [WAD-1:0] AdInReg, //A3, instr[11:7]
     input logic [WAD-1:0] AdOutReg1, //instr[19:15]
     input logic [WAD-1:0] AdOutReg2, //instr[24:20]
-    output logic [WD-1:0] DInReg, //formerly DIn
+    input logic [WD-1:0] DInReg, //formerly DIn
     output logic [WD-1:0] DOutReg1, //formerly Dout1
     output logic [WD-1:0] DOutReg2, //formerly Dout2
     

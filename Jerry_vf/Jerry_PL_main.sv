@@ -1,6 +1,7 @@
-module Jerry_PL_main #(parameter WAD = 5, parameter DATA_WIDTH = 32)(
+module Jerry_PL_main #(parameter DATA_WIDTH = 32)(
     input logic clk,
     input logic rst,
+    input logic TRIGGER,
     output logic [DATA_WIDTH-1:0] A0,
 
     
@@ -68,7 +69,7 @@ logic [3:0] ALUCtrl;
 
 //RegisterFile
 logic [DATA_WIDTH-1:0] DOutReg1, DOutReg2;
-logic TRIGGER;
+
 
 //extension
 logic [DATA_WIDTH-1:0] IMM;
@@ -77,7 +78,7 @@ logic [DATA_WIDTH-1:0] IMM;
 logic RegWriteE;
 logic [1:0] ResultSrcE;
 logic MemWriteE;
-logic [2:0] ALUCtrlE;
+logic [3:0] ALUCtrlE;
 logic ALUSrcE;
 logic [2:0] funct3E;
 logic [6:0] opcodeE;
@@ -86,6 +87,9 @@ logic [DATA_WIDTH-1:0] PCPlus4E;
 logic [DATA_WIDTH-1:0] ImmExtE;
 logic [DATA_WIDTH-1:0] RD1E;
 logic [DATA_WIDTH-1:0] RD2E;
+logic [4:0] Rs1E;
+logic [4:0] Rs2E;
+logic [4:0] RdE;
 
 
 
@@ -113,6 +117,7 @@ logic RegWriteM;
 logic [1:0] ResultSrcM;
 logic MemWriteM;
 logic [DATA_WIDTH-1:0] ALUResultM, WriteDataM, PCPlus4M;
+logic [DATA_WIDTH-1:0] ImmExtM;
 logic [4:0] RdM;
 logic [2:0] funct3M;
 
@@ -124,6 +129,7 @@ logic [DATA_WIDTH-1:0] DOutDM;
 logic RegWriteW;
 logic [1:0] ResultSrcW;
 logic [DATA_WIDTH-1:0] ReadDataW, ALUResultW, PCPlus4W;
+logic [DATA_WIDTH-1:0] ImmExtW;
 logic [4:0] RdW;
 
 //MUX_Resultsrc
@@ -139,8 +145,8 @@ HazardUnit HazardUnit (
     .ResultSrcE (ResultSrcE[0]),
     .PCSrcE (PCSrcE[0]),
 
-    .Rs1D (instrD[19:15]),
-    .Rs2D (instrD[24:20]),
+    .Rs1D (InstrD[19:15]),
+    .Rs2D (InstrD[24:20]),
     .Rs1E (Rs1E),
     .Rs2E (Rs2E),
 
@@ -156,9 +162,9 @@ HazardUnit HazardUnit (
 );
 
 PL_PCSrc_mux PL_PCSrc_mux ( 
-    .PCadd4(PCadd4),
-    .PCaddIMM(PCaddIMM),
-    .DOutAlu(DOutAlu),
+    .PCadd4(PCPlus4W),
+    .PCaddIMM(ImmExtW),
+    .DOutAlu(ALUResultW),
     .PCsrc(PCSrcE),
 
     .PCN(PCN)
@@ -187,7 +193,7 @@ PL_Incrementby4 PL_Increment4 (
 PCF PCFetch(
     //always there
     .clk (clk),
-    .rst (rst),
+    //.rst (rst),
 
     //hazard
     .flushD (flushD), //clr
@@ -207,10 +213,10 @@ PCF PCFetch(
 //using Arjuns and Doms
 PL_ControlUnit PL_ControlUnit (
 
-    .opcode (instrD[6:0]),
-    .ZeroFlag (ZeroFlag),
-    .NegativeFlag (NegativeFlag),
-    .UnsignedLess (UnsignedLess),
+    .opcode (InstrD[6:0]),
+    //.ZeroFlag (ZeroFlag),
+    //.NegativeFlag (NegativeFlag),
+    //.UnsignedLess (UnsignedLess),
 
     .ResultSrc (ResultSrc),
     .MemWrite (MemWrite),
@@ -223,9 +229,9 @@ PL_ControlUnit PL_ControlUnit (
 
 //using Arjuns and Doms
 PL_ALUDecode PL_ALUDecode (
-    .funct3 (instrD[14:12]), 
-    .opcode5 (instrD[5]), 
-    .funct75 (instrD[30]),
+    .funct3 (InstrD[14:12]), 
+    //.opcode5 (InstrD[5]), 
+    .funct75 (InstrD[30]),
     .ALUop (ALUop),
 
     .ALUCtrl (ALUCtrl)
@@ -240,8 +246,8 @@ PL_RegisterFile M4 (
 
     .AdInReg(RdW),
 
-    .AdOutReg1(instrD[19:15]),
-    .AdOutReg2(instrD[24:20]),
+    .AdOutReg1(InstrD[19:15]),
+    .AdOutReg2(InstrD[24:20]),
 
     .DInReg(DInReg),
 
@@ -282,7 +288,7 @@ PL_RegisterFile M4 (
 
 PL_Extend PL_Extend (
     .IMMsrc (ImmSrc),
-    .instr(instrD),
+    .instr(InstrD),
     .ImmExt(IMM)
 );
 
@@ -290,7 +296,7 @@ PL_Extend PL_Extend (
 PCD PCDecode(
 
     .clk (clk),
-    .rst (rst),
+    //.rst (rst),
 
     .flush (flushE),
 
@@ -298,24 +304,24 @@ PCD PCDecode(
     .RegWriteD (RegWrite),
     .ResultSrcD (ResultSrc),
     .MemWriteD (MemWrite),
-    .opcodeD (instrD[6:0]),
+    .opcodeD (InstrD[6:0]),
 
     .ALUCtrlD (ALUCtrl), 
     .ALUSrcD (ALUSrc),
 
     .opcodeE (opcodeE),
     //for datamemory
-    .funct3D (instrD[14:12]),
+    .funct3D (InstrD[14:12]),
 
     //data
     .RD1D (DOutReg1),   
     .RD2D (DOutReg2),   
     .PCD (PCD),       
-    .RdD (instrD[11:7]),   
+    .RdD (InstrD[11:7]),   
     .ImmExtD (IMM),
     .PCPlus4D (PCPlus4D),  
-    .Rs1D (instrD[19:15]),
-    .Rs2D (instrD[24:20]),
+    .Rs1D (InstrD[19:15]),
+    .Rs2D (InstrD[24:20]),
 
     
     
@@ -403,7 +409,7 @@ PL_ALU PL_ALU (
 
 PCE PCExecute (
     .clk (clk),
-    .rst (rst),
+    //.rst (rst),
 
     //ControlUnit
     .RegWriteE (RegWriteE),
@@ -415,6 +421,7 @@ PCE PCExecute (
     .RdE (RdE),               
     .PCPlus4E (PCPlus4E),   
     .funct3E (funct3E),
+    .ImmExtE (ImmExtE),
 
     .RegWriteM (RegWriteM),
     .ResultSrcM (ResultSrcM),
@@ -424,6 +431,7 @@ PCE PCExecute (
     .WriteDataM (WriteDataM),
     .RdM (RdM),
     .PCPlus4M (PCPlus4M),
+    .ImmExtM (ImmExtM),
 
     //for datamemory
     .funct3M (funct3M)
@@ -443,7 +451,7 @@ PL_DataMemory DataMemory (
 PCM PCMemory(
 
     .clk (clk),
-    .rst (rst),
+    //.rst (rst),
 
     .RegWriteM (RegWriteM),
     .ResultSrcM (ResultSrcM),
@@ -451,13 +459,15 @@ PCM PCMemory(
     .ALUResultM (ALUResultM), 
     .RdM (RdM),               
     .PCPlus4M (PCPlus4M),     
+    .ImmExtM (ImmExtM),
     
     .RegWriteW (RegWriteW),
     .ResultSrcW (ResultSrcW),
     .ReadDataW (ReadDataW),
     .ALUResultW (ALUResultW),
     .RdW (RdW),
-    .PCPlus4W (PCPlus4W)
+    .PCPlus4W (PCPlus4W),
+    .ImmExtW (ImmExtW)
 );
 
 PL_MUX_Resultsrc PL_MUX_Resultsrc (

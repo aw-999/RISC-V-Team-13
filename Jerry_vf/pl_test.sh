@@ -2,7 +2,7 @@
 
 # Clean up any previous builds
 rm -rf obj_dir
-rm -f Vmain_top
+rm -f VJerry_PL_main
 
 verilator -Wall --trace \
           -cc Jerry_PL_main.sv \
@@ -33,14 +33,14 @@ verilator -Wall --trace \
 
 
           --exe 1_addi_bne.cpp \
-          --prefix "Vmain_top" \
-          -o Vmain_top \
+          --prefix "VJerry_PL_main" \
+          -o VJerry_PL_main \
           -I/usr/local/share/verilator/include \
           -LDFLAGS "-lgtest -lgtest_main -lpthread"
 
 
 # Build C++ project with automatically generated Makefile
-make -j -C obj_dir/ -f Vmain_top.mk
+make -j -C obj_dir/ -f VJerry_PL_main.mk
 
 # Run the simulation
-./obj_dir/Vmain_top
+./obj_dir/VJerry_PL_main

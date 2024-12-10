@@ -3,9 +3,7 @@ module PCD #(
 
 )(
 
-    input logic clk,
-    input logic rst,
-    
+    input logic clk,    
 
     //input logic [WIDTH-1:0] instr,
 
@@ -18,7 +16,7 @@ module PCD #(
     input logic [6:0] opcodeD,
     input logic [2:0] funct3D,
 
-    input logic [2:0] ALUCtrlD,
+    input logic [3:0] ALUCtrlD,
     input logic ALUSrcD,
     
 
@@ -27,10 +25,10 @@ module PCD #(
     output logic MemWriteE,
     // output logic JumpE,
     // output logic BranchE,
-    input logic [6:0] opcodeE,
-    input logic [2:0] funct3E,
+    output logic [6:0] opcodeE,
+    output logic [2:0] funct3E,
 
-    output logic [2:0] ALUCtrlE,
+    output logic [3:0] ALUCtrlE,
     output logic ALUSrcE,
     
 
@@ -67,11 +65,8 @@ always_ff @(posedge clk) begin
         RegWriteE <= 0;
         ResultSrcE <= 0;
         MemWriteE <= 0;
-        JumpE <= 0;
-        BranchE <= 0;
         ALUCtrlE <= 0;
         ALUSrcE <= 0;
-        PCsrcE <= 0;
         opcodeE <= 0;
         funct3E <= 0;
 
@@ -92,10 +87,8 @@ always_ff @(posedge clk) begin
     else begin
         //control
         RegWriteE <= RegWriteD;
-        ResultSrcE <= ResulSrcD;
+        ResultSrcE <= ResultSrcD;
         MemWriteE <= MemWriteD;
-        JumpE <= JumpD;
-        BranchE <= BranchD;
         ALUCtrlE <= ALUCtrlD;
         ALUSrcE <= ALUSrcD;
         opcodeE <= opcodeD;
@@ -108,7 +101,6 @@ always_ff @(posedge clk) begin
         RdE <= RdD;
         ImmExtE <= ImmExtD;
         PCPlus4E <= PCPlus4D;
-        PCsrcE <= PCsrcD;
 
          //Hazard
         Rs1E <= Rs1D;

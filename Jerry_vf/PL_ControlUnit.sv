@@ -1,8 +1,8 @@
 module PL_ControlUnit (
     input logic [6:0] opcode,     //instr[6:0]
-    input logic ZeroFlag,         
-    input logic NegativeFlag,     
-    input logic UnsignedLess,     
+    //input logic ZeroFlag,         
+    //input logic NegativeFlag,     
+    //input logic UnsignedLess,     
 
 
     
@@ -69,17 +69,13 @@ module PL_ControlUnit (
 
     
     always_comb begin
-        if (stall) begin
-            RegWrite = 1'b0;
-        end
-        else begin
-            case (opcode)
-                7'b0110011, 7'b0010011, 7'b0000011, 7'b1101111, 7'b1100111, 7'b0110111, 7'b0010111: 
-                    RegWrite = 1'b1; 
-                default: 
-                    RegWrite = 1'b0; 
-            endcase
-        end
+
+        case (opcode)
+            7'b0110011, 7'b0010011, 7'b0000011, 7'b1101111, 7'b1100111, 7'b0110111, 7'b0010111: 
+                RegWrite = 1'b1; 
+            default: 
+                RegWrite = 1'b0; 
+        endcase
     end
 
 

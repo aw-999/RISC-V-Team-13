@@ -10,7 +10,7 @@ module PL_DataMemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
 logic [WB-1:0] RamArray [2**WAM-1:0]; // stored in byte
 logic [WAM-1:0] Ad; // reduced in size, 2**32 is too large to simulate
 
-logic [WD-1:0] show; // used for testing
+//logic [WD-1:0] show; // used for testing
 
 initial begin
     $readmemh("Zgaussian.mem", RamArray, 20'h10000);
@@ -46,7 +46,7 @@ always_ff@(posedge clk)
         else if (func3[1:0] == 2'b00) RamArray[Ad] <= DInDM[WD-25:0];
     end
 
-assign show = {RamArray[20'h10003], RamArray[20'h10002], RamArray[20'h10001], RamArray[20'h10000]};
+// assign show = {RamArray[20'h10003], RamArray[20'h10002], RamArray[20'h10001], RamArray[20'h10000]};
 
 endmodule
 

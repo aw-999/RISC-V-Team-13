@@ -1,5 +1,5 @@
 module PL_ALUDecode (
-    input logic opcode5,          // 5th bit of opcode
+    //input logic opcode5,          // 5th bit of opcode
     input logic [2:0] funct3,     // bits 14:12 of instruction
     input logic funct75,          // bit 30 of instruction
     
