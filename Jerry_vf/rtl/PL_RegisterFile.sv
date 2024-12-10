@@ -11,35 +11,7 @@ module PL_RegisterFile #(parameter WAD = 5, WD = 32)( // A0 = reg[10] or reg 010
     output logic [WD-1:0] DOutReg1, //formerly Dout1
     output logic [WD-1:0] DOutReg2, //formerly Dout2
     
-    output logic [WD-1:0] a0,
-    output logic [WD-1:0] a1,
-    output logic [WD-1:0] a2,
-    output logic [WD-1:0] a3,
-    output logic [WD-1:0] a4,
-    output logic [WD-1:0] a5,
-    output logic [WD-1:0] a6,
-    output logic [WD-1:0] a7,
-
-    output logic [WD-1:0] s0,
-    output logic [WD-1:0] s1,
-    output logic [WD-1:0] s2,
-    output logic [WD-1:0] s3,
-    output logic [WD-1:0] s4,
-    output logic [WD-1:0] s5,
-    output logic [WD-1:0] s6,
-    output logic [WD-1:0] s7,
-    output logic [WD-1:0] s8,
-    output logic [WD-1:0] s9,
-    output logic [WD-1:0] s10,
-    output logic [WD-1:0] s11,
-
-    output logic [WD-1:0] t0,
-    output logic [WD-1:0] t1,
-    output logic [WD-1:0] t2,
-    output logic [WD-1:0] t3,
-    output logic [WD-1:0] t4,
-    output logic [WD-1:0] t5,
-    output logic [WD-1:0] t6
+    output logic [WD-1:0] a0
 );
 
 logic [WD-1: 0] RegArr [2**WAD-1: 0];

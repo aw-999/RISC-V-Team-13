@@ -1,38 +1,8 @@
-module Jerry_PL_main #(parameter DATA_WIDTH = 32)(
+module top #(parameter DATA_WIDTH = 32)(
     input logic clk,
     input logic rst,
     input logic TRIGGER,
-    output logic [DATA_WIDTH-1:0] A0,
-
-    
-    output logic [DATA_WIDTH-1:0] a1,
-    output logic [DATA_WIDTH-1:0] a2,
-    output logic [DATA_WIDTH-1:0] a3,
-    output logic [DATA_WIDTH-1:0] a4,
-    output logic [DATA_WIDTH-1:0] a5,
-    output logic [DATA_WIDTH-1:0] a6,
-    output logic [DATA_WIDTH-1:0] a7,
-
-    output logic [DATA_WIDTH-1:0] s0,
-    output logic [DATA_WIDTH-1:0] s1,
-    output logic [DATA_WIDTH-1:0] s2,
-    output logic [DATA_WIDTH-1:0] s3,
-    output logic [DATA_WIDTH-1:0] s4,
-    output logic [DATA_WIDTH-1:0] s5,
-    output logic [DATA_WIDTH-1:0] s6,
-    output logic [DATA_WIDTH-1:0] s7,
-    output logic [DATA_WIDTH-1:0] s8,
-    output logic [DATA_WIDTH-1:0] s9,
-    output logic [DATA_WIDTH-1:0] s10,
-    output logic [DATA_WIDTH-1:0] s11,
-
-    output logic [DATA_WIDTH-1:0] t0,
-    output logic [DATA_WIDTH-1:0] t1,
-    output logic [DATA_WIDTH-1:0] t2,
-    output logic [DATA_WIDTH-1:0] t3,
-    output logic [DATA_WIDTH-1:0] t4,
-    output logic [DATA_WIDTH-1:0] t5,
-    output logic [DATA_WIDTH-1:0] t6
+    output logic [DATA_WIDTH-1:0] a0
 
 );
 
@@ -254,35 +224,6 @@ PL_RegisterFile M4 (
     .DOutReg1(DOutReg1), //RD1D
     .DOutReg2(DOutReg2), //RD2D
 
-        .a0 (A0),
-        .a1 (a1),
-        .a2 (a2),
-        .a3 (a3),
-        .a4 (a4),
-        .a5 (a5),
-        .a6 (a6),
-        .a7 (a7),
-
-        .s0 (s0),
-        .s1 (s1),
-        .s2 (s2),
-        .s3 (s3),
-        .s4 (s4),
-        .s5 (s5),
-        .s6 (s6),
-        .s7 (s7),
-        .s8 (s8),
-        .s9 (s9),
-        .s10 (s10),
-        .s11 (s11),
-
-        .t0 (t0),
-        .t1 (t1),
-        .t2 (t2),
-        .t3 (t3),
-        .t4 (t4),
-        .t5 (t5),
-        .t6 (t6)
 
 );
 
