@@ -1,9 +1,17 @@
+// ALUResult  →  Cache Addr (cpu_data_in.Addr)
+// WriteData  →  Cache WordData (cpu_data_in.WordData)
+// ReadData   ←  Cache WordOut (cpu_data_out.WordOut)
+// MemWrite   →  Cache Wen (cpu_data_in.Wen)
+// MemRead    →  Cache Valid (cpu_data_in.Valid)
+
+
+
 module L1cache #(
     parameter DEGREES = 4,
     parameter SETNUM = 64,
-    parameter BYTE_ADDR_BITS = 4,
+    parameter BYTE_ADDR_BITS = 4, //2 bit for degree choose and 2 bit for LSB of memory address
     parameter BLOCKSIZE = 128,
-    parameter BYTES_PER_BLOCK = BLOCKSIZE / 8,
+    parameter BYTES_PER_BLOCK = BLOCKSIZE / 8, //16 bytes peroblock
     parameter TAGSIZE = 32 - $clog2(SETNUM) - BYTE_ADDR_BITS
 ) (
     input logic clk_i,
@@ -23,12 +31,12 @@ typedef struct packed {
     logic Valid;       // When the data is valid
     logic Wen;         // Write enable
     logic [31:0] Addr; // Address
-    logic [7:0] ByteData; // Byte to write
+    logic [31:0] Datain; // Byte to write
 } L1DataIn_t;
 
 typedef struct packed {
     logic Ready;       // Indicates if the output is ready
-    logic [7:0] ByteOut; // Data output
+    logic [31:0] Dataout; // Data block output
 } L1DataOut_t;
 
 // Internal signals
@@ -46,7 +54,7 @@ logic [$clog2(DEGREES)-1:0] last_used_shift_reg[DEGREES-1:0];
 cache_entry cache_arr[DEGREES-1:0][SETNUM-1:0];
 
 // Default assignments
-assign cpu_data_out = '{Ready: 1'b0, ByteOut: 8'b0};
+assign cpu_data_out = '{Ready: 1'b0, Dataout: 32'b0};
 
 // Function for tag matching
 function logic cache_hit_detect(
@@ -105,19 +113,19 @@ end
 // FSM and cache operations
 always_comb begin
     // Default output and state
-    cpu_data_out = '{Ready: 1'b0, ByteOut: 8'b0};
+    cpu_data_out = '{Ready: 1'b0, Dataout: 32'b0};
     next_state = current_state;
 
     // Address decomposition
     set_index = cpu_data_in.Addr[31-TAGSIZE:BYTE_ADDR_BITS];
     tag = cpu_data_in.Addr[31:32-TAGSIZE];
-    byte_offset = cpu_data_in.Addr[BYTE_ADDR_BITS-1:0];
+    byte_offset = cpu_data_in.Addr[BYTE_ADDR_BITS-1:2];
 
     case (current_state)
         TAG: begin
             cache_hit = cache_hit_detect(tag, cache_arr[set_index], degree_index);
 
-            if (cpu_data_in.Valid) begin
+            if (cpu_data_in.Valid) begin //rolling the cache, always check if the data is valid
                 if (cache_hit) begin
                     if (cpu_data_in.Wen) begin
                         next_state = WRITE_THROUGH;
@@ -132,12 +140,12 @@ always_comb begin
         end
 
         WRITE_THROUGH: begin
-            cache_arr[degree_index][set_index].Data[(byte_offset+1)*8-1 -: 8] = cpu_data_in.ByteData;
+            cache_arr[degree_index][set_index].Data[(byte_offset+4)*8-1 -: 32] = cpu_data_in.Datain;
             next_state = OUTPUT;
         end
 
         OUTPUT: begin
-            cpu_data_out = '{Ready: 1'b1, ByteOut: cache_arr[degree_index][set_index].Data[(byte_offset+1)*8-1 -: 8]};
+            cpu_data_out = '{Ready: 1'b1, Dataout: cache_arr[degree_index][set_index].Data[(byte_offset+4)*8-1 -: 32]};
             update_shift_reg(degree_index, last_used_shift_reg);
             next_state = TAG;
         end
