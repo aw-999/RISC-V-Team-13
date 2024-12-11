@@ -6,7 +6,8 @@ module RegisterFile #(parameter WAD = 5, WD = 32)( // A0 = reg[10] or reg 01010 
     input logic [WAD-1:0] AdIn, //A3, instr[11:7]
     input logic [WAD-1:0] AdOut1, //instr[19:15]
     input logic [WAD-1:0] AdOut2, //instr[24:20]
-    output logic [WD-1:0] DIn, //formerly DIn
+    input logic [WD-1:0] DIn, //formerly DIn
+    
     output logic [WD-1:0] RD1, //formerly Dout1
     output logic [WD-1:0] RD2, //formerly Dout2
     

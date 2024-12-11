@@ -14,7 +14,7 @@ module PCSrc_mux #(
         case (PCSrc)
             2'b00: PCN = PCPlus4;
             2'b01: PCN = PCTarget;
-            2'b11: PCN = ALUResult;
+            2'b11: PCN = ALUResult;         
 
         default: PCN = PCPlus4;
     endcase

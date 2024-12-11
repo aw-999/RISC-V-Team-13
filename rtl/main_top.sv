@@ -59,7 +59,9 @@ module main_top #(
     logic [3:0] ALUCtrl;
     
     //logic ZeroFlag, NegativeFlag, UnsignedLess; 
-    logic branch;
+    logic branch, jalr;
+
+    logic [DATA_WIDTH-1:0] PC_out;
 
 
 
@@ -95,7 +97,7 @@ module main_top #(
     );
 
     Branch Branch (
-        .PC (PC),
+        .PC (PC_out),
         .ImmExt (ImmExt),
         .PCTarget (PCTarget)
     );
@@ -125,7 +127,9 @@ module main_top #(
         .ALUSrc (ALUSrc),
         .ImmSrc (IMMsrc),
         .RegWrite (RegWrite),
-        .ALUop (ALUop)
+        .ALUop (ALUop),
+        .jalr(jalr)
+
 
     );
 
@@ -229,6 +233,13 @@ module main_top #(
         .PCaddIMM(PCTarget),
         .ResultSrc (ResultSrc), 
         .Result (Result)        // Write-back result
+    );
+
+    jalr_mux jalr_mux (
+        .jalr(jalr),
+        .PC(PC),
+        .rs1(RD1),
+        .PC_out(PC_out)
     );
 
 endmodule

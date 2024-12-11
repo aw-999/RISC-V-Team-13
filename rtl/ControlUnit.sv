@@ -15,6 +15,7 @@ module ControlUnit (
     output logic ALUSrc,
     output logic [2:0] ImmSrc,
     output logic RegWrite,
+    output logic jalr,
 
     //this is for aludecode
     output logic [2:0] ALUop
@@ -41,9 +42,14 @@ module ControlUnit (
         default: ALUop = 3'b000;
         endcase
 
-    //Result Src
-
     
+    //jalr instr
+    case(opcode)
+        7'b1100111: jalr = 1;
+        default: jalr = 0;
+    endcase
+
+    //Result Src
     case(opcode)
         7'b0110011: ResultSrc = 2'b00; // R-type ALU instructions
         7'b0010011: ResultSrc = 2'b00; // I-type ALU instructions (addi, andi, ori, etc.)
@@ -162,7 +168,7 @@ module ControlUnit (
             endcase
             */
         7'b1100111: PCSrc = 2'b11;  //jalr
-        7'b1101111: PCSrc = 2'b01;  //jal - might need to look into that later?
+        7'b1101111: PCSrc = 2'b01;  //jal - might need to look into that later
         default: PCSrc = 2'b00;
     endcase
 

@@ -33,10 +33,10 @@ module WriteBack_mux #(parameter W = 32)(
 
 always_comb 
     case (ResultSrc)
-        2'b00: Result = ALUResult;
-        2'b01: Result = ReadData;
-        2'b10: Result = PCadd4;
-        2'b11: Result = PCaddIMM;
+        2'b00: Result = ALUResult;      //from ALU
+        2'b01: Result = ReadData;       //from data mem
+        2'b10: Result = PCadd4;         // jalr, jal
+        2'b11: Result = PCaddIMM;       
         default Result = ALUResult;
     endcase
     
