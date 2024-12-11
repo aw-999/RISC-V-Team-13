@@ -1,3 +1,5 @@
+.text
+.globl main
 main:
 	addi a2, x0, 252
 	li a3, -24173257
