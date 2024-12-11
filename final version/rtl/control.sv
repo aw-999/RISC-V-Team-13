@@ -9,11 +9,12 @@ module control (
     output logic alusrcD,
     output logic [2:0] immsrcD,
     output logic regwriteD,
-
+    
     //this is for aludecode
     output logic [2:0] aluopD
     //output logic branchE,
     //output logic jumpE,
+    output logic jalrD,
 );
 
 
@@ -37,9 +38,14 @@ module control (
         default: aluopD = 3'b000;
         endcase
 
-    //Result Src
-
     
+    //jalr instr
+    case(opcodeD)
+        7'b1100111: jalrD= 1;
+        default: jalrD = 0;
+    endcase
+
+    //Result Src
     case(opcodeD)
         7'b0110011: resultsrcD = 2'b00; // R-type ALU instructions
         7'b0010011: resultsrcD = 2'b00; // I-type ALU instructions (addi, andi, ori, etc.)
@@ -52,7 +58,7 @@ module control (
 
     
 
-    //memwriteD
+    //MemWrite
      
         case (opcodeD)
         7'b0100011: memwriteD = 1'b1; // s-type
@@ -61,7 +67,7 @@ module control (
         endcase
 
 
-    //alusrcD
+    //ALUSrc
 
         case (opcodeD)
         
@@ -80,7 +86,7 @@ module control (
         default: alusrcD = 1'b0;
         endcase
 
-    //immsrcD
+    //ImmSrc
         case (opcodeD)
 
         7'b0010011: immsrcD = 3'b000;//i-type
@@ -94,7 +100,7 @@ module control (
         default: immsrcD = 3'b000;
         endcase
 
-    //regwriteD
+    //RegWrite
 
         case(opcodeD)
 
@@ -116,33 +122,15 @@ module control (
 
     case(opcodeD)
         7'b1100011: 
-        
-            if(flagE) begin 
-                pcsrcD = 2'b01; 
-            end
-            else begin 
-                pcsrcD = 2'b00;
-            end
-
+            if(flagE) pcsrcD = 2'b01;
+            else pcsrcD = 2'b00;
         7'b1100111: pcsrcD = 2'b11;  //jalr
-        7'b1101111: pcsrcD = 2'b01;  //jal - might need to look into that later?
+        7'b1101111: pcsrcD = 2'b01;  //jal - might need to look into that later
         default: pcsrcD = 2'b00;
     endcase
 
 
 
 end
-
-
-
-
-
-
-
-    
-
-
-
-
 
 endmodule

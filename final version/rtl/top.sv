@@ -14,7 +14,7 @@ logic stallF;
 
 //decode
 logic [DATA_WIDTH-1:0] pcD, instrD, pcplus4D, immextD, RD1D, RD2D;
-logic regwriteD, memwriteD, flushD, stallD, alusrcD;
+logic regwriteD, memwriteD, flushD, stallD, alusrcD, jalrD;
 //logic jumpD, branchD;
 logic [1:0] resultsrcD, pcsrcD;
 logic [2:0] funct3D, aluopD, immsrcD;
@@ -23,8 +23,8 @@ logic [4:0] rdD;
 logic [6:0] opcodeD;
 
 //execute
-logic [DATA_WIDTH-1:0] pcE, instrE, pcplus4E, immextE, RD1E, RD2E, pctargetE, writedataE, srcaE, srcbE, aluresultE;
-logic regwriteE, memwriteE, flushE, alusrcE, flagE;
+logic [DATA_WIDTH-1:0] pcE, instrE, pcplus4E, immextE, RD1E, RD2E, pctargetE, writedataE, srcaE, srcbE, aluresultE, jalrmuxoutE;
+logic regwriteE, memwriteE, flushE, alusrcE, flagE, jalrE;
 //logic jumpE, branchE;
 logic [1:0] resultsrcE, pcsrcE, forwardaE, forwardbE;
 logic [2:0] funct3E;
@@ -97,6 +97,7 @@ control controlunit (
 
     //.jumpD (jumpD),
     //.branchD (branchD),
+    .jalrD (jalrD),
     .pcsrcD (pcsrcD),
     .resultsrcD (resultsrcD),
     .memwriteD (memwriteD),
@@ -165,7 +166,8 @@ pcd pcedecode (
     .rdD (instrD[11:7]),
     .immextD (immextD),
     .pcplus4D (pcplus4D),
-    
+    .jalrD (jalrD),
+    .pcsrcD (pcsrcD),
     //Hazard
     .rs1D (instrD[19:15]),
     .rs2D (instrD[24:20]),
@@ -186,18 +188,20 @@ pcd pcedecode (
     .rdE (rdE),
     .immextE (immextE),
     .pcplus4E (pcplus4E),
+    .jalrE (jalrE),
+    .pcsrcE (pcsrcE),
     .rs1E (rs1E),
     .rs2E (rs2E)
 
 );
 
-// mux_jalr mux_jalr (
-    //.pcE (pcE),
-    // .RD1E (RD1E),
-    // .jalrE (jalrE),
+mux_jalr mux_jalr (
+    .pcE (pcE),
+    .RD1E (RD1E),
+    .jalrE (jalrE),
 
-    // .jalrmuxoutE (jalrmuxoutE)
-// );
+    .jalrmuxoutE (jalrmuxoutE)
+);
 
 
 
@@ -238,16 +242,8 @@ mux_alu mux_alu (
     .srcbE (srcbE)
 );
 
-gate_pcsrc gate_pcsrc (
-    //.jumpE (jumpE),
-    //.branchE (branchE),
-    //.flagE (flagE),
-
-    //.pcsrcE (pcsrcE)
-);
-
 pcadder pcadder (
-    .pcE (pcE),
+    .pcE (jalrmuxoutE)
     .immextE (immextE),
     
     .pctargetE (pctargetE)
