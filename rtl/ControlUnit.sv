@@ -99,7 +99,7 @@ module ControlUnit (
         7'b0110111: ImmSrc = 3'b011;//u-type
         7'b0010111: ImmSrc = 3'b011;
         7'b1101111: ImmSrc = 3'b100;//j-type
-        7'b1100111: ImmSrc = 3'b100;
+        7'b1100111: ImmSrc = 3'b000;
 
         default: ImmSrc = 3'b000;
         endcase

@@ -36,7 +36,7 @@ always_comb
         2'b00: Result = ALUResult;      //from ALU
         2'b01: Result = ReadData;       //from data mem
         2'b10: Result = PCadd4;         // jalr, jal
-        2'b11: Result = PCaddIMM;       
+        2'b11: Result = PCaddIMM;       //for auipc/lui
         default Result = ALUResult;
     endcase
     
