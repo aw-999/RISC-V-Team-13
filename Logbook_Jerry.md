@@ -15,6 +15,12 @@ ___
     * related selection modules: ALUsrc, Resultsrc, PCsrc
 * Module: Data Memory
 * Module: Extension
+* Other Modules:
+   * PC Register,
+   * PC Increment 4
+   * Instruction Memory
+   * Add_PC_IMM
+* Main.sv, the top module
 * Extra testbench: All_basis_instruction_test
 
 <br><br>
@@ -336,5 +342,71 @@ ___
 
 ## Module: Extension
 ___
+
+according to the type of instructions: 
+
+<br><br>
+
+___
+
+## Other Module
+
+___
+
+PC Register
+
+* input: PCN
+* output: PC
+* Simple register that stores the PC value
+
+___
+
+PC Increment 4
+
+* input: PC
+* output: PCN
+* Simply adding next PC values by 4
+
+___
+
+Instruction Memory
+
+* A typical asychronous RISC-V architecture Instruction Memory
+* I added another logic (AInIM) which is PC[Memory_size - 1, 0], because this memory does not have not as large as 2*32 space (I set it to only 16 here and can be adjusted to maximum 32 in top module)
+* since data is stored in bytes, the output is connecting 4 consecutive bytes
+  
+```
+   assign instr = {RomArray[AInIM+3], RomArray[AInIM+2], RomArray[AInIM+1], RomArray[AInIM]};
+```
+
+* input: Address (PC)
+* output: Instruction (instr)
+
+___
+
+Add_PC_IMM
+
+* input: PC, IMM
+* output: PCaddIMM
+* Simply adding PC and IMM and output
+
+<br><br>
+
+___
+
+## Main.sv
+the top module
+___
+
+By simply allocating all the modules together
+
+<br><br>
+
+___
+
+## Extra Testbench
+___
+
+see All_basic_instruction_test.txt
 
 <br><br><br><br><br><br><br><br><br><br>
