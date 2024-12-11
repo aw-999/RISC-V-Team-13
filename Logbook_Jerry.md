@@ -8,13 +8,32 @@ Name: Wenjie Mei
 ___
 
 ## Content
+* Introduction: Developing the single cycle RISC-V processor
 * Module: ALU Decode
 * Module: ALU
 * Module: Control Unit
     * related selection modules: ALUsrc, Resultsrc, PCsrc
 * Module: Data Memory
+* Module: Extension
+* Extra testbench: All_basis_instruction_test
 
-<br>
+<br><br>
+
+___
+
+## Introduction
+Developing the single cycle RISC-V processor
+___
+
+I am the group member who mainly worked on writing the single cycle processor part of the project, debugging and shortening / merging the modules without affecting their original functions. 
+
+The single cycle RISC-V processor is able to read and execute the machine code of all basic RV32I instructions except ecall and ebreak, so my commit includes writing control unit, muxes and ALU that fits in a wide range of instructions. Also, instructions like jalr, auipc and branch instructions also increase the complexity of datapath, which is different from the processor model illustrated in course ppt. My commit implement this differences to the modules and the way to connect them.
+
+I also write a testbench that tests almost all the instructions on this processor. This is merely used by myself to determine whether there is a bug among the modules
+
+<br><br>
+
+___
 
 ## Module: ALU Decode
 The input logics of ALUdecode and the way to decode them are listed below:
@@ -61,7 +80,9 @@ Additionally, operation pair (add, sub), pair (srl, srla), pair (srli and srai) 
 since there is no subi, which is exactly the same as addi, Opcode[5] (op5) is used to indicate whether IMM is used.
 Therefore, I add extra case statements considering func75 and op5 to change ALUctrl.
 
-<br>
+<br><br>
+
+___
 
 ## Module: ALU
 ___
@@ -103,13 +124,190 @@ After getting the four flags, I can implement flag operations:
 ```
 Finally, the output of slt, slti, sltu and sltui should be {31'b0, flag}, we do not care about the alu output of branch instructions
 
-<br>
+<br><br>
+
+___
 
 ## Module: Control Unit
+main control unit base on Instruction [6:0]
 ___
 
 
-<br>
+the input of Control Unit includes Opcode, which is the last 7 bits of the instuction that determines the type of instructions
+They are separated as follows:
+
+Opcode | Instruction Type | Structural Instuction Type | Datapath Action / Explanations
+--- | --- | --- | ---
+0010011 | common i-type instructions | i-type | regfile and IMM arithmetic instruction 
+0011011 | common i-type instructions | i-type | (Not on instruction list but generated from online assembler)
+0110011 | r-type instructions | r-type | regfile only arithmetic instuction
+0110111 | lui | u-type | write IMM20 to regfile
+1100011 | branch instructions | b-type | shifting PC if flag result == 1
+0100011 | store instructions | s-type | store regfile value to data memory
+0000011 | load instructions | i-type | load data memory content to regfile
+1101111 | jal | j-type | write pc+4 to regfile and then shifting pc
+1100111 | jalr | i-type | write pc+4 to regfile and add regfile and IMM to pc
+0010111 | auipc | u-type |  add IMM20 to pc and write in regfile
+
+And the following diagram shows how each type of instructions are structured:
+
+
+
+Except from the 6 basic instructions types, there are instructions like load, jalr and auipc which share the traits of different instruction types. This is the reason why I need to list them separately in the following case statements
+
+___ 
+
+
+The output IMMctrl is connected to the Extension unit which extract IMM from instruction based on its type (see Extension)
+
+```
+    case (Opcode)
+        7'b0010011: IMMctrl = 3'b000; // i-type
+        7'b0011011: IMMctrl = 3'b000;
+        7'b0000011: IMMctrl = 3'b000; // load
+        7'b1100111: IMMctrl = 3'b000; // jalr
+
+        7'b0100011: IMMctrl = 3'b001; // s-type
+
+        7'b1100011: IMMctrl = 3'b010; // b-type
+
+        7'b0110111: IMMctrl = 3'b011; // u-type
+        7'b0010111: IMMctrl = 3'b011; // auipc
+        
+        7'b1101111: IMMctrl = 3'b100; // j-type
+
+        default: IMMctrl = 3'b000;
+    endcase
+```
+
+___
+
+The output ALUop is connected to the ALU Decoder to generate ALUctrl (see ALUDecode) 
+* Jalr here is regarded as j-type instruction but not i-type
+
+```
+    case (Opcode)
+        // Add 2 operands
+        7'b0100011: ALUop = 2'b00; // s-type
+        7'b0000011: ALUop = 2'b00; // load
+        7'b1101111: ALUop = 2'b00; // j-type
+        7'b1100111: ALUop = 2'b00; // jalr
+
+        // using func3 and flags
+        7'b1100011: ALUop = 2'b01; // b-type
+
+        // using func3 (some use flag)
+        7'b0010011: ALUop = 2'b10; // i-type
+        7'b0011011: ALUop = 2'b10;
+        7'b0110011: ALUop = 2'b10; // r-type
+
+        // only pass IMM to ALU
+        7'b0110111: ALUop = 2'b11; // u-type
+        7'b0010111: ALUop = 2'b11; // auipc
+        default: ALUop = 2'b00;
+    endcase
+```
+
+___
+
+The output Regwrite determines whether to write on regfile (see RegisterFile): 
+
+```
+    case (Opcode)
+        7'b0110011: RegWrite = 1'b1; // r-type
+        7'b0010011: RegWrite = 1'b1; // i-type
+        7'b0011011: RegWrite = 1'b1; 
+        7'b0000011: RegWrite = 1'b1; // load
+        7'b0110111: RegWrite = 1'b1; // u-type
+        7'b0010111: RegWrite = 1'b1; // auipc
+        7'b1100111: RegWrite = 1'b1; // jalr
+        7'b1101111: RegWrite = 1'b1; // j-type
+        default: RegWrite = 1'b0;
+    endcase
+```
+
+___
+
+The output DMwrite determines whether to write on data memory (see DataMemory): 
+
+```
+    case (Opcode)
+        7'b0100011: DMwrite = 1'b1; // s-type
+        default: DMwrite = 1'b0;
+    endcase
+```
+
+___
+
+The output ALUsrc determines whether the second operand is from regfile or Extension, this controls a mux that select from DOutReg and IMM: 
+
+```
+    case (Opcode)
+        7'b0100011: ALUsrc = 1'b1; // s-type
+        7'b0010011: ALUsrc = 1'b1; // i-type
+        7'b0011011: ALUsrc = 1'b1;
+        7'b0000011: ALUsrc = 1'b1; // load
+        7'b1100111: ALUsrc = 1'b1; // jalr
+        7'b0110111: ALUsrc = 1'b1; // u-type
+        default: ALUsrc = 1'b0;
+    endcase
+```
+
+___
+
+The output Resultsrc determines how to write on the regfile:
+
+```
+    case (Opcode)
+        7'b0000011: ResultSrc = 2'b01; // load
+        7'b1101111: ResultSrc = 2'b10; // j-type
+        7'b0010111: ResultSrc = 2'b11; // auipc
+        default: ResultSrc = 2'b00; 
+    endcase
+```
+
+And this is the implementation of Resultsrc MUX:
+
+```
+   case (ResultSrc)
+        2'b00: DInReg = DOutAlu;
+        2'b01: DInReg = DOutDM;
+        2'b10: DInReg = PCadd4;
+        2'b11: DInReg = PCaddIMM;
+    endcase
+```
+___
+
+The output PCsrc determines how to shift the pc.
+* Also, whether b-type instruction shift depends on the flag value, so me need to combine the flag
+
+```
+    case ({Opcode, flag})
+        8'b11011111: PCsrc = 2'b01; // j-type anyway
+        8'b11011110: PCsrc = 2'b01;
+        8'b00101111: PCsrc = 2'b01; // auipc anyway
+        8'b00101110: PCsrc = 2'b01;
+        8'b11000111: PCsrc = 2'b01; // b-type if flag == 1
+        8'b11001111: PCsrc = 2'b10; // jalr anyway
+        8'b11001110: PCsrc = 2'b10;
+        default: PCsrc = 2'b00; // b-type if flag == 0 and any instructions else
+    endcase
+```
+
+And this is the implementation of PCsrc MUX:
+
+```
+    case (PCsrc)
+        2'b00: PCN = PCadd4; // common
+        2'b01: PCN = PCaddIMM; // jal, auipc, branch
+        2'b10: PCN = DOutAlu; // jalr, we need to access the regfile output and add so connecting alu
+        2'b11: PCN = PCadd4; // nothing here
+    endcase
+```
+
+<br><br>
+
+___
 
 ## Module: Data Memory
 ___
@@ -131,5 +329,12 @@ sb | 000 | RamArray[Ad] <= DInDM[7:0];
 As above, in RISC-V architecture, memory is stored in bytes. 
 * For storing word, the direction is such that the address byte stores word[7:0], the address+1 byte stores word[15:8]... and so on
 * This means reading bit should start from address+n loaded as output[7+8n:8n] ... to address+0 loaded output[7:0]
+
+<br><br>
+
+___
+
+## Module: Extension
+___
 
 <br><br><br><br><br><br><br><br><br><br>
