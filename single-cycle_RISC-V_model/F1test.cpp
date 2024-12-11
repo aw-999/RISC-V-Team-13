@@ -34,7 +34,7 @@ int main(int argc, char **argv, char **env)
     {
         for (tick = 0; tick < 2; tick++)
         {
-            tfp->dump(2 * simcyc + clk);
+            tfp->dump(2 * simcyc + tick);
             top->clk = !top->clk;
             top->eval();
         }

@@ -6,7 +6,7 @@ module ram #(parameter WA = 32, WAM = 18, WB = 8, WD = 32)(
     input logic [WD-1:0] DIn,
     output logic [WD-1:0] DOut
 );
-
+                 
 logic [WB-1:0] RamArray [2**WAM-1:0]; // stored in byte
 logic [WAM-1:0] AdM; // reduced in size, 2**32 is too large to simulate
 
