@@ -8,20 +8,6 @@ module PL_ALUDecode (
     output logic [3:0] ALUCtrl    // ALU control signal
 );
 
-    /*
-     ALUCtrl signals:
-        0000 - Add
-        0001 - Subtract
-        0010 - AND
-        0011 - OR
-        0100 - XOR
-        0101 - SLL (Shift Left Logical)
-        0110 - SRL (Shift Right Logical)
-        0111 - SRA (Shift Right Arithmetic)
-        1000 - SLT (Set Less Than)
-        1001 - SLTU (Set Less Than Unsigned)
-    */
-
     always_comb begin
         ALUCtrl = 4'b0000; // Default: Add
         case (ALUop)

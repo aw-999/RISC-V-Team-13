@@ -1,12 +1,6 @@
 module PL_ControlUnit (
     input logic [6:0] opcode,     //instr[6:0]
-    //input logic ZeroFlag,         
-    //input logic NegativeFlag,     
-    //input logic UnsignedLess,     
 
-
-    
-          
     output logic [1:0] ResultSrc, 
     output logic MemWrite,        
     output logic ALUSrc,          
