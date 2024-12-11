@@ -33,7 +33,7 @@ module aludecode (
                     3'b111: aluctrlD = 4'b0010; // Andi
                     3'b001: aluctrlD = 4'b0101; // SLLI
                     3'b101: begin
-                        if(funct75 == 1'b0) 
+                        if(funct75D == 1'b0) 
                             aluctrlD = 4'b0110; //Shift Right Logical Imm
                         else 
                             aluctrlD = 4'b0111; //Shift Right Arithmetic Imm

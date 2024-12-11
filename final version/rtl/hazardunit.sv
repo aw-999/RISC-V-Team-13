@@ -40,7 +40,7 @@ module hazardunit (
         end
 
         else if (((rs1E == rdW) && regwriteW) && (rs1E != 5'b00000)) begin // Forward from Writeback stage
-            ForwardaE = 2'b01;
+            forwardaE = 2'b01;
         end
 
         else begin

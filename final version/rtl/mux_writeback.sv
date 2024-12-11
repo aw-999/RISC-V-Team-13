@@ -9,7 +9,7 @@ module mux_writeback #(parameter W = 32)(
 );
 
 always_comb 
-    case (ResultSrc)
+    case (resultsrcW)
         2'b00: resultW = aluresultW;
         2'b01: resultW = readdataW;
         2'b10: resultW = pcplus4W;

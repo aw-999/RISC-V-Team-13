@@ -4,7 +4,7 @@ module mux_srcbe #(
     input logic [W-1:0] resultW,
     input logic [W-1:0] RD2E,
     input logic [W-1:0] aluresultM,
-    input logic [1:0] forwardE,
+    input logic [1:0] forwardbE,
 
     output logic [W-1:0] writedataE
 );

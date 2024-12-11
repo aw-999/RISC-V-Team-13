@@ -54,7 +54,7 @@ instructionmemory instructionmemory (
 
 mux_pcsrc mux_pcsrc (
     .pcplus4F (pcplus4F),
-    .pcTargetE (pcTarget),
+    .pctargetE (pctargetE),
     .aluresultW (aluresultW),
     .pcsrcE (pcsrcE),
 
@@ -70,6 +70,7 @@ pcincrementby4 pcincrementby4 (
 pcreg pcreg (
     .clk (clk),
     .rst (rst),
+    .stallF (stallF),
     .pcnextF (pcnextF),
 
     .pcF (pcF)
@@ -127,7 +128,6 @@ signextend signextend (
 
 regfile regfile (
     
-    output logic [WD-1:0] a0
     .clk (clk),
     .regwriteW (regwriteW),
     .trigger (trigger),
@@ -219,7 +219,7 @@ mux_srcae mux_srcae (
     .resultW (resultW),
     .RD1E (RD1E),
     .aluresultM (aluresultM),
-    .forwardE (forwardE),
+    .forwardaE (forwardaE),
 
     .srcaE (srcaE)
 );
@@ -229,7 +229,7 @@ mux_srcbe mux_srcbe (
     .resultW (resultW),
     .RD2E (RD2E),
     .aluresultM (aluresultM),
-    .forwardE (forwardE),
+    .forwardbE (forwardbE),
 
     .writedataE (writedataE)
 );
@@ -243,7 +243,7 @@ mux_alu mux_alu (
 );
 
 pcadder pcadder (
-    .pcE (jalrmuxoutE)
+    .pcE (jalrmuxoutE),
     .immextE (immextE),
     
     .pctargetE (pctargetE)
@@ -274,7 +274,7 @@ pce pcexecute (
 );
 datamemory datamemory (
     .clk (clk),
-    .aluresult (aluresult), // aluresult formerly Ad
+    .aluresultM (aluresultM), // aluresult formerly Ad
     .memwriteM (memwriteM), 
     .funct3M (funct3M),
     .writedataM (writedataM), //write data formerly DIn
@@ -321,8 +321,8 @@ hazardunit hazardunit (
     .rdW (rdW),
     .regwriteM (regwriteM),
     .regwriteW (regwriteW),
-    .rs1D (rs1D),
-    .rs2D (rs2D),
+    .rs1D (instrD[19:15]),
+    .rs2D (instrD[24:20]),
     .rs1E (rs1E),
     .rs2E (rs2E),
     //jumpE (jumpE),
@@ -338,4 +338,6 @@ hazardunit hazardunit (
     .stallF (stallF),
     .stallD (stallD)
 );
+
+endmodule
 

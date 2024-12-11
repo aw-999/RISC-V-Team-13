@@ -4,7 +4,7 @@ module mux_srcae #(
     input logic [W-1:0] resultW,
     input logic [W-1:0] RD1E,
     input logic [W-1:0] aluresultM,
-    input logic [1:0] forwardE,
+    input logic [1:0] forwardaE,
 
     output logic [W-1:0] srcaE
 );

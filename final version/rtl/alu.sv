@@ -1,4 +1,4 @@
-module ALU #(
+module alu #(
     parameter W = 32
 )(
     //from Registerfiles
@@ -44,7 +44,4 @@ always_comb begin
     end
 
 endmodule
-    
-
-
     

@@ -11,10 +11,10 @@ module control (
     output logic regwriteD,
     
     //this is for aludecode
-    output logic [2:0] aluopD
+    output logic [2:0] aluopD,
     //output logic branchE,
     //output logic jumpE,
-    output logic jalrD,
+    output logic jalrD
 );
 
 

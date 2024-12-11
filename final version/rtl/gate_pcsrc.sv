@@ -1,4 +1,4 @@
-module pcSrcGates(
+module gate_pcsrc (
     input logic         jumpE,
     input logic         branchE,
     input logic         flagE,

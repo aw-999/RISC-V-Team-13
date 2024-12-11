@@ -2,7 +2,7 @@
 
 module datamemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
     input logic clk,
-    input logic [WA-1:0] aluresult, // aluresult formerly Ad
+    input logic [WA-1:0] aluresultM, // aluresult formerly Ad
     input logic memwriteM, 
     input logic [2:0] funct3M,
     input logic [WD-1:0] writedataM, //write data formerly DIn
@@ -18,7 +18,7 @@ initial begin
 end;
 
 always_comb begin 
-    AdM = aluresult[WAM-1:0];
+    AdM = aluresultM[WAM-1:0];
     case (funct3M) 
         3'b000: readdataM = {{24{RamArray[AdM][WB-1]}},RamArray[AdM]}; // lb
         3'b001: readdataM = {{16{RamArray[AdM][WB-1]}},RamArray[AdM+1], RamArray[AdM]}; // lh
