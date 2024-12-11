@@ -17,20 +17,18 @@ logic [DATA_WIDTH-1:0] pcD, instrD, pcplus4D, immextD, RD1D, RD2D;
 logic regwriteD, memwriteD, flushD, stallD, alusrcD, jalrD;
 //logic jumpD, branchD;
 logic [1:0] resultsrcD, pcsrcD;
-logic [2:0] funct3D, aluopD, immsrcD;
+logic [2:0] aluopD, immsrcD;
 logic [3:0] aluctrlD;
-logic [4:0] rdD;
-logic [6:0] opcodeD;
 
 //execute
-logic [DATA_WIDTH-1:0] pcE, instrE, pcplus4E, immextE, RD1E, RD2E, pctargetE, writedataE, srcaE, srcbE, aluresultE, jalrmuxoutE;
+logic [DATA_WIDTH-1:0] pcE, pcplus4E, immextE, RD1E, RD2E, pctargetE, writedataE, srcaE, srcbE, aluresultE, jalrmuxoutE;
 logic regwriteE, memwriteE, flushE, alusrcE, flagE, jalrE;
 //logic jumpE, branchE;
 logic [1:0] resultsrcE, pcsrcE, forwardaE, forwardbE;
 logic [2:0] funct3E;
 logic [3:0] aluctrlE;
 logic [4:0] rdE, rs1E, rs2E;
-logic [6:0] opcodeE;
+
 
 //memory
 logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM, immextM;
@@ -156,7 +154,6 @@ pcd pcedecode (
     .memwriteD (memwriteD),
     //.jumpD (jumpD),
     //.branchD (branchD),
-    .opcodeD (instrD[6:0]),
     .funct3D (instrD[14:12]),
     .aluctrlD (aluctrlD),
     .alusrcD (alusrcD),
@@ -178,7 +175,6 @@ pcd pcedecode (
     .memwriteE (memwriteE),
     //.jumpE (jumpE),
     //.branchE (branchE),
-    .opcodeE (opcodeE),
     .funct3E (funct3E),
     .aluctrlE (aluctrlE),
     .alusrcE (alusrcE),

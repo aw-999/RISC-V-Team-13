@@ -33,7 +33,7 @@ module pcd #(
 
     output logic [3:0] aluctrlE,
     output logic alusrcE,
-    input logic [1:0] pcsrcE,
+    output logic [1:0] pcsrcE,
     
 
 
