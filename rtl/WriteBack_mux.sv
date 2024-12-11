@@ -1,3 +1,4 @@
+/*
 module WriteBack_mux #(
     parameter W = 32
 )(
@@ -17,12 +18,13 @@ always_comb begin
 end
 
 endmodule
+*/
 
-module MUX_Resultsrc #(parameter W = 32)(
+module WriteBack_mux #(parameter W = 32)(
     input logic [W-1:0] ALUResult,
-    input logic [W-1:0] DOutDM,
-    input logic [W-1:0] PCadd4,
-    input logic [W-1:0] PCaddIMM,
+    input logic [W-1:0] ReadData,
+    input logic [W-1:0] PCadd4,   //jal
+    input logic [W-1:0] PCaddIMM, //jalr
 
     input logic [1:0] ResultSrc,
     
@@ -39,3 +41,4 @@ always_comb
     endcase
     
 endmodule
+

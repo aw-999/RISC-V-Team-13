@@ -213,7 +213,7 @@ module main_top #(
     // Data Memory formerly ram
     DataMemory DataMemory (
         .clk (clk),
-        .WriteData (DIn),            // Write data
+        .WriteData (RD2),            // Write data          //DIn or RD2
         .ALUResult (ALUResult),        // Address
         .MemWrite (MemWrite),   // Write enable
         .funct3 (instr[14:12]),   // Used for access width
@@ -225,6 +225,8 @@ module main_top #(
     WriteBack_mux WriteBack_mux (
         .ALUResult (ALUResult),
         .ReadData (ReadData),
+        .PCadd4(PCPlus4),
+        .PCaddIMM(PCTarget),
         .ResultSrc (ResultSrc), 
         .Result (Result)        // Write-back result
     );
