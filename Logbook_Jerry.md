@@ -451,6 +451,6 @@ ___
 ## Extra Testbench
 ___
 
-see All_basic_instruction_test.txt
+see All_basic_instruction_test.s
 
 <br><br><br><br><br><br><br><br><br><br>
