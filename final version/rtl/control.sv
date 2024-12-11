@@ -1,7 +1,7 @@
 module control (
     input logic [6:0] opcodeD, // 6:0 of instr
     
-    input logic branchE,
+    input logic flagE,
     
     output logic [1:0] pcsrcD,
     output logic [1:0] resultsrcD, // 4 different cases
@@ -12,6 +12,8 @@ module control (
 
     //this is for aludecode
     output logic [2:0] aluopD
+    //output logic branchE,
+    //output logic jumpE,
 );
 
 
@@ -115,7 +117,7 @@ module control (
     case(opcodeD)
         7'b1100011: 
         
-            if(branchE) begin 
+            if(flagE) begin 
                 pcsrcD = 2'b01; 
             end
             else begin 

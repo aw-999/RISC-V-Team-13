@@ -19,14 +19,13 @@ logic regwriteD, memwriteD, flushD, stallD, alusrcD;
 logic [1:0] resultsrcD, pcsrcD;
 logic [2:0] funct3D, aluopD, immsrcD;
 logic [3:0] aluctrlD;
-logic [4:0] rdD, rs1D, rs2D;
+logic [4:0] rdD;
 logic [6:0] opcodeD;
-
 
 //execute
 logic [DATA_WIDTH-1:0] pcE, instrE, pcplus4E, immextE, RD1E, RD2E, pctargetE, writedataE, srcaE, srcbE, aluresultE;
-logic regwriteE, memwriteE, flushE, alusrcE, branchE;
-//logic jumpE;
+logic regwriteE, memwriteE, flushE, alusrcE, flagE;
+//logic jumpE, branchE;
 logic [1:0] resultsrcE, pcsrcE, forwardaE, forwardbE;
 logic [2:0] funct3E;
 logic [3:0] aluctrlE;
@@ -34,14 +33,14 @@ logic [4:0] rdE, rs1E, rs2E;
 logic [6:0] opcodeE;
 
 //memory
-logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM;
+logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM, immextM;
 logic regwriteM, memwriteM;
-logic [1:0] resultsrcM;;
+logic [1:0] resultsrcM;
 logic [2:0] funct3M;
 logic [4:0] rdM;
 
 //write back
-logic [DATA_WIDTH-1:0] pcplus4W, aluresultW, readdataW, resultW;
+logic [DATA_WIDTH-1:0] pcplus4W, aluresultW, readdataW, resultW, immextW;
 logic regwriteW;
 logic [1:0] resultsrcW;
 logic [4:0] rdW;
@@ -49,6 +48,7 @@ logic [4:0] rdW;
 
 instructionmemory instructionmemory (
     .pcF (pcF),
+
     .instrF (instrF)
 );
 
@@ -57,11 +57,13 @@ mux_pcsrc mux_pcsrc (
     .pcTargetE (pcTarget),
     .aluresultW (aluresultW),
     .pcsrcE (pcsrcE),
+
     .pcnextF (pcnextF)
 );
 
 pcincrementby4 pcincrementby4 (
     .pcF (pcF),
+
     .pcplus4F (pcplus4F)
 );
 
@@ -69,15 +71,14 @@ pcreg pcreg (
     .clk (clk),
     .rst (rst),
     .pcnextF (pcnextF),
+
     .pcF (pcF)
 );
 
 pcf pcfetch (
     .clk (clk),
-
     .flushD (flushD),
     .stallD (stallD),
-
     .instrF (instrF),
     .pcF (pcF),
     .pcplus4F (pcplus4F),
@@ -87,10 +88,15 @@ pcf pcfetch (
     .pcplus4D (pcplus4D)
 );
 
-control controlunit (
-    .opcodeD (instrD[6:0]),
-    .branchE (branchE),
 
+
+control controlunit (
+
+    .opcodeD (instrD[6:0]),
+    .flagE (flagE),
+
+    //.jumpD (jumpD),
+    //.branchD (branchD),
     .pcsrcD (pcsrcD),
     .resultsrcD (resultsrcD),
     .memwriteD (memwriteD),
@@ -100,6 +106,8 @@ control controlunit (
     .aluopD (aluopD)
 );
 
+
+
 aludecode aludecode (
     .funct3D (instrD[14:12]),
     .funct75D (instrD[30]),
@@ -107,6 +115,7 @@ aludecode aludecode (
     
     .aluctrlD (aluctrlD)
 );
+
 
 signextend signextend (
     .immsrcD (immsrcD),
@@ -131,6 +140,9 @@ regfile regfile (
     .a0 (a0)
 );
 
+
+
+
 pcd pcedecode (
 
     .clk (clk),    
@@ -145,11 +157,20 @@ pcd pcedecode (
     //.branchD (branchD),
     .opcodeD (instrD[6:0]),
     .funct3D (instrD[14:12]),
-
     .aluctrlD (aluctrlD),
     .alusrcD (alusrcD),
+    .RD1D (RD1D),
+    .RD2D (RD2D),
+    .pcD (pcD),
+    .rdD (instrD[11:7]),
+    .immextD (immextD),
+    .pcplus4D (pcplus4D),
     
-
+    //Hazard
+    .rs1D (instrD[19:15]),
+    .rs2D (instrD[24:20]),
+    .flushE (flushE),
+    
     .regwriteE (regwriteE),
     .resultsrcE (resultsrcE),
     .memwriteE (memwriteE),
@@ -157,38 +178,29 @@ pcd pcedecode (
     //.branchE (branchE),
     .opcodeE (opcodeE),
     .funct3E (funct3E),
-
     .aluctrlE (aluctrlE),
     .alusrcE (alusrcE),
-
-    //DATA
-    .RD1D (RD1D),
-    .RD2D (RD2D),
-    .pcD (pcD),
-    .rdD (rdD),
-    .immextD (immextD),
-    .pcplus4D (pcplus4D),
-
     .RD1E (RD1E),
     .RD2E (RD2E),
     .pcE (pcE),
     .rdE (rdE),
     .immextE (immextE),
     .pcplus4E (pcplus4E),
-
-    //Hazard
-    .rs1D (rs1D),
-    .rs2D (rs2D),
-    .flushE (flushE),
-
     .rs1E (rs1E),
     .rs2E (rs2E)
 
 );
 
 // mux_jalr mux_jalr (
+    //.pcE (pcE),
+    // .RD1E (RD1E),
+    // .jalrE (jalrE),
 
+    // .jalrmuxoutE (jalrmuxoutE)
 // );
+
+
+
 
 alu alu (
     .srcaE (srcaE),
@@ -196,7 +208,7 @@ alu alu (
     .aluctrlE (aluctrlE),
 
     .aluresultE (aluresultE),
-    .branchE (branchE)
+    .flagE (flagE) //zeroflag
 );
 
 mux_srcae mux_srcae (
@@ -227,7 +239,11 @@ mux_alu mux_alu (
 );
 
 gate_pcsrc gate_pcsrc (
+    //.jumpE (jumpE),
+    //.branchE (branchE),
+    //.flagE (flagE),
 
+    //.pcsrcE (pcsrcE)
 );
 
 pcadder pcadder (
@@ -239,38 +255,34 @@ pcadder pcadder (
 
 pce pcexecute (
     .clk (clk),
-    //Control
+
     .regwriteE (regwriteE),
     .resultsrcE (resultsrcE),
     .memwriteE (memwriteE),
     .immextE (immextE),
-
-    .regwriteM (regwriteM),
-    .resultsrcM (resultsrcM),
-    .memwriteM (memwriteM),
-    .immextM (immextM),
-
-    //Data
     .aluresultE (aluresultE),
     .writedataE (writedataE),
     .rdE (rdE),
     .pcplus4E (pcplus4E),
     .funct3E (funct3E),
 
+    .regwriteM (regwriteM),
+    .resultsrcM (resultsrcM),
+    .memwriteM (memwriteM),
+    .immextM (immextM),
     .aluresultM (aluresultM),
     .writedataM (writedataM),
     .rdM (rdM),
     .pcplus4M (pcplus4M),
     .funct3M (funct3M)
 );
-
 datamemory datamemory (
     .clk (clk),
     .aluresult (aluresult), // aluresult formerly Ad
     .memwriteM (memwriteM), 
     .funct3M (funct3M),
     .writedataM (writedataM), //write data formerly DIn
-    
+
     .readdataM (readdataM)
 );
 
@@ -317,6 +329,8 @@ hazardunit hazardunit (
     .rs2D (rs2D),
     .rs1E (rs1E),
     .rs2E (rs2E),
+    //jumpE (jumpE),
+    //branchE (branchE),
 
     .pcsrcE (pcsrcE[0]),//first bit of PCSrcE
     .resultsrcE (resultsrcE[0]), //first bit of ResultSrcE
@@ -328,3 +342,4 @@ hazardunit hazardunit (
     .stallF (stallF),
     .stallD (stallD)
 );
+

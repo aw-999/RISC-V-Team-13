@@ -9,12 +9,12 @@ module ALU #(
     input logic [3:0] aluctrlE,
 
     output logic [W-1:0] aluresultE,
-    output logic branchE
+    output logic flagE
 
 );
 
 always_comb begin 
-    branchE = 0;
+    flagE = 0;
     aluresultE = 0;
 
     case(aluctrlE)
@@ -29,15 +29,15 @@ always_comb begin
             4'b1000: aluresultE = (srcaE < srcbE) ? 1 : 0;  // Set Less Than signed
             4'b1001: aluresultE = ($unsigned(srcaE) < $unsigned(srcbE)) ? 1 : 0;  // Set Less Than Unsigned
             
-            4'b1010: branchE = (srcaE == srcbE) ? 1 : 0; //beq
-            4'b1011: branchE = (srcaE != srcbE) ? 1 : 0; //bne
-            4'b1100: branchE = (srcaE < srcbE) ? 1 : 0; //blt
-            4'b1101: branchE = (srcaE >= srcbE) ? 1: 0; //bge
-            4'b1110: branchE = ($signed(srcaE) < $signed(srcbE)) ? 1 : 0; //bltu
-            4'b1111: branchE = ($signed(srcaE) >= $signed(srcbE)) ? 1 : 0; //bgeu
+            4'b1010: flagE = (srcaE == srcbE) ? 1 : 0; //beq
+            4'b1011: flagE = (srcaE != srcbE) ? 1 : 0; //bne
+            4'b1100: flagE = (srcaE < srcbE) ? 1 : 0; //blt
+            4'b1101: flagE = (srcaE >= srcbE) ? 1: 0; //bge
+            4'b1110: flagE = ($signed(srcaE) < $signed(srcbE)) ? 1 : 0; //bltu
+            4'b1111: flagE = ($signed(srcaE) >= $signed(srcbE)) ? 1 : 0; //bgeu
             default: begin
                 aluresultE = 0;
-                branchE = 0;
+                flagE = 0;
             end
              
     endcase

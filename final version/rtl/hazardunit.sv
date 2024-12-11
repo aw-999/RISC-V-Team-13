@@ -9,6 +9,8 @@ module hazardunit (
     input logic [4:0] rs2D,
     input logic [4:0] rs1E,
     input logic [4:0] rs2E,
+    //input logic branchE,
+    //input logic jumpE,
 
     input logic pcsrcE,//first bit of PCSrcE
     input logic resultsrcE, //first bit of ResultSrcE
