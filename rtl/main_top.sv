@@ -96,7 +96,7 @@ module main_top #(
         .PC (PC)    // Current PC
     );
 
-    Branch Branch (
+    IncrementbyImm IncrementbyImm ( //takes PC_out from jalr mux, does either rs1 + imm or pc + imm 
         .PC (PC_out),
         .ImmExt (ImmExt),
         .PCTarget (PCTarget)
@@ -235,11 +235,14 @@ module main_top #(
         .Result (Result)        // Write-back result
     );
 
-    jalr_mux jalr_mux (
+    
+    jalr_mux jalr_mux (     //if jalr instr takes rs1 , else takes pc
+                             //goes into IncrementbyImm
         .jalr(jalr),
         .PC(PC),
         .rs1(RD1),
         .PC_out(PC_out)
     );
+    
 
 endmodule

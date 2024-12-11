@@ -1,4 +1,4 @@
-module Branch #(
+module IncrementbyImm #(
     parameter W = 32
 )(
     input logic [W-1:0] PC,

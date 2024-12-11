@@ -100,6 +100,8 @@ module ControlUnit (
         7'b0010111: ImmSrc = 3'b011;
         7'b1101111: ImmSrc = 3'b100;//j-type
         7'b1100111: ImmSrc = 3'b000;
+        7'b0000011: ImmSrc = 3'b000; //load instr
+        7'b0110011: ImmSrc = 3'b000; //R-type
 
         default: ImmSrc = 3'b000;
         endcase
@@ -167,7 +169,7 @@ module ControlUnit (
                 default: PCSrc = 2'b00;
             endcase
             */
-        7'b1100111: PCSrc = 2'b11;  //jalr
+        7'b1100111: PCSrc = 2'b01;  //jalr - rs1 + imm - from mux
         7'b1101111: PCSrc = 2'b01;  //jal - might need to look into that later
         default: PCSrc = 2'b00;
     endcase
