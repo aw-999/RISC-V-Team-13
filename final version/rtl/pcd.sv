@@ -13,7 +13,6 @@ module pcd #(
     input logic memwriteD,
     // input logic JumpD,
     // input logic BranchD,
-    input logic [6:0] opcodeD,
     input logic [2:0] funct3D,
 
     input logic [3:0] aluctrlD,
@@ -27,7 +26,6 @@ module pcd #(
     output logic memwriteE,
     // output logic JumpE,
     // output logic BranchE,
-    output logic [6:0] opcodeE,
     output logic [2:0] funct3E,
     output logic jalrE,
 
@@ -71,7 +69,6 @@ always_ff @(posedge clk) begin
         memwriteE <= 0;
         aluctrlE <= 0;
         alusrcE <= 0;
-        opcodeE <= 0;
         funct3E <= 0;
         pcsrcE <= 0;
         jalrE <= 0;
@@ -97,7 +94,6 @@ always_ff @(posedge clk) begin
         memwriteE <= memwriteD;
         aluctrlE <= aluctrlD;
         alusrcE <= alusrcD;
-        opcodeE <= opcodeD;
         funct3E <= funct3D;
         pcsrcE <= pcsrcD;
         jalrE <= jalrD;

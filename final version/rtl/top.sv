@@ -45,7 +45,7 @@ logic [4:0] rdW;
 
 
 instructionmemory instructionmemory (
-    .pcF (pcF),
+    .pcF (pcF[15:0]),
 
     .instrF (instrF)
 );

@@ -13,6 +13,7 @@ module alu #(
 
 );
 
+
 always_comb begin 
     flagE = 0;
     aluresultE = 0;
@@ -41,7 +42,20 @@ always_comb begin
             end
              
     endcase
+
+        /*
+        ZeroFlag = (ALUResult == 0) ? 1 : 0;
+        NegativeFlag = ALUResult[W-1];
+
+        if(ALUCtrl == 4'b1001) begin
+            UnsignedLess = ALUResult[0];
+        end
+        */
+
     end
 
 endmodule
+    
+
+
     

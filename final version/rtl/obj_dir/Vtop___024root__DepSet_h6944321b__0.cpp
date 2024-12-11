@@ -177,7 +177,6 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         vlSelfRef.top__DOT__pcsrcE = 0U;
         vlSelfRef.top__DOT__aluctrlE = 0U;
         vlSelfRef.top__DOT__pcE = 0U;
-        vlSelfRef.top__DOT__opcodeE = 0U;
         vlSelfRef.top__DOT__rs1E = 0U;
         vlSelfRef.top__DOT__RD2E = 0U;
         vlSelfRef.top__DOT__rs2E = 0U;
@@ -186,7 +185,6 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         vlSelfRef.top__DOT__pcsrcE = vlSelfRef.top__DOT__pcsrcD;
         vlSelfRef.top__DOT__aluctrlE = vlSelfRef.top__DOT__aluctrlD;
         vlSelfRef.top__DOT__pcE = vlSelfRef.top__DOT__pcD;
-        vlSelfRef.top__DOT__opcodeE = (0x7fU & vlSelfRef.top__DOT__instrD);
         vlSelfRef.top__DOT__rs1E = (0x1fU & (vlSelfRef.top__DOT__instrD 
                                              >> 0xfU));
         vlSelfRef.top__DOT__RD2E = vlSelfRef.top__DOT__regfile__DOT__RegArr

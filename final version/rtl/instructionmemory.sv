@@ -1,5 +1,5 @@
-module instructionmemory #(parameter W = 32, WAD = 16, WB = 8)(
-    input logic [W-1: 0] pcF,
+module instructionmemory #(parameter WAD = 16, WB = 8)(
+    input logic [WAD-1: 0] pcF,
     output logic [WB*4-1: 0] instrF
 );
 

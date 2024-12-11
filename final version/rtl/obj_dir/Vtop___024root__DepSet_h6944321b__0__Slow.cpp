@@ -598,14 +598,10 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__jalrD = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__resultsrcD = VL_RAND_RESET_I(2);
     vlSelf->top__DOT__pcsrcD = VL_RAND_RESET_I(2);
-    vlSelf->top__DOT__funct3D = VL_RAND_RESET_I(3);
     vlSelf->top__DOT__aluopD = VL_RAND_RESET_I(3);
     vlSelf->top__DOT__immsrcD = VL_RAND_RESET_I(3);
     vlSelf->top__DOT__aluctrlD = VL_RAND_RESET_I(4);
-    vlSelf->top__DOT__rdD = VL_RAND_RESET_I(5);
-    vlSelf->top__DOT__opcodeD = VL_RAND_RESET_I(7);
     vlSelf->top__DOT__pcE = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__instrE = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__pcplus4E = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__immextE = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__RD1E = VL_RAND_RESET_I(32);
@@ -630,7 +626,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__rdE = VL_RAND_RESET_I(5);
     vlSelf->top__DOT__rs1E = VL_RAND_RESET_I(5);
     vlSelf->top__DOT__rs2E = VL_RAND_RESET_I(5);
-    vlSelf->top__DOT__opcodeE = VL_RAND_RESET_I(7);
     vlSelf->top__DOT__pcplus4M = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__writedataM = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__aluresultM = VL_RAND_RESET_I(32);
