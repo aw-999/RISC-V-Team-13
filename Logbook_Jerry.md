@@ -27,7 +27,7 @@ ___
 
 I am the group member who mainly worked on writing the single cycle processor part of the project, debugging and shortening / merging the modules without affecting their original functions. 
 
-The single cycle RISC-V processor is able to read and execute the machine code of all basic RV32I instructions except ecall and ebreak, so my commit includes writing control unit, muxes and ALU that fits in a wide range of instructions. Also, instructions like jalr, auipc and branch instructions also increase the complexity of datapath, which is different from the processor model illustrated in course ppt. My commit implement this differences to the modules and the way to connect them.
+The single cycle RISC-V processor is able to read and execute the machine code of all basic RV32I instructions except ecall and ebreak, so my commit includes writing control unit, muxes and ALU that fits in a wide range of instructions. Also, instructions like jalr, auipc and branch instructions also increase the complexity of datapath, which is different from the processor model illustrated in course ppt. My commit implements these differences to the modules and the ways to connect them.
 
 I also write a testbench that tests almost all the instructions on this processor. This is merely used by myself to determine whether there is a bug among the modules
 
