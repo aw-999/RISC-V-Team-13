@@ -68,7 +68,7 @@ jalr    Rd, Ra, IMM12   |   1100111 000     x           actually belongs to i-ty
 
 always_comb begin
 
-    // IMMsrc to datapath1/imm
+    // IMMctrl to Extension
     case (Opcode)
         7'b0010011: IMMctrl = 3'b000; // i-type
         7'b0000011: IMMctrl = 3'b000; 
@@ -88,7 +88,7 @@ always_comb begin
     endcase
 
 
-    // ALUop to datapath1/alu
+    // ALUop to AluDecode
     case (Opcode)
         7'b0100011: ALUop = 2'b00; // s-type
         7'b0000011: ALUop = 2'b00; // load
@@ -108,7 +108,7 @@ always_comb begin
     endcase
 
 
-    // RegWrite to datapath1/reg32
+    // RegWrite to RegisterFile
     case (Opcode)
         7'b0110011: RegWrite = 1'b1; // r-type
         7'b0010011: RegWrite = 1'b1; // i-type
@@ -122,14 +122,14 @@ always_comb begin
     endcase
 
 
-    // RamWrite to datapath1/ram
+    // DMWrite to DataMemory
     case (Opcode)
         7'b0100011: DMwrite = 1'b1; // s-type
         default: DMwrite = 1'b0;
     endcase
 
 
-    // ALUsrc to datapath1
+    // ALUsrc to MUX_ALUsrc
     case (Opcode)
         7'b0100011: ALUsrc = 1'b1; // s-type
         7'b0010011: ALUsrc = 1'b1; // i-type
@@ -141,7 +141,7 @@ always_comb begin
     endcase
 
 
-    // ResultSrc to datapath1
+    // ResultSrc to MUX_Resultsrc
     case (Opcode)
         7'b0000011: ResultSrc = 2'b01; // load
         7'b1101111: ResultSrc = 2'b10; // j-type
@@ -150,22 +150,18 @@ always_comb begin
     endcase
 
 
-    // PCsrc to datapath2
-    case (Opcode)
-        7'b1101111: PCsrc = 2'b01; // j-type
-        7'b0010111: PCsrc = 2'b01; // auipc
-        7'b1100111: PCsrc = 2'b10; // jalr
-        7'b1100011: PCsrc = 2'b11; // b-type
-        default: PCsrc = 2'b00;
+    // PCsrc to MUX_PCsrc
+    case ({Opcode, flag})
+        8'b11011111: PCsrc = 2'b01; // j-type anyway
+        8'b11011110: PCsrc = 2'b01;
+        8'b00101111: PCsrc = 2'b01; // auipc anyway
+        8'b00101110: PCsrc = 2'b01; 
+        8'b11001111: PCsrc = 2'b10; // jalr anyway
+        8'b11001110: PCsrc = 2'b10;
+        8'b11000111: PCsrc = 2'b11; // b-type if flag == 1
+        default: PCsrc = 2'b00; // b-type if flag == 0 and any instructions else
     endcase
-
-    // case ({PCsrc, flag}): branch: 111; jump: 010; auipc, jalr: 100; common: 000, 110 (branch, flag = 9), 001 (consider slt and sltu)
-
-    // PCsrc'[1] = flag OR P2 AND NOT P1
-    // PCsrc'[0] = flag OR P1 AND NOT P2
     
-
-    PCsrc = {{(flag && PCsrc[0]) || (~PCsrc[0] && PCsrc[1])}, {(flag && PCsrc[1]) || (PCsrc[0] && ~PCsrc[1])}}; 
 end
 
 endmodule

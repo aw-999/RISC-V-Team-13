@@ -11,11 +11,9 @@ module MUX_PCsrc #(parameter W = 32)(
 always_comb 
     case (PCsrc)
         2'b00: PCN = PCadd4; // common
-        2'b01: PCN = PCaddIMM; // jal, auipc
+        2'b01: PCN = PCaddIMM; // jal, auipc, branch
         2'b10: PCN = DOutAlu; // jalr
-        2'b11: PCN = PCaddIMM; // branch
-
-        default PCN = PCadd4;
+        2'b11: PCN = PCadd4; // spare
     endcase
     
 endmodule

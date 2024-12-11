@@ -14,7 +14,6 @@ always_comb
         2'b01: DInReg = DOutDM;
         2'b10: DInReg = PCadd4;
         2'b11: DInReg = PCaddIMM;
-        default DInReg = DOutAlu;
     endcase
     
 endmodule

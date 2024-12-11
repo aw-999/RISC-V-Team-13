@@ -9,17 +9,20 @@ ___
 
 ## Content
 * Introduction: Developing the single cycle RISC-V processor
-* Module: ALU Decode
-* Module: ALU
-* Module: Control Unit
-    * related selection modules: ALUsrc, Resultsrc, PCsrc
-* Module: Data Memory
-* Module: Extension
+* Module: ALUDecode.sv
+* Module: ALU.sv
+* Module: ControlUnit.sv, and related selection modules: 
+    * MUX_ALUsrc.sv
+    * MUX_Resultsrc.sv
+    * MUX_PCsrc.sv
+* Module: Data Memory.sv
+* Module: Extension.sv
+* Module: InstructionMemory.sv
+* Module: RegisterFile.sv
 * Other Modules:
-   * PC Register,
-   * PC Increment 4
-   * Instruction Memory
-   * Add_PC_IMM
+   * PcRegister.sv
+   * PcIncrement4.sv
+   * Add_pc_imm.sv
 * Main.sv, the top module
 * Extra testbench: All_basis_instruction_test
 
@@ -157,7 +160,7 @@ Opcode | Instruction Type | Structural Instuction Type | Datapath Action / Expla
 
 And the following diagram shows how each type of instructions are structured:
 
-
+![structure of instructions](images/instruction_structure.png)
 
 Except from the 6 basic instructions types, there are instructions like load, jalr and auipc which share the traits of different instruction types. This is the reason why I need to list them separately in the following case statements
 
@@ -343,9 +346,54 @@ ___
 ## Module: Extension
 ___
 
-according to the type of instructions: 
+according to the type of instructions: (r-type does not use IMM)
+
+![structure of instructions](images/instruction_structure.png)
+
+We use case to implement the Extension unit:
+
+
+```
+    case(IMMctrl)
+        3'b000: IMM = {{20{instr[W-1]}}, instr[W-1:W-12]}; // i-type
+        3'b001: IMM = {{20{instr[W-1]}}, instr[W-1:W-7], instr[W-21:W-25]}; // s-type
+        3'b010: IMM = {{19{instr[W-1]}}, instr[W-1], instr[W-25], instr[W-2:W-7], instr[W-21:W-24], 1'b0}; // b-type
+        3'b011: IMM = {instr[W-1:W-20], 12'b0}; // u-type
+        3'b100: IMM = {{11{instr[W-1]}}, instr[W-1], instr[W-13:W-20], instr[W-12], instr[W-2:W-11], 1'b0}; // j-type
+        default: IMM = {{20{instr[W-1]}}, instr[W-1:W-12]}; // i-type
+    endcase
+```
 
 <br><br>
+
+___
+
+## Module: Instruction Memory
+A typical asychronous RISC-V architecture Instruction Memory
+___
+
+* I added another logic (AInIM) which is PC[Memory_size - 1, 0], because this memory does not have not as large as 2*32 space (I set it to only 16 here and can be adjusted to maximum 32 in top module)
+* since data is stored in bytes, the output is connecting 4 consecutive bytes
+  
+```
+   assign instr = {RomArray[AInIM+3], RomArray[AInIM+2], RomArray[AInIM+1], RomArray[AInIM]};
+```
+
+* input: Address (PC)
+* output: Instruction (instr)
+
+<br><br>
+
+___
+
+## Module: Register File
+A typical register file
+___
+
+I followed the design of Regfile in Lab4
+
+<br><br>
+
 
 ___
 
@@ -369,21 +417,6 @@ PC Increment 4
 
 ___
 
-Instruction Memory
-
-* A typical asychronous RISC-V architecture Instruction Memory
-* I added another logic (AInIM) which is PC[Memory_size - 1, 0], because this memory does not have not as large as 2*32 space (I set it to only 16 here and can be adjusted to maximum 32 in top module)
-* since data is stored in bytes, the output is connecting 4 consecutive bytes
-  
-```
-   assign instr = {RomArray[AInIM+3], RomArray[AInIM+2], RomArray[AInIM+1], RomArray[AInIM]};
-```
-
-* input: Address (PC)
-* output: Instruction (instr)
-
-___
-
 Add_PC_IMM
 
 * input: PC, IMM
@@ -398,7 +431,18 @@ ___
 the top module
 ___
 
-By simply allocating all the modules together
+This module allocates all the modules together.
+
+There are wide range of variables. I have modified the variables of each component so that the input / output that are supposed to be connected share the same name.
+
+The only differences in input / output name happens when I assign the instructions to different inputs this includes:
+* Opcode = instr[6:0]
+* func75 = instr[5]
+* AdInReg = instr[11:7]
+* func3 = instr[14:12]
+* AdOutReg1 = instr[19:15]
+* AdOutReg2 = instr[24:20]
+* func75 = instr[31]
 
 <br><br>
 
