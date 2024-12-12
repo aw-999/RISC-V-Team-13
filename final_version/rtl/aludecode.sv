@@ -37,7 +37,7 @@ always_comb begin
             4'b1010: aluctrlD = 4'b0110; //Shift Right Logical
             4'b1011: aluctrlD = 4'b0111; //Shift Right Arithmetic
             4'b0100: aluctrlD = 4'b1000; //Set Less Than
-            4'b0110: aluctrlD = 4'b1001; //SEt Less Than Unsigned
+            4'b0110: aluctrlD = 4'b1001; //Set Less Than Unsigned
 
             default: aluctrlD = 4'b0000; //Add
             endcase
@@ -89,6 +89,7 @@ always_comb begin
             default: aluctrlD = 4'b0000;
             endcase
         end
+
         default: aluctrlD = 4'b0000;
     endcase
 

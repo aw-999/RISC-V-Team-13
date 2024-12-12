@@ -97,9 +97,9 @@ module control (
         7'b0100011: immsrcD = 3'b001;//s-type
         7'b1100011: immsrcD = 3'b010;//b-type
         7'b0110111: immsrcD = 3'b011;//u-type
-        7'b0010111: immsrcD = 3'b011;
+        7'b0010111: immsrcD = 3'b011; //auipc
         7'b1101111: immsrcD = 3'b100;//j-type
-        7'b1100111: immsrcD = 3'b000;
+        7'b1100111: immsrcD = 3'b000; 
         7'b0000011: immsrcD = 3'b000; //load instr
         7'b0110011: immsrcD = 3'b000; //R-type
 

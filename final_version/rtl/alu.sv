@@ -13,6 +13,12 @@ module alu #(
 
 );
 
+logic signed [W-1:0] signed_srcaE;
+logic signed [W-1:0] signed_srcbE;
+
+assign signed_srcaE = srcaE;
+assign signed_srcbE = srcbE;
+
 
 always_comb begin 
     flagE = 0;
@@ -26,16 +32,16 @@ always_comb begin
             4'b0100: aluresultE = srcaE ^ srcbE;  // XOR
             4'b0101: aluresultE = srcaE << srcbE[4:0];  // Shift Left Logical
             4'b0110: aluresultE = srcaE >> srcbE[4:0];  // Shift Right Logical
-            4'b0111: aluresultE = $signed(srcaE) >>> srcbE[4:0];  // Shift Right Arithmetic
-            4'b1000: aluresultE = (srcaE < srcbE) ? 1 : 0;  // Set Less Than signed
-            4'b1001: aluresultE = ($unsigned(srcaE) < $unsigned(srcbE)) ? 1 : 0;  // Set Less Than Unsigned
+            4'b0111: aluresultE = signed_srcaE >>> srcbE[4:0];  // Shift Right Arithmetic
+            4'b1000: aluresultE = (signed_srcaE < signed_srcbE) ? 1 : 0;  // Set Less Than signed
+            4'b1001: aluresultE = (signed_srcaE < signed_srcbE) ? 1 : 0;  // Set Less Than Unsigned
             
             4'b1010: flagE = (srcaE == srcbE) ? 1 : 0; //beq
             4'b1011: flagE = (srcaE != srcbE) ? 1 : 0; //bne
             4'b1100: flagE = (srcaE < srcbE) ? 1 : 0; //blt
             4'b1101: flagE = (srcaE >= srcbE) ? 1: 0; //bge
-            4'b1110: flagE = ($signed(srcaE) < $signed(srcbE)) ? 1 : 0; //bltu
-            4'b1111: flagE = ($signed(srcaE) >= $signed(srcbE)) ? 1 : 0; //bgeu
+            4'b1110: flagE = (signed_srcaE < signed_srcbE) ? 1 : 0; //bltu
+            4'b1111: flagE = (signed_srcaE >= signed_srcbE) ? 1 : 0; //bgeu
             default: begin
                 aluresultE = srcaE + srcbE;
                 flagE = 0;
