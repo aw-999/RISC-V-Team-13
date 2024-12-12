@@ -28,13 +28,11 @@ module pce #(
     input logic [WIDTH - 1:0] writedataE,
     input logic [4:0] rdE,
     input logic [WIDTH - 1:0] pcplus4E,
-    input logic [2:0] funct3E,
 
     output logic [WIDTH - 1:0] aluresultM,
     output logic [WIDTH - 1:0] writedataM,
     output logic [4:0] rdM,
     output logic [WIDTH - 1:0] pcplus4M,
-    output logic [2:0] funct3M
 
 );
 
@@ -52,7 +50,6 @@ always_ff @(posedge clk) begin
     writedataM <= writedataE;
     rdM <= rdE;
     pcplus4M <= pcplus4E;
-    funct3M <= funct3E;
     
 end
 

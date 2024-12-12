@@ -25,7 +25,7 @@ logic [DATA_WIDTH-1:0] pcE, pcplus4E, immextE, RD1E, RD2E, pctargetE, writedataE
 logic regwriteE, memwriteE, flushE, alusrcE, flagE, jalrE, jumpE, branchE, pcsrcE, memreadE;
 //logic jumpE, branchE;
 logic [1:0] resultsrcE, forwardaE, forwardbE;
-logic [2:0] funct3E, memctrlE;
+logic [2:0] memctrlE;
 logic [4:0] aluctrlE;
 logic [4:0] rdE, rs1E, rs2E;
 
@@ -34,7 +34,7 @@ logic [4:0] rdE, rs1E, rs2E;
 logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM, immextM;
 logic regwriteM, memwriteM, memreadM;
 logic [1:0] resultsrcM;
-logic [2:0] funct3M, memctrlM;
+logic [2:0] memctrlM;
 logic [4:0] rdM;
 
 //write back
@@ -172,7 +172,6 @@ pcd pcedecode (
     .regwriteE (regwriteE),
     .resultsrcE (resultsrcE),
     .memwriteE (memwriteE),
-    .funct3E (funct3E),
     .aluctrlE (aluctrlE),
     .alusrcE (alusrcE),
     .RD1E (RD1E),
@@ -264,7 +263,6 @@ pce pcexecute (
     .writedataE (writedataE),
     .rdE (rdE),
     .pcplus4E (pcplus4E),
-    .funct3E (funct3E),
 
     .regwriteM (regwriteM),
     .resultsrcM (resultsrcM),
@@ -276,7 +274,6 @@ pce pcexecute (
     .writedataM (writedataM),
     .rdM (rdM),
     .pcplus4M (pcplus4M),
-    .funct3M (funct3M)
 );
 
 datamemory datamemory (
