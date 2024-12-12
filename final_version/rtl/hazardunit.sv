@@ -35,11 +35,11 @@ module hazardunit (
         flushE = 1'b0;
 
         //forwardAE
-        if (((rs1E == rdM) && regwriteM) && (rs1E != 5'b00000)) begin // Forward from Memory stage
+        if (regwriteM && (rdM != 0) && (rdM == rs1E)) begin // Forward from Memory stage
             forwardaE = 2'b10;
         end
 
-        else if (((rs1E == rdW) && regwriteW) && (rs1E != 5'b00000)) begin // Forward from Writeback stage
+        else if (regwriteW && (rdW != 0) && (rdW == rs1E)) begin // Forward from Writeback stage
             forwardaE = 2'b01;
         end
 
@@ -48,11 +48,11 @@ module hazardunit (
         end
         
         //forwardBE
-        if (((rs2E == rdM) && regwriteM) && (rs2E != 5'b00000)) begin // forward from Memory stage
+        if (regwriteM && (rdM != 0) && (rdM == rs2E)) begin // forward from Memory stage
             forwardbE = 2'b10;
         end
 
-        else if (((rs2E == rdW) && regwriteW) && (rs2E != 5'b00000)) begin // forward from Writeback stage
+        else if (regwriteW && (rdW != 0) && (rdW == rs2E)) begin // forward from Writeback stage
             forwardbE = 2'b01;
         end
 

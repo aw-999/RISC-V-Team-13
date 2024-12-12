@@ -43,17 +43,9 @@ logic regwriteW;
 logic [1:0] resultsrcW;
 logic [4:0] rdW;
 
-
-instructionmemory instructionmemory (
-    .pcF (pcF[15:0]),
-
-    .instrF (instrF)
-);
-
 mux_pcsrc mux_pcsrc (
     .pcplus4F (pcplus4F),
     .pctargetE (pctargetE),
-    .aluresultW (aluresultW),
     .pcsrcE (pcsrcE),
 
     .pcnextF (pcnextF)
@@ -67,17 +59,24 @@ pcincrementby4 pcincrementby4 (
 
 pcreg pcreg (
     .clk (clk),
-    //.rst (rst),
     .stallF (stallF),
     .pcnextF (pcnextF),
 
     .pcF (pcF)
 );
 
+instructionmemory instructionmemory (
+    .pcF (pcF),
+
+    .instrF (instrF)
+);
+
 pcf pcfetch (
     .clk (clk),
+
     .flushD (flushD),
     .stallD (stallD),
+
     .instrF (instrF),
     .pcF (pcF),
     .pcplus4F (pcplus4F),
@@ -94,8 +93,6 @@ control controlunit (
     .opcodeD (instrD[6:0]),
     .flagE (flagE),
 
-    //.jumpD (jumpD),
-    //.branchD (branchD),
     .jalrD (jalrD),
     .pcsrcD (pcsrcD),
     .resultsrcD (resultsrcD),

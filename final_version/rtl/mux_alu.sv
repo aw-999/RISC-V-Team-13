@@ -6,8 +6,13 @@ module mux_alu #(parameter W = 32)(
 );
 
 always_comb begin
-    if (alusrcE) srcbE = immextE;
-    else srcbE = writedataE;
+    if (alusrcE) begin
+        srcbE = immextE;
+    end
+
+    else begin 
+        srcbE = writedataE;
+    end
 end
     
 endmodule

@@ -24,7 +24,7 @@ always_ff @(posedge clk) begin
         pcplus4D <= 0;
     end
 
-    else if (stallD == 0) begin
+    else if (!stallD) begin
         instrD <= instrF;
         pcD <= pcF;
         pcplus4D <= pcplus4F;

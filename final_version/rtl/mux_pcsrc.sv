@@ -2,7 +2,6 @@
 module  mux_pcsrc #(parameter W = 32)(
     input logic [W-1:0] pcplus4F,
     input logic [W-1:0] pctargetE,
-    input logic [W-1:0] aluresultW,
 
     input logic pcsrcE,
 

@@ -8,7 +8,7 @@ module pcreg #(parameter W = 32)(
 
 always_ff@(posedge clk)
     
-    if (stallF == 0) begin
+    if (!stallF) begin
         pcF <= pcnextF;
     end
 

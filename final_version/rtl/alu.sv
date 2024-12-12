@@ -37,7 +37,7 @@ always_comb begin
             4'b1110: flagE = ($signed(srcaE) < $signed(srcbE)) ? 1 : 0; //bltu
             4'b1111: flagE = ($signed(srcaE) >= $signed(srcbE)) ? 1 : 0; //bgeu
             default: begin
-                aluresultE = 0;
+                aluresultE = srcaE + srcbE;
                 flagE = 0;
             end
              
