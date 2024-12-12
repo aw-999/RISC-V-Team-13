@@ -60,6 +60,7 @@ module hazardunit (
             forwardbE = 2'b00;
         end
 
+        //if resultsrcE is high stall is high
         if (resultsrcE && ((rdE == rs1D) || (rdE == rs2D))) begin
             stallF = 1'b1;  
             stallD = 1'b1;  
@@ -73,6 +74,10 @@ module hazardunit (
         if (pcsrcE) begin
             flushE = 1'b1;
             flushD = 1'b1;
+        end
+        else begin
+            flushE = 1'b0;
+            flushD = 1'b0;
         end
     end
 endmodule

@@ -13,7 +13,7 @@ always_comb
     case (pcsrcE)
         2'b00: pcnextF = pcplus4F; // common
         2'b01: pcnextF = pctargetE; // jal, auipc
-        2'b10: pcnextF = aluresultW; // jalr
+        //2'b10: pcnextF = aluresultW; // jalr 
         2'b11: pcnextF = pctargetE; // branch
 
         default pcnextF = pcplus4F;
