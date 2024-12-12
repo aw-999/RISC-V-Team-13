@@ -118,8 +118,12 @@ module control (
 
     case(opcodeD)
         7'b1100011: 
-            if(flagE) pcsrcD = 1'b1;
-            else pcsrcD = 1'b0;
+            if(flagE) begin 
+                pcsrcD = 1'b1;
+            end
+            else begin 
+                pcsrcD = 1'b0;
+            end
         7'b1100111: pcsrcD = 1'b1;  //jalr
         7'b1101111: pcsrcD = 1'b1;  //jal - might need to look into that later
         default: pcsrcD = 1'b0;
