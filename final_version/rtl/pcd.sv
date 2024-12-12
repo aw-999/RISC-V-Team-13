@@ -11,7 +11,7 @@ module pcd #(
     input logic memwriteD,
     input logic [2:0] funct3D,
 
-    input logic [3:0] aluctrlD,
+    input logic [4:0] aluctrlD,
     input logic alusrcD,
     input logic jumpD,
     input logic branchD,
@@ -26,7 +26,7 @@ module pcd #(
     output logic branchE,
     output logic jumpE,
 
-    output logic [3:0] aluctrlE,
+    output logic [4:0] aluctrlE,
     output logic alusrcE,
     
 

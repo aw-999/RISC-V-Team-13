@@ -6,7 +6,7 @@ module alu #(
     input logic [W-1:0] srcbE,
 
     //from ALU decode
-    input logic [3:0] aluctrlE,
+    input logic [4:0] aluctrlE,
 
     output logic [W-1:0] aluresultE,
     output logic flagE
@@ -25,23 +25,24 @@ always_comb begin
     aluresultE = 0;
 
     case(aluctrlE)
-            4'b0000: aluresultE = srcaE + srcbE;  // ADD
-            4'b0001: aluresultE = srcaE - srcbE;  // Sub
-            4'b0010: aluresultE = srcaE & srcbE;  // AND
-            4'b0011: aluresultE = srcaE | srcbE;  // OR
-            4'b0100: aluresultE = srcaE ^ srcbE;  // XOR
-            4'b0101: aluresultE = srcaE << srcbE[4:0];  // Shift Left Logical
-            4'b0110: aluresultE = srcaE >> srcbE[4:0];  // Shift Right Logical
-            4'b0111: aluresultE = signed_srcaE >>> srcbE[4:0];  // Shift Right Arithmetic
-            4'b1000: aluresultE = (signed_srcaE < signed_srcbE) ? 1 : 0;  // Set Less Than signed
-            4'b1001: aluresultE = (signed_srcaE < signed_srcbE) ? 1 : 0;  // Set Less Than Unsigned
-            
-            4'b1010: flagE = (srcaE == srcbE) ? 1 : 0; //beq
-            4'b1011: flagE = (srcaE != srcbE) ? 1 : 0; //bne
-            4'b1100: flagE = (srcaE < srcbE) ? 1 : 0; //blt
-            4'b1101: flagE = (srcaE >= srcbE) ? 1: 0; //bge
-            4'b1110: flagE = (signed_srcaE < signed_srcbE) ? 1 : 0; //bltu
-            4'b1111: flagE = (signed_srcaE >= signed_srcbE) ? 1 : 0; //bgeu
+            5'b00000: aluresultE = srcaE + srcbE;  // ADD
+            5'b00001: aluresultE = srcaE - srcbE;  // Sub
+            5'b00010: aluresultE = srcaE & srcbE;  // AND
+            5'b00011: aluresultE = srcaE | srcbE;  // OR
+            5'b00100: aluresultE = srcaE ^ srcbE;  // XOR
+            5'b00101: aluresultE = srcaE << srcbE[4:0];  // Shift Left Logical
+            5'b00110: aluresultE = srcaE >> srcbE[4:0];  // Shift Right Logical
+            5'b00111: aluresultE = signed_srcaE >>> srcbE[4:0];  // Shift Right Arithmetic
+            5'b01000: aluresultE = (signed_srcaE < signed_srcbE) ? 1 : 0;  // Set Less Than signed
+            5'b01001: aluresultE = (signed_srcaE < signed_srcbE) ? 1 : 0;  // Set Less Than Unsigned
+            5'b10000: aluresultE = srcbE;
+
+            5'b01010: flagE = (srcaE == srcbE) ? 1 : 0; //beq
+            5'b01011: flagE = (srcaE != srcbE) ? 1 : 0; //bne
+            5'b01100: flagE = (srcaE < srcbE) ? 1 : 0; //blt
+            5'b01101: flagE = (srcaE >= srcbE) ? 1: 0; //bge
+            5'b01110: flagE = (signed_srcaE < signed_srcbE) ? 1 : 0; //bltu
+            5'b01111: flagE = (signed_srcaE >= signed_srcbE) ? 1 : 0; //bgeu
             default: begin
                 aluresultE = srcaE + srcbE;
                 flagE = 0;
