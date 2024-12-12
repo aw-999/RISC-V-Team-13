@@ -14,27 +14,27 @@ logic stallF;
 
 //decode
 logic [DATA_WIDTH-1:0] pcD, instrD, pcplus4D, immextD, RD1D, RD2D;
-logic regwriteD, memwriteD, flushD, stallD, alusrcD, jalrD, jumpD, branchD;
+logic regwriteD, memwriteD, flushD, stallD, alusrcD, jalrD, jumpD, branchD, memreadD;
 //logic jumpD, branchD;
 logic [1:0] resultsrcD;
-logic [2:0] aluopD, immsrcD;
+logic [2:0] aluopD, immsrcD, memctrlD;
 logic [4:0] aluctrlD;
 
 //execute
 logic [DATA_WIDTH-1:0] pcE, pcplus4E, immextE, RD1E, RD2E, pctargetE, writedataE, srcaE, srcbE, aluresultE, jalrmuxoutE;
-logic regwriteE, memwriteE, flushE, alusrcE, flagE, jalrE, jumpE, branchE, pcsrcE;
+logic regwriteE, memwriteE, flushE, alusrcE, flagE, jalrE, jumpE, branchE, pcsrcE, memreadE;
 //logic jumpE, branchE;
 logic [1:0] resultsrcE, forwardaE, forwardbE;
-logic [2:0] funct3E;
+logic [2:0] funct3E, memctrlE;
 logic [4:0] aluctrlE;
 logic [4:0] rdE, rs1E, rs2E;
 
 
 //memory
 logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM, immextM;
-logic regwriteM, memwriteM;
+logic regwriteM, memwriteM, memreadM;
 logic [1:0] resultsrcM;
-logic [2:0] funct3M;
+logic [2:0] funct3M, memctrlM;
 logic [4:0] rdM;
 
 //write back
@@ -161,6 +161,8 @@ pcd pcedecode (
     .jalrD (jalrD),
     .jumpD (jumpD),
     .branchD (branchD),
+    .memctrlD (memctrlD),
+    .memreadD (memreadD),
 
     //Hazard
     .rs1D (instrD[19:15]),
@@ -182,6 +184,8 @@ pcd pcedecode (
     .jalrE (jalrE),
     .jumpE (jumpE),
     .branchE (branchE),
+    .memctrlE (memctrlE),
+    .memreadE (memreadE),
 
     .rs1E (rs1E),
     .rs2E (rs2E)
@@ -253,6 +257,8 @@ pce pcexecute (
     .regwriteE (regwriteE),
     .resultsrcE (resultsrcE),
     .memwriteE (memwriteE),
+    .memctrlE (memctrlE),
+    .memreadE (memreadE),
     .immextE (immextE),
     .aluresultE (aluresultE),
     .writedataE (writedataE),
@@ -263,6 +269,8 @@ pce pcexecute (
     .regwriteM (regwriteM),
     .resultsrcM (resultsrcM),
     .memwriteM (memwriteM),
+    .memctrlM (memctrlM),
+    .memreadM (memreadM),
     .immextM (immextM),
     .aluresultM (aluresultM),
     .writedataM (writedataM),
@@ -275,7 +283,8 @@ datamemory datamemory (
     .clk (clk),
     .aluresultM (aluresultM), 
     .memwriteM (memwriteM), 
-    .funct3M (funct3M),
+    .memctrlM (memctrlM),
+    .memreadM (memreadM),
     .writedataM (writedataM), 
 
     .readdataM (readdataM)

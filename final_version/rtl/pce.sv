@@ -11,11 +11,15 @@ module pce #(
     input logic [1:0] resultsrcE,
     input logic memwriteE,
     input logic [WIDTH-1:0] immextE,
+    input logic memreadE,
+    input logic [2:0] memctrlE,
 
     output logic regwriteM,
     output logic [1:0] resultsrcM,
     output logic memwriteM,
     output logic [WIDTH-1:0] immextM,
+    output logic memreadM,
+    output logic [2:0] memctrlM,
 
 
     //Data
@@ -40,6 +44,8 @@ always_ff @(posedge clk) begin
     resultsrcM <= resultsrcE;
     memwriteM <= memwriteE;
     immextM <= immextE;
+    memctrlM <= memctrlE;
+    memreadM <= memreadE;
 
     //Data
     aluresultM <= aluresultE;

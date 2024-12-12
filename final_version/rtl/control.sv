@@ -1,5 +1,6 @@
 module control (
     input logic [6:0] opcodeD, // 6:0 of instr
+    input logic [2:0] funct3D,
     
     output logic pcsrcD,
     output logic [1:0] resultsrcD, // 4 different cases
@@ -10,7 +11,9 @@ module control (
     output logic [2:0] aluopD,
     output logic jalrD,
     output logic jumpD,          //pipelining needs jump and branch for pcsrc gate
-    output logic branchD
+    output logic branchD,
+    output logic [2:0] memctrlD,
+    output logic memreadD
 );
 
     //aluoperation
@@ -24,6 +27,8 @@ module control (
         jalrD = 0;
         jumpD = 0;
         branchD = 0;
+        memctrlD = 0;
+        memreadD = 0;
         
         case(opcodeD)
 
@@ -68,6 +73,34 @@ module control (
         7'b0100011: memwriteD = 1'b1; // s-type
 
         default: memwriteD = 1'b0;
+        endcase
+
+        case (opcodeD)
+        7'b0000011: begin 
+            case(funct3D)
+                3'b000: memctrlD = 3'b010; //lb
+                        memreadD = 1;
+                3'b001: memctrlD = 3'b001; //lh
+                        memreadD = 1;
+                3'b010: memctrlD = 3'b000; //lw
+                        memreadD = 1;
+                3'b100: memctrlD = 3'b011; //lbu
+                        memreadD = 1;
+                3'b101: memctrlD = 3'b100; //lhu
+                        memreadD = 1;
+                default: memctrlD = 3'b000; //w
+                         memreadD = 0;
+            endcase
+            
+        7'b0100011: begin//store
+            case(funct3D)
+            3'b000: memctrlD = 3'b010; //sb
+            3'b001: memctrlD = 3'b001; //sh
+            3'b010: memctrlD = 3'b000; //sw
+            
+            default: memctrlD = 3'b000; //sw
+            endcase
+        end
         endcase
 
 
