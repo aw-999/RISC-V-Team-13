@@ -120,11 +120,10 @@ module control (
         7'b1100011: 
             if(flagE) pcsrcD = 2'b01;
             else pcsrcD = 2'b00;
-        7'b1100111: pcsrcD = 2'b11;  //jalr
+        7'b1100111: pcsrcD = 2'b01;  //jalr
         7'b1101111: pcsrcD = 2'b01;  //jal - might need to look into that later
         default: pcsrcD = 2'b00;
     endcase
-
 
 
 end
