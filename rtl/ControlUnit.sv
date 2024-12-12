@@ -56,7 +56,8 @@ module ControlUnit (
         7'b0000011: ResultSrc = 2'b01; // I-type load instructions (lw, lh, lb, etc.)
         7'b1101111: ResultSrc = 2'b10; // J-type instructions (jal)
         7'b1100111: ResultSrc = 2'b10; // I-type jalr (Jump and Link Register)
-        7'b0010111: ResultSrc = 2'b11; // U-type auipc
+        7'b0010111: ResultSrc = 2'b11; // U-type auipc - selects PC + imm
+        7'b0110111: ResultSrc = 2'b00; //lui - U-type
         default: ResultSrc = 2'b00;
     endcase
 
@@ -77,7 +78,7 @@ module ControlUnit (
         
         7'b0110011: ALUSrc = 1'b0; //r-type
         7'b0010011: ALUSrc = 1'b1; //i-type
-        7'b0000011: ALUSrc = 1'b1; //l-type
+        7'b0000011: ALUSrc = 1'b1; //i-type load instr
         7'b0100011: ALUSrc = 1'b1; //s-type
         
         7'b1100011: ALUSrc = 1'b0; //b-type -- compares 2 register values
@@ -96,8 +97,8 @@ module ControlUnit (
         7'b0010011: ImmSrc = 3'b000;//i-type
         7'b0100011: ImmSrc = 3'b001;//s-type
         7'b1100011: ImmSrc = 3'b010;//b-type
-        7'b0110111: ImmSrc = 3'b011;//u-type
-        7'b0010111: ImmSrc = 3'b011;
+        7'b0110111: ImmSrc = 3'b011;//u-type lui
+        7'b0010111: ImmSrc = 3'b011;//auipc
         7'b1101111: ImmSrc = 3'b100;//j-type
         7'b1100111: ImmSrc = 3'b000;
         7'b0000011: ImmSrc = 3'b000; //load instr
