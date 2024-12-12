@@ -7,6 +7,8 @@ rm -f Vtop
 verilator -Wall --trace \
           -cc top.sv \
           -top-module top \
+          L1cache.sv \
+          CacheMemoryTop.sv \
           alu.sv \
           aludecode.sv \
           control.sv \

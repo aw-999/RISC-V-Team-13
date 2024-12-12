@@ -1,52 +1,97 @@
-/* verilator lint_off UNUSED*/
-
-module datamemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
+module datamemory #(
+    parameter WA = 32,       // Address width
+    parameter WAM = 17,      // Addressable memory depth
+    parameter WB = 8,        // Byte width
+    parameter WD = 32,       // Word width
+    parameter BLOCKSIZE = 128 // Block width (128 bits for cache blocks)
+)(
     input logic clk,
-    input logic [WA-1:0] aluresultM, // aluresult formerly Ad
-    input logic memwriteM, 
-    input logic [2:0] funct3M,
-    input logic [WD-1:0] writedataM, //write data formerly DIn
-    output logic [WD-1:0] readdataM
+    input logic [WA-1:0] aluresultM,          // Word-level address
+    input logic memwriteM,             // Word write enable
+    input logic [2:0] funct3M,          // Word-level operation selector
+    input logic [WD-1:0] writedataM,         // Word-level data input
+    output logic [WD-1:0] readdataM,       // Word-level data output
+
+    // Block-level inputs and outputs for cache integration
+    input logic BlockReadEnable,      // Block read enable
+    input logic BlockWriteEnable,     // Block write enable
+    input logic [WA-1:0] BlockAddr,   // Block-level address
+    input logic [BLOCKSIZE-1:0] BlockDataIn, // Block-level data input
+    output logic [BLOCKSIZE-1:0] BlockDataOut // Block-level data output
 );
 
-logic [WB-1:0] RamArray [2**WAM-1:0]; // stored in byte
-logic [WAM-1:0] AdM; // reduced in size, 2**32 is too large to simulate
+logic [WB-1:0] RamArray [2**WAM-1:0]; // Stored as bytes
+logic [WAM-1:0] AdM; // Reduced address size for simulation purposes
 
-
+// Initialize memory from file
 initial begin
-    $readmemh("data_memory.hex", RamArray);
-end;
+    $readmemh("data_memory.hex", RamArray); // Load memory contents
+end
 
-always_comb begin 
+// Handle word-level operations (lb, lh, lw, lbu, lhu)
+always_comb begin
     AdM = aluresultM[WAM-1:0];
-    case (funct3M) 
-        3'b000: readdataM = {{24{RamArray[AdM][WB-1]}},RamArray[AdM]}; // lb
-        3'b001: readdataM = {{16{RamArray[AdM][WB-1]}},RamArray[AdM+1], RamArray[AdM]}; // lh
+    case (funct3M)
+        3'b000: readdataM = {{24{RamArray[AdM][WB-1]}}, RamArray[AdM]};               // lb
+        3'b001: readdataM = {{16{RamArray[AdM+1][WB-1]}}, RamArray[AdM+1], RamArray[AdM]}; // lh
         3'b010: readdataM = {RamArray[AdM+3], RamArray[AdM+2], RamArray[AdM+1], RamArray[AdM]}; // lw
-        3'b100: readdataM = {{24'b0},RamArray[AdM]}; // lbu
-        3'b101: readdataM = {{16'b0},RamArray[AdM+1], RamArray[AdM]}; // lhu
+        3'b100: readdataM = {{24'b0}, RamArray[AdM]};                                  // lbu
+        3'b101: readdataM = {{16'b0}, RamArray[AdM+1], RamArray[AdM]};                 // lhu
         default: readdataM = {RamArray[AdM+3], RamArray[AdM+2], RamArray[AdM+1], RamArray[AdM]}; // lw
     endcase
 end
 
-always_ff@(posedge clk)
-    if (memwriteM) 
-    begin
-        if (funct3M[1:0] == 2'b10)
-        begin
-            RamArray[AdM] <= writedataM[WD-1:WD-8];//sw
-            RamArray[AdM+1] <= writedataM[WD-9:WD-16];
-            RamArray[AdM+2] <= writedataM[WD-17:WD-24];
-            RamArray[AdM+3] <= writedataM[WD-25:0];
-        end
-        else if (funct3M[1:0] == 2'b01)
-        begin
-            RamArray[AdM] <= writedataM[WD-17:WD-24];//sh
-            RamArray[AdM+1] <= writedataM[WD-25:0];
-        end
-        else if (funct3M[1:0] == 2'b00) 
-            RamArray[AdM] <= writedataM[WD-25:0];//sb
+// Handle word-level writes based on funct3M
+always_ff @(posedge clk) begin
+    if (memwriteM) begin
+        case (funct3M)
+            3'b000: RamArray[AdM] <= writedataM[WD-25:0];          // sb
+            3'b001: begin                                          // sh
+                RamArray[AdM] <= writedataM[WD-17:WD-24];
+                RamArray[AdM+1] <= writedataM[WD-25:0];
+            end
+            3'b010: begin                                          // sw
+                RamArray[AdM] <= writedataM[WD-1:WD-8];
+                RamArray[AdM+1] <= writedataM[WD-9:WD-16];
+                RamArray[AdM+2] <= writedataM[WD-17:WD-24];
+                RamArray[AdM+3] <= writedataM[WD-25:0];
+            end
+        endcase
     end
+end
 
+// Handle block-level reads
+always_comb begin
+    if (BlockReadEnable) begin
+        BlockDataOut = {RamArray[BlockAddr+15], RamArray[BlockAddr+14], RamArray[BlockAddr+13], RamArray[BlockAddr+12],
+                        RamArray[BlockAddr+11], RamArray[BlockAddr+10], RamArray[BlockAddr+9], RamArray[BlockAddr+8],
+                        RamArray[BlockAddr+7], RamArray[BlockAddr+6], RamArray[BlockAddr+5], RamArray[BlockAddr+4],
+                        RamArray[BlockAddr+3], RamArray[BlockAddr+2], RamArray[BlockAddr+1], RamArray[BlockAddr]};
+    end else begin
+        BlockDataOut = {BLOCKSIZE{1'b0}}; // Default to zero if not enabled
+    end
+end
+
+// Handle block-level writes
+always_ff @(posedge clk) begin
+    if (BlockWriteEnable) begin
+        RamArray[BlockAddr]     <= BlockDataIn[7:0];
+        RamArray[BlockAddr+1]   <= BlockDataIn[15:8];
+        RamArray[BlockAddr+2]   <= BlockDataIn[23:16];
+        RamArray[BlockAddr+3]   <= BlockDataIn[31:24];
+        RamArray[BlockAddr+4]   <= BlockDataIn[39:32];
+        RamArray[BlockAddr+5]   <= BlockDataIn[47:40];
+        RamArray[BlockAddr+6]   <= BlockDataIn[55:48];
+        RamArray[BlockAddr+7]   <= BlockDataIn[63:56];
+        RamArray[BlockAddr+8]   <= BlockDataIn[71:64];
+        RamArray[BlockAddr+9]   <= BlockDataIn[79:72];
+        RamArray[BlockAddr+10]  <= BlockDataIn[87:80];
+        RamArray[BlockAddr+11]  <= BlockDataIn[95:88];
+        RamArray[BlockAddr+12]  <= BlockDataIn[103:96];
+        RamArray[BlockAddr+13]  <= BlockDataIn[111:104];
+        RamArray[BlockAddr+14]  <= BlockDataIn[119:112];
+        RamArray[BlockAddr+15]  <= BlockDataIn[127:120];
+    end
+end
 
 endmodule

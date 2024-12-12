@@ -1,5 +1,7 @@
 module hazardunit (
 
+    input logic cache_stall,
+
     input logic [4:0] rdE,
     input logic [4:0] rdM,
     input logic [4:0] rdW,
@@ -60,7 +62,7 @@ module hazardunit (
             forwardbE = 2'b00;
         end
 
-        if (resultsrcE && ((rdE == rs1D) || (rdE == rs2D))) begin
+        if (cache_stall && resultsrcE && ((rdE == rs1D) || (rdE == rs2D))) begin
             stallF = 1'b1;  
             stallD = 1'b1;  
             flushE = 1'b1; 

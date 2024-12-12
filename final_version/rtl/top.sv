@@ -43,6 +43,8 @@ logic regwriteW;
 logic [1:0] resultsrcW;
 logic [4:0] rdW;
 
+//cache
+logic cache_stall;
 
 instructionmemory instructionmemory (
     .pcF (pcF[15:0]),
@@ -268,14 +270,16 @@ pce pcexecute (
     .pcplus4M (pcplus4M),
     .funct3M (funct3M)
 );
-datamemory datamemory (
+CacheMemoryTop CacheMemoryTop (
     .clk (clk),
+    .rst_n (rst),
     .aluresultM (aluresultM), // aluresult formerly Ad
     .memwriteM (memwriteM), 
     .funct3M (funct3M),
     .writedataM (writedataM), //write data formerly DIn
 
     .readdataM (readdataM)
+    .stall (cache_stall),
 );
 
 pcm pcmemory (
@@ -312,6 +316,7 @@ mux_writeback mux_writeback (
 );
 
 hazardunit hazardunit (
+    .cache_stall (cache_stall),
     .rdE (rdE),
     .rdM (rdM),
     .rdW (rdW),
