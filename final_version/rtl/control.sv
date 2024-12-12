@@ -1,8 +1,6 @@
 module control (
     input logic [6:0] opcodeD, // 6:0 of instr
     
-    input logic flagE,
-    
     output logic pcsrcD,
     output logic [1:0] resultsrcD, // 4 different cases
     output logic memwriteD,
@@ -10,11 +8,23 @@ module control (
     output logic [2:0] immsrcD,
     output logic regwriteD,
     output logic [2:0] aluopD,
-    output logic jalrD
+    output logic jalrD,
+    output logic jumpD,          //pipelining needs jump and branch for pcsrc gate
+    output logic branchD
 );
 
     //aluoperation
     always_comb begin
+        
+        pcsrcD = 0;                 //define everything as 0 to begin with.
+        resultsrcD = 0;
+        immsrcD = 0;
+        regwriteD = 0;
+        aluopD = 0;
+        jalrD = 0;
+        jumpD = 0;
+        branchD = 0;
+        
         case(opcodeD)
 
         7'b0110011: aluopD = 3'b000; //r-type
@@ -115,18 +125,15 @@ module control (
         default: regwriteD = 1'b0;
         endcase
 
-
+    //jump and branch to pcsrc gate
     case(opcodeD)
-        7'b1100011: 
-            if(flagE) begin 
-                pcsrcD = 1'b1;
-            end
-            else begin 
-                pcsrcD = 1'b0;
-            end
-        7'b1100111: pcsrcD = 1'b1;  //jalr
-        7'b1101111: pcsrcD = 1'b1;  //jal - might need to look into that later
-        default: pcsrcD = 1'b0;
+        7'b1100011: branchD = 1'b1;     //b - type
+        7'b1100111: jumpD = 1'b1;  //jalr
+        7'b1101111: jumpD = 1'b1;  //jal - might need to look into that later
+        default: begin
+        branchD = 1'b0;
+        jumpD = 1'b0;
+        end
     endcase
 
 
