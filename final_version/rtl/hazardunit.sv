@@ -9,8 +9,8 @@ module hazardunit (
     input logic [4:0] rs2D,
     input logic [4:0] rs1E,
     input logic [4:0] rs2E,
-    //input logic branchE,
-    //input logic jumpE,
+    input logic flagE,
+    input logic jumpE,
 
     input logic pcsrcE,//first bit of PCSrcE
     input logic resultsrcE, //first bit of ResultSrcE
@@ -71,7 +71,7 @@ module hazardunit (
             stallD = 1'b0;
         end
 
-        if (pcsrcE) begin
+        if (jumpE || flagE) begin
             flushE = 1'b1;
             flushD = 1'b1;
             stallF = 1'b0;

@@ -9,7 +9,7 @@ Disassembly of section .text:
 
 bfc00000 <main>:
 bfc00000:	0ff00313          	li	t1,255
-bfc00004:	00100513          	li	a0,1
+bfc00004:	00000513          	li	a0,0
 
 bfc00008 <mloop>:
 bfc00008:	00000593          	li	a1,0

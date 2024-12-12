@@ -1,4 +1,4 @@
-module instructionmemory #(parameter WAD = 17, WD = 8, DATA_WIDTH = 32)(
+module instructionmemory #(parameter WAD = 16, WD = 8, DATA_WIDTH = 32)(
     input logic [DATA_WIDTH-1: 0] pcF,
     output logic [WD*4-1: 0] instrF //formerly Dout
 );
