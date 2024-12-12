@@ -46,6 +46,8 @@ module regfile #(parameter WAD = 5, WD = 32)( // A0 = reg[10] or reg 01010   R0 
 
 logic [WD-1: 0] RegArr [2**WAD-1: 0];
 
+assign a0 = RegArr[10];
+
 always_ff@(posedge clk)
 
 begin
@@ -63,7 +65,7 @@ always_comb begin
     RD2D = RegArr[adin2D];
 end
 
-assign a0 = RegArr[10];
+
 /*always_comb begin
     t0 = RegArr[5];
     t1 = RegArr[6];
