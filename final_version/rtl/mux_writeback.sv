@@ -16,5 +16,5 @@ always_comb
         2'b11: resultW = immextW;
         default resultW = aluresultW;
     endcase
-    
+
 endmodule
