@@ -47,6 +47,7 @@ module regfile #(parameter WAD = 5, WD = 32)( // A0 = reg[10] or reg 01010   R0 
 logic [WD-1: 0] RegArr [2**WAD-1: 0];
 
 always_ff@(posedge clk)
+
 begin
     if (regwriteW) RegArr[rdW] <= resultW;
 
@@ -56,6 +57,7 @@ begin
 
     RegArr[0] <= 32'b0;
 end
+
 always_comb begin
     RD1D = RegArr[adin1D];
     RD2D = RegArr[adin2D];

@@ -74,10 +74,14 @@ module hazardunit (
         if (pcsrcE) begin
             flushE = 1'b1;
             flushD = 1'b1;
+            stallF = 1'b0;
+            stallD = 1'b0;
         end
         else begin
             flushE = 1'b0;
             flushD = 1'b0;
+            stallF = 1'b0;
+            stallD = 1'b0;
         end
     end
 endmodule

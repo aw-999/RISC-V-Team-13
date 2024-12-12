@@ -4,7 +4,7 @@
 # which doesn't run in an infinite loop
 main:
     addi    t1, zero, 0xff      # t1 = 255
-    addi    a0, zero, 0x0       # output = 0
+    addi    a0, zero, 0x1       # output = 0
 mloop:
     addi    a1, zero, 0x0       # i = 0
 iloop:
