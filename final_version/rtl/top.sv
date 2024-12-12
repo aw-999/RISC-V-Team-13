@@ -1,6 +1,6 @@
 module top #(parameter DATA_WIDTH = 32)(
     input logic clk,
-    //input logic rst,
+    input logic rst,
     input logic trigger,
     output logic [DATA_WIDTH-1:0] a0
 
@@ -325,7 +325,7 @@ hazardunit hazardunit (
     //jumpE (jumpE),
     //branchE (branchE),
 
-    .pcsrcE (pcsrcE[0]),//first bit of PCSrcE
+    .pcsrcE (pcsrcE),//first bit of PCSrcE
     .resultsrcE (resultsrcE[0]), //first bit of ResultSrcE
 
     .forwardaE (forwardaE),
