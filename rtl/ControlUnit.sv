@@ -9,7 +9,7 @@ module ControlUnit (
     input logic branch,
     //input logic [2:0] funct3,
     
-    output logic [1:0] PCSrc,
+    output logic PCSrc, //2bit to 1bit
     output logic [1:0] ResultSrc, // 4 different cases
     output logic MemWrite,
     output logic ALUSrc,
@@ -156,8 +156,8 @@ module ControlUnit (
 
     case(opcode)
         7'b1100011: 
-            if(branch) PCSrc = 2'b01;
-            else PCSrc = 2'b00;
+            if(branch) PCSrc = 1'b1;
+            else PCSrc = 1'b0;
             /*
             case(funct3)
                 3'b000: if(ZeroFlag) PCSrc = 2'b01; //beq
@@ -169,9 +169,9 @@ module ControlUnit (
                 default: PCSrc = 2'b00;
             endcase
             */
-        7'b1100111: PCSrc = 2'b01;  //jalr - rs1 + imm - from mux
-        7'b1101111: PCSrc = 2'b01;  //jal - might need to look into that later
-        default: PCSrc = 2'b00;
+        7'b1100111: PCSrc = 1'b1;  //jalr - rs1 + imm - from mux
+        7'b1101111: PCSrc = 1'b1;  //jal - might need to look into that later
+        default: PCSrc = 1'b0;
     endcase
 
 
