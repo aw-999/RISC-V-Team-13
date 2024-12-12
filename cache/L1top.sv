@@ -8,12 +8,12 @@ module CacheMemoryTop #(
     input logic rst_n,
 
     // CPU interface
-    input logic [WA-1:0] Ad,          // Word-level address
-    input logic RamWrite,             // Word write enable
-    input logic RamRead,              // Word read enable (Valid bit)
-    input logic [2:0] func3,          // Word-level operation selector
-    input logic [WD-1:0] DIn,         // Word-level data input
-    output logic [WD-1:0] DOut,       // Word-level data output
+    input logic [WA-1:0] aluresultM,          // Word-level address
+    input logic memwriteM,             // Word write enable
+    // input logic RamRead,              // Word read enable (Valid bit)
+    input logic [2:0] funct3M,          // Word-level operation selector
+    input logic [WD-1:0] writedataM,         // Word-level data input
+    output logic [WD-1:0] readdataM,       // Word-level data output
     output logic stall,               // Stall signal for the CPU
 
     // Debugging and monitoring signals (optional)
@@ -22,6 +22,7 @@ module CacheMemoryTop #(
 );
 
 // Internal signals for L1cache and RAM integration
+logic RamRead,                       // Word read enable (Valid bit)
 logic [31:0] mem_request_addr;       // Address to fetch data from memory
 logic mem_read;                      // Memory read enable
 logic memory_ready;                  // Memory data is ready
@@ -31,6 +32,15 @@ logic BlockWriteEnable;              // Block write enable for RAM
 logic [WA-1:0] BlockAddr;            // Block-level address for RAM
 logic [BLOCKSIZE-1:0] BlockDataIn;   // Data input for block write
 logic [BLOCKSIZE-1:0] BlockDataOut;  // Data output for block read
+logic [6:0] opcode;                 // Opcode for cache operations
+
+opcode = aluresultM[6:0];
+if (opcode = 7'b0000011) begin
+    RamRead = 1'b1;
+end else begin
+    RamRead = 1'b0;
+end
+// L1cache and RAM interface
 
 // L1cache instantiation
 L1cache #(
@@ -52,9 +62,9 @@ L1cache #(
 );
 
 // RAM instantiation
-RAM #(
+datamemory #(
     .WA(WA),
-    .WAM(18), // Reduced address width for simulation
+    .WAM(17), // Reduced address width for simulation
     .WB(8),   // Byte width
     .WD(WD),
     .BLOCKSIZE(BLOCKSIZE)
@@ -62,11 +72,11 @@ RAM #(
     .clk(clk),
 
     // Word-level interface
-    .Ad(Ad),
-    .RamWrite(RamWrite),
-    .func3(func3),
-    .DIn(DIn),
-    .DOut(DOut),
+    .aluresultM(aluresultM),
+    .memwriteM(memwriteM),
+    .funct3M(funct3M),
+    .writedataM(writedataM),
+    .readdataM(readdataM),
 
     // Block-level interface
     .BlockReadEnable(mem_read),
