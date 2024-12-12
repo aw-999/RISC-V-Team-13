@@ -7,7 +7,7 @@ logic [WAD-1: 0] AInIM;
 logic [WB-1: 0] RomArray [2**WAD-1: 0]; // too large to simulate 2**32 rom so using 2*16
 
 initial begin
-    $readmemh("Zall_test.mem", RomArray);
+    $readmemh("program.hex", RomArray);
 end;
 
 assign AInIM = pcF[WAD-1: 0];

@@ -14,7 +14,7 @@ logic [WAM-1:0] AdM; // reduced in size, 2**32 is too large to simulate
 
 
 initial begin
-    $readmemh("data_memory.hex", RamArray);
+    $readmemh("gaussian.mem", RamArray);
 end;
 
 always_comb begin 
