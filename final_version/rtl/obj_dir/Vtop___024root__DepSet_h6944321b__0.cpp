@@ -31,9 +31,9 @@ extern const VlUnpacked<CData/*0:0*/, 256> Vtop__ConstPool__TABLE_h2ceb4d49_0;
 extern const VlUnpacked<CData/*1:0*/, 256> Vtop__ConstPool__TABLE_hc2b5e764_0;
 extern const VlUnpacked<CData/*0:0*/, 256> Vtop__ConstPool__TABLE_hbbfcfc79_0;
 extern const VlUnpacked<CData/*0:0*/, 256> Vtop__ConstPool__TABLE_hfd45bb85_0;
-extern const VlUnpacked<CData/*2:0*/, 256> Vtop__ConstPool__TABLE_h13cdaea8_0;
+extern const VlUnpacked<CData/*2:0*/, 256> Vtop__ConstPool__TABLE_hf13893f2_0;
 extern const VlUnpacked<CData/*0:0*/, 256> Vtop__ConstPool__TABLE_hafddcf19_0;
-extern const VlUnpacked<CData/*1:0*/, 256> Vtop__ConstPool__TABLE_h51830349_0;
+extern const VlUnpacked<CData/*1:0*/, 256> Vtop__ConstPool__TABLE_ha3f34f09_0;
 extern const VlUnpacked<CData/*3:0*/, 128> Vtop__ConstPool__TABLE_hd1c1786d_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
@@ -548,11 +548,11 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         [__Vtableidx1];
     vlSelfRef.top__DOT__alusrcD = Vtop__ConstPool__TABLE_hfd45bb85_0
         [__Vtableidx1];
-    vlSelfRef.top__DOT__immsrcD = Vtop__ConstPool__TABLE_h13cdaea8_0
+    vlSelfRef.top__DOT__immsrcD = Vtop__ConstPool__TABLE_hf13893f2_0
         [__Vtableidx1];
     vlSelfRef.top__DOT__regwriteD = Vtop__ConstPool__TABLE_hafddcf19_0
         [__Vtableidx1];
-    vlSelfRef.top__DOT__pcsrcD = Vtop__ConstPool__TABLE_h51830349_0
+    vlSelfRef.top__DOT__pcsrcD = Vtop__ConstPool__TABLE_ha3f34f09_0
         [__Vtableidx1];
     vlSelfRef.top__DOT__stallF = 0U;
     if (((IData)(vlSelfRef.top__DOT__resultsrcE) & 
@@ -566,15 +566,9 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     }
     vlSelfRef.top__DOT__immextD = ((4U & (IData)(vlSelfRef.top__DOT__immsrcD))
                                     ? ((2U & (IData)(vlSelfRef.top__DOT__immsrcD))
-                                        ? (((- (IData)(
-                                                       (vlSelfRef.top__DOT__instrD 
-                                                        >> 0x1fU))) 
-                                            << 0xcU) 
-                                           | (vlSelfRef.top__DOT__instrD 
-                                              >> 0x14U))
+                                        ? vlSelfRef.top__DOT__instrD
                                         : ((1U & (IData)(vlSelfRef.top__DOT__immsrcD))
-                                            ? (vlSelfRef.top__DOT__instrD 
-                                               >> 0x14U)
+                                            ? vlSelfRef.top__DOT__instrD
                                             : (((- (IData)(
                                                            (vlSelfRef.top__DOT__instrD 
                                                             >> 0x1fU))) 
