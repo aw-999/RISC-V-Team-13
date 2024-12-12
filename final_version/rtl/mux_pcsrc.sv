@@ -4,18 +4,15 @@ module  mux_pcsrc #(parameter W = 32)(
     input logic [W-1:0] pctargetE,
     input logic [W-1:0] aluresultW,
 
-    input logic [1:0] pcsrcE,
+    input logic pcsrcE,
 
     output logic [W-1:0] pcnextF
 );
 
 always_comb 
     case (pcsrcE)
-        2'b00: pcnextF = pcplus4F; // common
-        2'b01: pcnextF = pctargetE; // jal, auipc
-        //2'b10: pcnextF = aluresultW; // jalr 
-        2'b11: pcnextF = pctargetE; // branch
-
+        1'b0: pcnextF = pcplus4F; // common
+        1'b1: pcnextF = pctargetE; // jal, auipc
         default pcnextF = pcplus4F;
     endcase
     

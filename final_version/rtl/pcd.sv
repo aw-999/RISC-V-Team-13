@@ -13,7 +13,7 @@ module pcd #(
 
     input logic [3:0] aluctrlD,
     input logic alusrcD,
-    input logic [1:0] pcsrcD,
+    input logic pcsrcD,
     input logic jalrD,
     
 
@@ -25,7 +25,7 @@ module pcd #(
 
     output logic [3:0] aluctrlE,
     output logic alusrcE,
-    output logic [1:0] pcsrcE,
+    output logic pcsrcE,
     
 
 

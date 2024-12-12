@@ -3,7 +3,7 @@ module control (
     
     input logic flagE,
     
-    output logic [1:0] pcsrcD,
+    output logic pcsrcD,
     output logic [1:0] resultsrcD, // 4 different cases
     output logic memwriteD,
     output logic alusrcD,
@@ -118,11 +118,11 @@ module control (
 
     case(opcodeD)
         7'b1100011: 
-            if(flagE) pcsrcD = 2'b01;
-            else pcsrcD = 2'b00;
-        7'b1100111: pcsrcD = 2'b01;  //jalr
-        7'b1101111: pcsrcD = 2'b01;  //jal - might need to look into that later
-        default: pcsrcD = 2'b00;
+            if(flagE) pcsrcD = 1'b1;
+            else pcsrcD = 1'b0;
+        7'b1100111: pcsrcD = 1'b1;  //jalr
+        7'b1101111: pcsrcD = 1'b1;  //jal - might need to look into that later
+        default: pcsrcD = 1'b0;
     endcase
 
 
