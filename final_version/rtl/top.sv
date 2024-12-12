@@ -278,8 +278,8 @@ CacheMemoryTop CacheMemoryTop (
     .funct3M (funct3M),
     .writedataM (writedataM), //write data formerly DIn
 
-    .readdataM (readdataM)
-    .stall (cache_stall),
+    .readdataM (readdataM),
+    .stall (cache_stall)
 );
 
 pcm pcmemory (

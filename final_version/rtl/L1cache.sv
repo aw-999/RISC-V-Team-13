@@ -1,3 +1,15 @@
+typedef struct packed {
+    logic Valid;       // When the data is valid
+    logic Wen;         // Write enable
+    logic [31:0] Addr; // Address
+    logic [31:0] Datain; // Word to write
+} L1DataIn_t;
+
+typedef struct packed {
+    logic Ready;       // Indicates if the output is ready
+    logic [31:0] Dataout; // Word output
+} L1DataOut_t;
+
 module L1cache #(
     parameter DEGREES = 4,
     parameter SETNUM = 64,
@@ -25,17 +37,8 @@ typedef struct packed {
     logic [BLOCKSIZE-1:0] Data; // Data block
 } cache_entry;
 
-typedef struct packed {
-    logic Valid;       // When the data is valid
-    logic Wen;         // Write enable
-    logic [31:0] Addr; // Address
-    logic [31:0] Datain; // Word to write
-} L1DataIn_t;
 
-typedef struct packed {
-    logic Ready;       // Indicates if the output is ready
-    logic [31:0] Dataout; // Word output
-} L1DataOut_t;
+
 
 // Internal signals
 typedef enum {TAG, MISS_DETECTED, MEM_FETCH, MEM_UPDATE, WRITE_THROUGH, OUTPUT, ALLOCATE} cache_state;
@@ -49,7 +52,7 @@ logic [TAGSIZE-1:0] tag;
 
 logic cache_hit;
 logic [$clog2(DEGREES)-1:0] last_used_shift_reg[DEGREES-1:0];
-cache_entry cache_arr[DEGREES-1:0][SETNUM-1:0];
+cache_entry cache_arr [SETNUM-1:0][DEGREES-1:0];
 
 // Main memory request signal
 assign mem_read = (current_state == MISS_DETECTED);
@@ -61,14 +64,14 @@ assign mem_read = 1'b0;
 
 // Function for tag matching
 function logic cache_hit_detect(
-    input logic [TAGSIZE-1:0] tag,
+    input logic [TAGSIZE-1:0] in_tag,
     input cache_entry cache_set[DEGREES-1:0],
     output logic [$clog2(DEGREES)-1:0] hit_index
 );
     hit_index = 0;
     for (int i = 0; i < DEGREES; i++) begin
-        if (cache_set[i].Valid && cache_set[i].Tag == tag) begin
-            hit_index = i;
+        if (cache_set[i].Valid && cache_set[i].Tag == in_tag) begin
+            hit_index = i[$clog2(DEGREES)-1:0];
             return 1'b1;
         end
     end
@@ -89,7 +92,7 @@ endtask
 // Initialization
 initial begin
     for (int i = 0; i < DEGREES; i++) begin
-        last_used_shift_reg[i] = i;
+        last_used_shift_reg[i] = i[$clog2(DEGREES)-1:0];
     end
     for (int i = 0; i < SETNUM; i++) begin
         for (int j = 0; j < DEGREES; j++) begin
@@ -124,10 +127,11 @@ always_comb begin
     // Address decomposition
     set_index = cpu_data_in.Addr[31-TAGSIZE:BYTE_ADDR_BITS];
     tag = cpu_data_in.Addr[31:32-TAGSIZE];
-    byte_offset = cpu_data_in.Addr[BYTE_ADDR_BITS-1:2];
+    byte_offset = cpu_data_in.Addr[BYTE_ADDR_BITS-1:0];
 
     case (current_state)
         TAG: begin
+
             cache_hit = cache_hit_detect(tag, cache_arr[set_index], degree_index);
 
             if (cpu_data_in.Valid) begin
@@ -160,26 +164,26 @@ always_comb begin
 
         MEM_UPDATE: begin
             // Update cache with fetched block
-            cache_arr[degree_index][set_index] = '{Valid: 1'b1, Dirty: 1'b0, Tag: tag, Data: memory_data};
+            cache_arr[set_index][degree_index] = '{Valid: 1'b1, Dirty: 1'b0, Tag: tag, Data: memory_data};
             next_state = OUTPUT;
         end
 
         WRITE_THROUGH: begin
             // Update word in cache and proceed to output
-            cache_arr[degree_index][set_index].Data[(byte_offset+4)*8-1 -: 32] = cpu_data_in.Datain;
+            cache_arr[set_index][degree_index].Data[(byte_offset+4)*8-1 -: 32] = cpu_data_in.Datain;
             next_state = OUTPUT;
         end
 
         OUTPUT: begin
             // Provide 32-bit word to CPU
-            cpu_data_out = '{Ready: 1'b1, Dataout: cache_arr[degree_index][set_index].Data[(byte_offset+4)*8-1 -: 32]};
+            cpu_data_out = '{Ready: 1'b1, Dataout: cache_arr[set_index][degree_index].Data[(byte_offset+4)*8-1 -: 32]};
             update_shift_reg(degree_index, last_used_shift_reg);
             next_state = TAG;
         end
 
         ALLOCATE: begin
             // Initialize new cache line
-            cache_arr[degree_index][set_index] = '{Valid: 1'b1, Dirty: 1'b0, Tag: tag, Data: 0};
+            cache_arr[set_index][degree_index] = '{Valid: 1'b1, Dirty: 1'b0, Tag: tag, Data: 0};
             next_state = TAG;
         end
     endcase
