@@ -6,16 +6,6 @@ module aludecode (
     output logic [3:0] aluctrlD    // ALU control signal
 );
 
-module aludecode (
-    //input logic opcode5, // 5:5 of instr
-    input logic [2:0] funct3, //14:12 of instr
-    input logic funct75D, //30:30 bit of instr
-    
-    input logic [2:0] aluopD, // links aludecode with control - used to distinguish all the different types of instructions for aluctrl to work with
-
-    output logic [3:0] aluctrlD
-);
-
 /*
  aluctrlD signals
     0000 - Add
