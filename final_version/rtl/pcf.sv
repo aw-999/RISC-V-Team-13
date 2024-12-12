@@ -2,7 +2,6 @@ module pcf #(
     parameter WIDTH = 32
 )(
     input logic clk,
-    //input logic rst,
     input logic flushD,
     input logic stallD,
 
@@ -19,16 +18,10 @@ module pcf #(
 
 always_ff @(posedge clk) begin
 
-    // if (rst) begin
-    //     InstrD <= 0;
-    //     PCD <= 0;
-    //     PCPlus4D <= 0;
-    // end
-
     if (flushD) begin 
-        instrD <= {27'b0, 5'b10011};
-        pcD <= pcF;
-        pcplus4D <= pcplus4F;
+        instrD <= 0;
+        pcD <= 0;
+        pcplus4D <= 0;
     end
 
     else if (stallD == 0) begin
