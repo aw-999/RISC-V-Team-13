@@ -5,14 +5,10 @@ module pcd #(
 
     input logic clk,    
 
-    //input logic [WIDTH-1:0] instr,
-
     //Control
     input logic regwriteD,
     input logic [1:0] resultsrcD,
     input logic memwriteD,
-    // input logic JumpD,
-    // input logic BranchD,
     input logic [2:0] funct3D,
 
     input logic [3:0] aluctrlD,
@@ -24,8 +20,6 @@ module pcd #(
     output logic regwriteE,
     output logic [1:0] resultsrcE,
     output logic memwriteE,
-    // output logic JumpE,
-    // output logic BranchE,
     output logic [2:0] funct3E,
     output logic jalrE,
 
@@ -57,6 +51,8 @@ module pcd #(
 
     output logic [4:0] rs1E,
     output logic [4:0] rs2E
+
+    
 
 );
 
