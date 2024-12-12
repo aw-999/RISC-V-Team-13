@@ -52,7 +52,7 @@ module main_top #(
 
     // Control signals
     logic MemWrite, ALUSrc, RegWrite;
-    logic [1:0] PCSrc;
+    logic PCSrc;        //2bit to 1bit
     logic [1:0] ResultSrc;
     logic [2:0] IMMsrc;
     logic [2:0] ALUop;
@@ -82,7 +82,7 @@ module main_top #(
     PCSrc_mux PCSrc_mux(
         .PCTarget (PCTarget),
         .PCSrc (PCSrc), 
-        .ALUResult (ALUResult),
+        //.ALUResult (ALUResult),
         .PCPlus4 (PCPlus4),
 
         .PCN (PCN) // Next PC
@@ -96,7 +96,7 @@ module main_top #(
         .PC (PC)    // Current PC
     );
 
-    Branch Branch (
+    IncrementbyImm IncrementbyImm ( //takes PC_out from jalr mux, does either rs1 + imm or pc + imm 
         .PC (PC_out),
         .ImmExt (ImmExt),
         .PCTarget (PCTarget)
@@ -235,11 +235,14 @@ module main_top #(
         .Result (Result)        // Write-back result
     );
 
-    jalr_mux jalr_mux (
+    
+    jalr_mux jalr_mux (     //if jalr instr takes rs1 , else takes pc
+                             //goes into IncrementbyImm
         .jalr(jalr),
         .PC(PC),
         .rs1(RD1),
         .PC_out(PC_out)
     );
+    
 
 endmodule
