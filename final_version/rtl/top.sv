@@ -91,16 +91,16 @@ pcf pcfetch (
 control controlunit (
 
     .opcodeD (instrD[6:0]),
-    .flagE (flagE),
 
     .jalrD (jalrD),
-    .pcsrcD (pcsrcD),
     .resultsrcD (resultsrcD),
     .memwriteD (memwriteD),
     .alusrcD (alusrcD),
     .immsrcD (immsrcD),
     .regwriteD (regwriteD),
-    .aluopD (aluopD)
+    .aluopD (aluopD),
+    .jumpD (jumpD),
+    .branchD (branchD)
 );
 
 
@@ -201,9 +201,8 @@ gate_pcsrc gate_pcsrc (
     .branchE (branchE),
     .flagE (flagE),
 
-    .pcsrcE (pcsrcE),
-)
-
+    .pcsrcE (pcsrcE)
+);
 
 alu alu (
     .srcaE (srcaE),
