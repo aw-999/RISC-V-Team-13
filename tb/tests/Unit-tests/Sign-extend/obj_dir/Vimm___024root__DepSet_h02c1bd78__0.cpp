@@ -12,27 +12,23 @@ VL_INLINE_OPT void Vimm___024root___combo__TOP__0(Vimm___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vimm___024root___combo__TOP__0\n"); );
     // Body
     vlSelf->out = ((4U & (IData)(vlSelf->IMMsrc)) ? 
-                   ((2U & (IData)(vlSelf->IMMsrc)) ? 
-                    (((- (IData)((vlSelf->instr >> 0x1fU))) 
-                      << 0xcU) | (vlSelf->instr >> 0x14U))
+                   ((2U & (IData)(vlSelf->IMMsrc)) ? vlSelf->instr
                      : ((1U & (IData)(vlSelf->IMMsrc))
-                         ? (((- (IData)((vlSelf->instr 
-                                         >> 0x1fU))) 
-                             << 0xcU) | (vlSelf->instr 
-                                         >> 0x14U))
-                         : (((- (IData)((vlSelf->instr 
-                                         >> 0x1fU))) 
-                             << 0x15U) | ((0x100000U 
-                                           & (vlSelf->instr 
-                                              >> 0xbU)) 
-                                          | ((0xff000U 
-                                              & vlSelf->instr) 
-                                             | ((0x800U 
-                                                 & (vlSelf->instr 
-                                                    >> 9U)) 
-                                                | (0x7feU 
-                                                   & (vlSelf->instr 
-                                                      >> 0x14U))))))))
+                         ? vlSelf->instr : (((- (IData)(
+                                                        (vlSelf->instr 
+                                                         >> 0x1fU))) 
+                                             << 0x15U) 
+                                            | ((0x100000U 
+                                                & (vlSelf->instr 
+                                                   >> 0xbU)) 
+                                               | ((0xff000U 
+                                                   & vlSelf->instr) 
+                                                  | ((0x800U 
+                                                      & (vlSelf->instr 
+                                                         >> 9U)) 
+                                                     | (0x7feU 
+                                                        & (vlSelf->instr 
+                                                           >> 0x14U))))))))
                     : ((2U & (IData)(vlSelf->IMMsrc))
                         ? ((1U & (IData)(vlSelf->IMMsrc))
                             ? (0xfffff000U & vlSelf->instr)

@@ -14,7 +14,7 @@ always_comb case(IMMsrc)
     3'b010: out[W-1:0] = {{19{sign}}, instr[W-1], instr[W-25], instr[W-2:W-7], instr[W-21:W-24], 1'b0}; //B-type
     3'b011: out[W-1:0] = {instr[W-1:W-20], 12'b0}; // U-type
     3'b100: out[W-1:0] = {{11{sign}}, instr[W-1], instr[W-13:W-20], instr[W-12], instr[W-2:W-11], 1'b0}; // J-type
-    default: out[W-1:0] = {{20{sign}}, instr[W-1:W-12]}; // I-type
+    default: out[W-1:0] = instr;
 endcase
 
 endmodule

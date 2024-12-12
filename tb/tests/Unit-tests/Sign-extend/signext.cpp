@@ -70,6 +70,13 @@ TEST_F(SignExtensionTest, JtypeNegative){
     EXPECT_EQ(dut->out, 0xFFFFF9BC);
 }
 
+TEST_F(SignExtensionTest, Default){
+    dut->instr = 0x12345678;
+    dut->IMMsrc = 0b111; //invalid immsrc
+    evaluate();
+    EXPECT_EQ(dut->out, 0x12345678); //defaults to just returning instr
+}
+
 int main(int argc, char **argv)
 {
     testing::InitGoogleTest(&argc, argv);
