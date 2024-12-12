@@ -5,7 +5,6 @@ module pcm #(
     input logic clk,
     //input logic rst,
 
-
     //Control
     input logic regwriteM,
     input logic [1:0] resultsrcM,

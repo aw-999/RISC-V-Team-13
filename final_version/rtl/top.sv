@@ -1,6 +1,6 @@
 module top #(parameter DATA_WIDTH = 32)(
     input logic clk,
-    input logic rst,
+    //input logic rst,
     input logic trigger,
     output logic [DATA_WIDTH-1:0] a0
 
@@ -67,7 +67,7 @@ pcincrementby4 pcincrementby4 (
 
 pcreg pcreg (
     .clk (clk),
-    .rst (rst),
+    //.rst (rst),
     .stallF (stallF),
     .pcnextF (pcnextF),
 
@@ -302,12 +302,13 @@ pcm pcmemory (
 );
 
 mux_writeback mux_writeback (
+
     .aluresultW (aluresultW),
     .readdataW (readdataW),
     .pcplus4W (pcplus4W),
     .immextW (immextW),
-
     .resultsrcW (resultsrcW),
+
     .resultW (resultW)
 );
 
