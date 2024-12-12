@@ -52,7 +52,7 @@ A value of instr is passed in and an invalid IMMsrc code (not specified by the c
 
 An image is shown below verifying that each of the 6 testcases passed, indicating that the intended logic was outputted correctly.
 
-<img src="./../images/Logbook1.png">
+<img src="./../images/Logbook1.png" width = 200 height = 200>
 
 
 
