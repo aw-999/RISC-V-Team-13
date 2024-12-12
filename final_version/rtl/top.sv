@@ -152,8 +152,6 @@ pcd pcedecode (
     .regwriteD (regwriteD),
     .resultsrcD (resultsrcD),
     .memwriteD (memwriteD),
-    //.jumpD (jumpD),
-    //.branchD (branchD),
     .funct3D (instrD[14:12]),
     .aluctrlD (aluctrlD),
     .alusrcD (alusrcD),
@@ -165,6 +163,7 @@ pcd pcedecode (
     .pcplus4D (pcplus4D),
     .jalrD (jalrD),
     .pcsrcD (pcsrcD),
+
     //Hazard
     .rs1D (instrD[19:15]),
     .rs2D (instrD[24:20]),
@@ -173,8 +172,6 @@ pcd pcedecode (
     .regwriteE (regwriteE),
     .resultsrcE (resultsrcE),
     .memwriteE (memwriteE),
-    //.jumpE (jumpE),
-    //.branchE (branchE),
     .funct3E (funct3E),
     .aluctrlE (aluctrlE),
     .alusrcE (alusrcE),
@@ -268,12 +265,13 @@ pce pcexecute (
     .pcplus4M (pcplus4M),
     .funct3M (funct3M)
 );
+
 datamemory datamemory (
     .clk (clk),
-    .aluresultM (aluresultM), // aluresult formerly Ad
+    .aluresultM (aluresultM), 
     .memwriteM (memwriteM), 
     .funct3M (funct3M),
-    .writedataM (writedataM), //write data formerly DIn
+    .writedataM (writedataM), 
 
     .readdataM (readdataM)
 );
@@ -325,7 +323,7 @@ hazardunit hazardunit (
     //jumpE (jumpE),
     //branchE (branchE),
 
-    .pcsrcE (pcsrcE),//first bit of PCSrcE
+    .pcsrcE (pcsrcE),
     .resultsrcE (resultsrcE[0]), //first bit of ResultSrcE
 
     .forwardaE (forwardaE),

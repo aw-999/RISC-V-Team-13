@@ -1,4 +1,4 @@
-module RegisterFile #(parameter WAD = 5, WD = 32)( // A0 = reg[10] or reg 01010   R0 = 10 NOT USED
+module regfile #(parameter WAD = 5, WD = 32)( // A0 = reg[10] or reg 01010   R0 = 10 NOT USED
     input logic clk,
     input logic regwriteW,
     input logic trigger, 
@@ -48,7 +48,7 @@ logic [WD-1: 0] RegArr [2**WAD-1: 0];
 
 always_ff@(posedge clk)
 begin
-    if (regwriteW) RegArr[rdW] <= DIn;
+    if (regwriteW) RegArr[rdW] <= resultW;
 
     if (trigger) begin
         RegArr[5] <= 32'b1; 
