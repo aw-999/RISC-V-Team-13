@@ -127,3 +127,9 @@ x = Partial Contributor
 | 4-way cache layer 1 (temporal) |       |         | x     |       | o     |
 | 4-way cache layer 2            |       |         | x     |       | o     |
 | 4-way cache bridge             |       |         |       |       | o     |
+
+LOGBOOK LOCATIONS: 
+
+logbook folder on main branch 
+
+Jerrys logbook is in Jerry-version branch 
