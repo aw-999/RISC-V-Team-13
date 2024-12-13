@@ -9,8 +9,9 @@
 init:
     addi s1, zero, 0x1  /* a Flag to compare with trigger VbdFlag, activate f1 light when vbuddy button is pressed */
     addi s2, zero, 0xff /* 0x1111 1111, representing condition which all 8 lights are on */
-    addi s3, zero, 0x3  /* determines how many times timedelay module iterates -- delay between lights */
+    addi s3, zero, 0x4  /* determines how many times timedelay module iterates -- delay between lights */
     addi a3, zero, 0x1  /* initial value to produce LFSR random number -- all lights off delay */
+    addi s4, zero, 0x1  /* determines the final lightdelay */
 
 rst:
     addi a0, zero, 0x0 /* reset all -- turn all lights off */
@@ -19,13 +20,14 @@ rst:
 
 mainloop:
     beq  t0, s1, fsm    /* fsm starts when vbdflag is on */ 
-    srli a2, a3, 0x5    /* LFSR -- generating a random delay value */
+    srli a2, a3, 0x3    /* LFSR -- generating a random delay value */
     andi a2, a2, 0x1
     xor  a2, a2, a3
     andi a2, a2, 0x1 
     slli a3, a3, 0x1 
     add  a3, a3, a2 
     andi a3, a3, 0xf
+    srli a3, a3, 0x1
     jal  ra, mainloop   /* Loop  */
 
 fsm:
@@ -38,7 +40,7 @@ fsm:
 increment:
     /* happens when all the 8 F1 lights are on -- random light-off stage */
     beq  a4, a3, rst
-    jal  ra, lightdelay      /* jump to counter */
+    jal  ra, finallightdelay      /* jump to counter */
     addi a4, a4, 0x1    /* inc delay */
     jal  ra, increment  /* run until delay finished */
 
@@ -49,6 +51,13 @@ lightdelay:
     addi  a1, zero, 0x0 /* reset count */
     RET
 
+finallightdelay:
+    addi  a1, a1, 0x1   /* inc count */
+    bne   a1, s4, finallightdelay
+    addi  a1, zero, 0x0 /* reset count */
+    RET
+
+
 /* a0: represemt F1 light status -- 0x1 only 1 light on, 0x3 2 lights on.. 0xff 8 lights on */
 /* a1: variable in light delay module to count a3 iterate timedelay */
 /* a2: variable in LFSR to generate random delay value */
@@ -58,5 +67,6 @@ lightdelay:
 /* s1: flag value 1 with trigger to determine f1 light activate */
 /* s2: value 0xff as all 8 lights on condition */
 /* s3: determine light delay time */
+/* s4: determine final light delay */
 
 /* t0: trigger, controlled by Vbdflag() */

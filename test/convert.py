@@ -8,7 +8,7 @@ with open('F1assembly.mem', 'w') as mem_file:
     # Process every 4 bytes (32 bits) as one RISC-V instruction
     for i in range(0, len(bytes), 4):
         # Convert these 4 bytes into a 32-bit integer assuming little-endian format
-        instruction = int.from_bytes(bytes[i:i+4], 'little')
+        instruction = int.from_bytes(bytes[i:i+4], 'big')
         # Convert to hex, remove the '0x' prefix, and ensure it's zero-padded to 8 characters
         hex_instruction = f"{instruction:08x}"
         # Insert a space every two characters
