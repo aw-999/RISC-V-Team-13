@@ -6,7 +6,7 @@ module instructionmemory #(parameter WAD = 16, WD = 8, DATA_WIDTH = 32)(
 logic [WD-1: 0] RomArr [2**WAD-1: 0]; // too large to simulate 2**32 rom so using 2*16
 
 initial begin
-    $readmemh("F1assembly.mem", RomArr);
+    $readmemh("program.hex", RomArr);
 end;
 
 assign instrF = {RomArr[pcF+3], RomArr[pcF+2], RomArr[pcF+1], RomArr[pcF]};
