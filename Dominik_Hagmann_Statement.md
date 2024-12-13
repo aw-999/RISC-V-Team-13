@@ -1,6 +1,6 @@
 # Dominik Hagmann Personal Statement
 
-<center> <img src= "/Users/Dominik.hagmann/Documents/iac/lab0-devtools/autumn/workspace/RISC-V-Team-13-1/images/Screenshot 2024-12-13 at 17.24.41.png" width = 200 length = 200>
+<center> <img src= "images/Screenshot 2024-12-13 at 17.24.41.png" width = 200 length = 200>
 
 ## Pipeline
 
