@@ -286,7 +286,8 @@ ALU is split into `alusrc.sv` `alu.sv` in the early version of the processor. `B
 
 [(op7 and alusrc logic fixed)](https://github.com/aw-999/RISC-V-Team-13/commit/83363cb16744ad93e786f9c6b2d215fb1160aa41)
 
-picture needed for gtkwave here !
+![gtkwave](RISC-V-Team13/images/F1gtkwave.png)
+
 
 ---
 
@@ -298,7 +299,8 @@ However, due to the debug and wiring problem the cache, I rewrote the logic to 2
 
 ---
 
-picture here
+
+
 
 This component consists of 3 parts in the final version of pipelined: `cache_2.sv`, `data_2.sv`, `memcache.sv`
 
@@ -310,7 +312,8 @@ This component consists of 3 parts in the final version of pipelined: `cache_2.s
 
 ### 2-Way Associative Cache
 
-picture here
+![2-Way cache](RISC-V-Team13/images/cache2.jpg)
+
 
 #### Parameters
 
