@@ -2,6 +2,8 @@
 
 <center> <img src= "images/Screenshot 2024-12-13 at 17.24.41.png" width = 800 length = 800>
 
+Image of the 5-stage Pipelined processor with Hazard Detection that I used as reference
+
 ## Pipeline
 
 From the start of the porject, I took over the work on implementing a 5-stage pipelined processor and hazard detection. I began by referencing the provided diagram since the single-cycle CPU was still under development at that point. As progress was made on the single-cycle CPU, I started working on a new top module that included the pipelined modules and changed variable names to keep consistency. 
@@ -18,7 +20,7 @@ The pipelined processor is split into 5 stages: Fetch, Decode, Execute, Memory a
 
 ```
 
-section of flip-flop of transition from Fetch to Decode stage
+Section of flip-flop of transition from Fetch to Decode stage
 
 
 ## Hazard Detection
@@ -56,7 +58,7 @@ mux_pcsrc mux_pcsrc (
     .pcnextF (pcnextF)
 );
 ```
-section of top indicating how I kept naming convention constant
+section of top indicating how I kept naming convention consistent throughout the modules
 
 
 
@@ -64,8 +66,36 @@ section of top indicating how I kept naming convention constant
 
 I focused primarily on debugging the complete form of the 5-stage pipelined processor and hazard unit. I identified many conflicts with the logic in the single-cycle not working in the pipelined processor. This led me to make several modifications to existing modules. For example I redesigned the alu to use 5 bit aluctrl instead of 4 bit aluctrl due to needing to implement the lui instuction, aluresultM = srcbE. Furthermore, I had to change the logic in the control unit to have outputs jumpD and branchD instead of pcsrcD so that they can be used in hazard unit. This in turn also required me to make a new module known as gate_pcsrcE that produced pcsrcE instead of in control unit.
 
+```
+    case(opcodeD)
+        7'b1100011: branchD = 1'b1;     //b - type
+        7'b1100111: jumpD = 1'b1;  //jalr
+        7'b1101111: jumpD = 1'b1;  //jal - might need to look into that later
+        default: begin
+        branchD = 1'b0;
+        jumpD = 1'b0;
+        end
+    endcase
+```
+
 Furthermore I redesigned the data memory as the single-cycle data memory used funct3 to distinguish between load and store instructions. I introduced two new variables in control unit, memctrl and memread, which are both pipelined and use opcode and funct3 to help determine which store and load instruction. Where memctrl is 3 bits long and used to determine which type of instruction and memread is 1 bit and indicates if it is a load (high) or store (low) instruction.
 
+```
+    always_comb begin
+        if(memreadM) begin 
+            if(memctrlM == 3'b011) begin
+                readdataM = {24'b0, RamArray[aluresultM[17:0]]};
+            end
+```
+Part of data memory indicating change where using memread and memctrl to indicate if its a load or store and if its a load byte unsigned instruction
+
+During debugging for test cases 3, 4, and 5, I discovered that the register file from the single-cycle CPU was causing unexpected behavior. The issue was that the register file was set to update on the rising edge of the clock cycle (posedge clk). This caused the outputs (RD1D and RD2D) to be overwritten prematurely, leading to incorrect data being forwarded to subsequent stages. By modifying the register file to update on the falling edge of the clock cycle (negedge clk), I ensured that the outputs were no longer overwritten, resolving the issue and allowing the pipeline to function correctly. 
+
+```
+always_ff @(negedge clk)
+```
+
+change in register file that fixed issues with testcases 3, 4 and 5
 
 ## Conclusion
 

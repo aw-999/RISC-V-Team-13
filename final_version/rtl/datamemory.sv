@@ -1,5 +1,3 @@
-/* verilator lint_off UNUSED*/
-
 module datamemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
     input logic clk,
     input logic [WAM:0] aluresultM, // aluresult formerly Ad
