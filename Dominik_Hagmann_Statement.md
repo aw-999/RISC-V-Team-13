@@ -8,7 +8,10 @@ From the start of the porject, I took over the work on implementing a 5-stage pi
 
 The pipelined processor is split into 5 stages: Fetch, Decode, Execute, Memory and Write Back. Each pipeline stage was implemented using flip-flop gates to transition data and control signals to the next stage while mainting proper timing. For example in the Fetch stage, the wire pcF transitions to pcD in the Decode stage, allowing the Fetched instruction to be used while ensuring synchronization with other pipeline operations. 
 
-<center> <img src=____________ = width = 200 length = 200>
+```
+    pcF <= pcD;
+
+```
 
 flip flop of pcF transitioning to pcD in pcf.sv
 
@@ -19,7 +22,19 @@ While implementing the hazard unit, some changes were mafe compared to the diagr
 
 Additionally I added to muliplexers, mux_srcaE and mux_srcbE, that resolved hoazards by forwarding results from later pipeline stages to the ALU inputs. The logic used for the two select inputs (forwardaE and forwardbE) of these multiplexers was by using register write, read data and register sources. The logic works by checking the source registers in the execute stage to determine if forwarding of either data from the memory or writeback stage is required. 
 
+```
+        if (((rs1E == rdM) && regwriteM) && (rs1E != 5'b00000)) begin // Forward from Memory stage
+            forwardaE = 2'b10;
+        end
 
+        else if (((rs1E == rdW) && regwriteW) && (rs1E != 5'b00000)) begin // Forward from Writeback stage
+            forwardaE = 2'b01;
+        end
+
+        else begin
+            forwardaE = 2'b00;
+        end
+```
 
 Logic that is being used in the hazard unit for the forwardaE output
 
