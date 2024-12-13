@@ -13,7 +13,10 @@ module control (
     output logic jumpD,          //pipelining needs jump and branch for pcsrc gate
     output logic branchD,
     output logic [2:0] memctrlD,
-    output logic memreadD
+    output logic memreadD,
+
+    output logic LoadMemD,
+    output logic StoreMemD
 );
 
     //aluoperation
@@ -101,7 +104,8 @@ module control (
             default: memctrlD = 3'b000; //sw
             endcase
         end
-        endcase
+        end
+    endcase
 
 
     //ALUSrc

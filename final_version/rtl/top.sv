@@ -276,7 +276,7 @@ pce pcexecute (
     .pcplus4M (pcplus4M),
 );
 
-datamemory datamemory (
+datamemory data_2 (
     .clk (clk),
     .aluresultM (aluresultM), 
     .memwriteM (memwriteM), 
