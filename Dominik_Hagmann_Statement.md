@@ -19,7 +19,7 @@ While implementing the hazard unit, some changes were mafe compared to the diagr
 
 Additionally I added to muliplexers, mux_srcaE and mux_srcbE, that resolved hoazards by forwarding results from later pipeline stages to the ALU inputs. The logic used for the two select inputs (forwardaE and forwardbE) of these multiplexers was by using register write, read data and register sources. The logic works by checking the source registers in the execute stage to determine if forwarding of either data from the memory or writeback stage is required. 
 
-<center> <img src=/Users/Dominik.hagmann/Documents/iac/lab0-devtools/autumn/workspace/RISC-V-Team-13-1/images/Screenshot 2024-12-13 at 17.24.41.png = width = 200 length = 200>
+
 
 Logic that is being used in the hazard unit for the forwardaE output
 
