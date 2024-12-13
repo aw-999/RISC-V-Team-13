@@ -9,7 +9,7 @@ main branch in the rtl folder, we have the full verified single cycle RISC-V pro
 
 Pipelined branch - rtl folder , fully verified 5 stage pipelined RISC-V Processor
 
-pipeline_cache2  branch - rtl folder -  2 way set assocative cache 
+pipeline_cache2  branch - rtl folder -  2 way set assocative cache fully verified pipelined processor
 
 
 # How to use
@@ -53,6 +53,8 @@ https://www.youtube.com/watch?v=GsUzAgGpNCY -- f1 assembly working with Cache vi
 ## Team Progress 
 
 We have created a Pipelined, 2 way associative cache with hazard detection which has been fully verified. 
+
+all base instructions have also been implemented.
 
 Versions implemented:
 Single Cycle RISC-V
