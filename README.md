@@ -1,6 +1,40 @@
 # RISC-V-Team-13 Team Statement
 
 
+# Testing our processor
+
+We have multiple implementations for our RISC-V processor in separate branches, in the;
+
+main branch in the rtl folder, we have the full verified single cycle RISC-V processor
+
+Pipelined branch - rtl pipelined folder , fully verified 5 stage pipelined RISC-V Processor
+
+
+
+
+
+
+
+
+
+
+
+## Evidence
+
+https://www.youtube.com/watch?v=lkD1R1R1Z-A -- Gaussian cached processor video
+
+https://www.youtube.com/watch?v=dQPJHsPt7UY -- Sine cached processor video
+
+https://www.youtube.com/watch?v=WJTLWmlUPOQ -- Triangle cached processor Video
+
+https://www.youtube.com/watch?v=BamRy1hRapA -- Noisy cached Porcessor video
+
+https://www.youtube.com/watch?v=GsUzAgGpNCY -- f1 assembly working with Cache video
+
+
+
+
+
 ## Team Progress 
 
 We have created a Pipelined, 2 way associative cache with hazard detection which has been fully verified. 
@@ -21,7 +55,7 @@ We arranged weekly team meetings where progress was shared and any problems / fu
 
 If any of us required any additional clarification, we also communicated regularly on or WhatsApp chat
 
-Initially we allocated roles for each team member 
+Initially we allocated roles for each team member. 
 
 ## Team Contribution
 o = Lead Contributor
@@ -70,12 +104,12 @@ x = Partial Contributor
 
 |                                | Arjun | Dominik | Haiyi | Jerry | Peter |
 | ------------------------------ | ----- | ------- | ----- | ----- | ----- |
-| main memory                    |       |         |       |       |       |
-| cachemux                       |       |         |       |       |       |
-| 2-way cache                    |       |         |       |       |       |
-| cache debugging                |       |         |       |       |       |
-| integration with pipelined     |       |         |       |       |       |
-| 4-way cache layer 1 (temporal) |       |         |       |       |       |
-| 4-way cache bridge (untested)  |       |         |       |       |       |
+| main memory                    |       |         | x     |       | x     |
+| cachemux                       |       |         | x     |       | x     |
+| 2-way cache                    |       |         | x     |       | x     |
+| cache debugging                |       |         | o     |       | x     |
+| integration with pipelined     |       |         | o     |       | x     |
+| 4-way cache layer 1 (temporal) |       |         | x     |       | o     |
+| 4-way cache bridge (untested)  |       |         | x     |       | o     |
 |                                |       |         |       |       |       |
 |                                |       |         |       |       |       |
