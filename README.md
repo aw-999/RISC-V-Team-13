@@ -7,15 +7,30 @@ We have multiple implementations for our RISC-V processor in separate branches, 
 
 main branch in the rtl folder, we have the full verified single cycle RISC-V processor
 
-Pipelined branch - rtl pipelined folder , fully verified 5 stage pipelined RISC-V Processor
+Pipelined branch - rtl folder , fully verified 5 stage pipelined RISC-V Processor
+
+pipeline_cache2  branch - rtl folder -  2 way set assocative cache 
+
+
+# How to use
+
+TO TEST 5 TEST PROGRAMS: open rtl folder in branch check datamemory has file "data.hex" , check instruction memory has file "program.hex" to run the 5 test programs, then do `bash ./doit.sh` or `bash ./doit_nonmac.sh` for mac / non mac.
+NOTE: THIS .SH FILE NAME MAY NOT BE CONSISTENT ACROSS 3 VERSIONS
+
+TO TEST F1 LIGHTS:
+
+change to rtl folder
+put "F1assembly.mem" in instruction memory. run `bash ./F1.sh` shell script. 
+Connect Vbuddy
 
 
 
+TO PLOT PDF:
 
-
-
-
-
+change to rtl folder
+change instruction memory file to "pdf.hex"
+change data memory file to "gaussian.mem"  -- CHANGE FOR DIFFERENT DISTRIBUTION.
+run `bash ./pdf.sh`
 
 
 
