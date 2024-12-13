@@ -7,12 +7,10 @@
 default: Vtop
 
 ### Constants...
-# Perl executable (from $PERL, defaults to 'perl' if not set)
+# Perl executable (from $PERL)
 PERL = perl
-# Python3 executable (from $PYTHON3, defaults to 'python3' if not set)
-PYTHON3 = python3
 # Path to Verilator kit (from $VERILATOR_ROOT)
-VERILATOR_ROOT = /opt/homebrew/Cellar/verilator/5.030/share/verilator
+VERILATOR_ROOT = /usr/local/share/verilator
 # SystemC include directory with systemc.h (from $SYSTEMC_INCLUDE)
 SYSTEMC_INCLUDE ?= 
 # SystemC library directory with libsystemc.a (from $SYSTEMC_LIBDIR)
@@ -40,15 +38,14 @@ VM_USER_CFLAGS = \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
-	-lgtest -lgtest_main -lpthread \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
-	1_addi_bne \
+	pdf \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
-	.. \
+	. \
 
 
 ### Default rules...
@@ -60,8 +57,8 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-1_addi_bne.o: 1_addi_bne.cpp 
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+pdf.o: pdf.cpp
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
 Vtop: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
