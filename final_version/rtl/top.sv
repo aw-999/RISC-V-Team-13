@@ -13,7 +13,7 @@ logic [DATA_WIDTH-1:0] pcF, pcnextF, pcplus4F, instrF;
 
 //decode
 logic [DATA_WIDTH-1:0] pcD, instrD, pcplus4D, immextD, RD1D, RD2D;
-logic regwriteD, memwriteD, flushED, stallFD, alusrcD, jalrD, jumpD, branchD, memreadD;
+logic regwriteD, memwriteD, flushED, stallFD, alusrcD, jalrD, jumpD, branchD, memreadD, storeD, loadD;
 //logic jumpD, branchD;
 logic [1:0] resultsrcD;
 logic [2:0] aluopD, immsrcD, memctrlD;
@@ -21,7 +21,7 @@ logic [4:0] aluctrlD;
 
 //execute
 logic [DATA_WIDTH-1:0] pcE, pcplus4E, immextE, RD1E, RD2E, pctargetE, writedataE, srcaE, srcbE, aluresultE, jalrmuxoutE;
-logic regwriteE, memwriteE, alusrcE, flagE, jalrE, jumpE, branchE, pcsrcE, memreadE;
+logic regwriteE, memwriteE, alusrcE, flagE, jalrE, jumpE, branchE, pcsrcE, memreadE, storeE, loadE;
 //logic jumpE, branchE;
 logic [1:0] resultsrcE, forwardaE, forwardbE;
 logic [2:0] memctrlE;
@@ -35,7 +35,7 @@ logic [DATA_WIDTH-1:0] memoryout;
 
 //memory
 logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM /*immextM*/;
-logic regwriteM, memwriteM, memreadM;
+logic regwriteM, memwriteM, memreadM, storeM, loadM;
 logic [1:0] resultsrcM;
 logic [2:0] memctrlM;
 logic [4:0] rdM;
@@ -109,7 +109,9 @@ control controlunit (
     .jumpD (jumpD),
     .branchD (branchD),
     .memreadD (memreadD),
-    .memctrlD (memctrlD)
+    .memctrlD (memctrlD),
+    .storeD (storeD),
+    .loadD (loadD)
 );
 
 
@@ -171,6 +173,8 @@ pcd pcedecode (
     .branchD (branchD),
     .memctrlD (memctrlD),
     .memreadD (memreadD),
+    .storeD (storeD),
+    .loadD (loadD),
 
     //Hazard
     .rs1D (instrD[19:15]),
@@ -193,6 +197,8 @@ pcd pcedecode (
     .branchE (branchE),
     .memctrlE (memctrlE),
     .memreadE (memreadE),
+    .storeE (storeE),
+    .loadE (loadE),
 
     .rs1E (rs1E),
     .rs2E (rs2E)
@@ -271,20 +277,24 @@ pce pcexecute (
     .writedataE (writedataE),
     .rdE (rdE),
     .pcplus4E (pcplus4E),
+    .storeE (storeE),
+    .loadE (loadE),
 
     .regwriteM (regwriteM),
     .resultsrcM (resultsrcM),
     .memwriteM (memwriteM),
     .memctrlM (memctrlM),
     .memreadM (memreadM),
-    //.immextM (immextM),
+    .storeM (storeM),
+    .loadM (loadM),
     .aluresultM (aluresultM),
     .writedataM (writedataM),
     .rdM (rdM),
     .pcplus4M (pcplus4M)
 );
 
-data_2 data_2 (
+data_2 datamemory (
+
     .clk (clk),
     .aluresultM (aluresultM[17:0]), 
     .memwriteM (memwriteM), 
@@ -298,7 +308,8 @@ data_2 data_2 (
 cache_2 cache_2 (
     .addressIn (aluresultM),
     .dataIn (writedataM),
-    .LoadM (memreadM),
+    .LoadM (loadM),
+    .storeM (storeM),
     .memwriteM (memwriteM),
     .clk (clk),
     .memIn (memoryout),

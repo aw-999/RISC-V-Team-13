@@ -7,6 +7,8 @@ module cache_2 #(
   input logic [31:0] dataIn,              // Input data
  
   input logic LoadM,                      // Load type signal
+  input logic storeM,
+
   input logic memwriteM,                  // Write enable signal
   input logic clk,                        // Clock signal
   input logic [31:0] memIn,               // Data input from memory
@@ -29,8 +31,6 @@ module cache_2 #(
   assign Tag_in = addressIn[31:3];                        // Tag bits from the address (ignoring byte offset)
   assign set_index = addressIn[2:0];                        // Set index (bits 2:0 from address)
 
-  logic StoreM;                     // Store type signal
-  assign StoreM = !LoadM;
   
   // Initialization
   initial begin
@@ -76,7 +76,7 @@ module cache_2 #(
     // Handle write operations
     if (memwriteM) begin
       way_sel = lru[set_index] ? 1'b0 : 1'b1;              // Select the LRU way for replacement
-      if (StoreM) begin                                    // Store operation
+      if (storeM) begin                                    // Store operation
         valid[set_index][way_sel] <= 1'b1;                 // Mark the line as valid
         tag[set_index][way_sel] <= Tag_in;               // Update the tag
         data[set_index][way_sel][7:0] <= dataIn[7:0];      // Write lower byte of the input data

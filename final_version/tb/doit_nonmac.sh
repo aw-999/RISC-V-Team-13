@@ -15,10 +15,6 @@ RESET=$(tput sgr0)
 passes=0
 fails=0
 
-# Google Test paths (adjust these as necessary)
-# GTEST_INCLUDE_PATH="/opt/homebrew/include"  # Path to Google Test includes
-# GTEST_LIB_PATH="/opt/homebrew/lib"          # Path to Google Test libraries
-
 # Handle terminal arguments
 if [[ $# -eq 0 ]]; then
     # If no arguments provided, run all tests
@@ -32,10 +28,6 @@ cd $SCRIPT_DIR
 
 # Wipe previous test output
 rm -rf test_out/*
-
-# Set environment variables for make
-export CXXFLAGS="-I${GTEST_INCLUDE_PATH}"  # Add Google Test include path
-export LDFLAGS="-L${GTEST_LIB_PATH} -lgtest -lgtest_main -lpthread"  # Add Google Test library path
 
 # Iterate through files
 for file in "${files[@]}"; do
@@ -52,7 +44,8 @@ for file in "${files[@]}"; do
                 --exe ${file} \
                 -y ${RTL_FOLDER} \
                 --prefix "Vdut" \
-                -o Vdut
+                -o Vdut \
+                -LDFLAGS "-lgtest -lgtest_main -lpthread"
 
     # Build C++ project with automatically generated Makefile
     make -j -C obj_dir/ -f Vdut.mk
@@ -71,6 +64,3 @@ done
 
 # Save obj_dir in test_out
 mv obj_dir test_out/
-
-# Print summary
-echo -e "${GREEN}Passed: $passes${RESET}"

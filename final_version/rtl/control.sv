@@ -13,7 +13,9 @@ module control (
     output logic jumpD,          //pipelining needs jump and branch for pcsrc gate
     output logic branchD,
     output logic [2:0] memctrlD,
-    output logic memreadD
+    output logic memreadD,
+    output logic loadD,
+    output logic storeD
 );
 
     //aluoperation
@@ -81,38 +83,50 @@ module control (
             3'b000: begin 
                     memctrlD = 3'b010; //lb
                     memreadD = 1;
+                    loadD = 1;
 
             end
             3'b001: begin
                     memctrlD = 3'b001; //lh
                     memreadD = 1;
+                    loadD = 1;
             end
             3'b010: begin 
                     memctrlD = 3'b000; //lw
                     memreadD = 1;
+                    loadD = 1;
             end
             3'b100: begin 
                     memctrlD = 3'b011; //lbu
                     memreadD = 1;
+                    loadD = 1;
             end
             3'b101: begin
                     memctrlD = 3'b100; //lhu
                     memreadD = 1;
+                    loadD = 1;
             end
             default: begin
                     memctrlD = 3'b000; //w
                     memreadD = 0;
+                    loadD = 0;
             end
         endcase
     end
         
     7'b0100011: begin//store
+
+        storeD = 1'b1;
+
         case(funct3D)
         3'b000: memctrlD = 3'b010; //sb
         3'b001: memctrlD = 3'b001; //sh
         3'b010: memctrlD = 3'b000; //sw
         
-        default: memctrlD = 3'b000; //sw
+        default: begin
+                memctrlD = 3'b000; //sw
+                storeD = 0;
+        end 
         endcase
     end
 
@@ -187,6 +201,8 @@ module control (
     if(stallFD) begin
         memwriteD = 0;
         memreadD = 0;
+        loadD = 0;
+        storeD = 0;
         regwriteD = 0;
     end
 
