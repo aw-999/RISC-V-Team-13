@@ -8,7 +8,9 @@ Size ：256 bytes
 8 Sets
 32 blocks
 <img src="./../images/cache_4ways.jpg">
-### 2.1 L1 cache
+
+### 1.1 L1 cache
+
 The initial design of cache only contains L1 cache and L2 cache which stores the recently used data. And we decide to use 4 ways to store the data which stores larger amount of data to avoid the miss condition. but in the case where some data must be replaced it selects the last used way using a shift register. Using 4 ways decrease the miss rate of the instructions, while a set contains more blocks. And we need to use the FSM to control the work of cache. 
 ### 1.2 The state of L1 cache
 <img src="./../images/StateDiagram_4ways.jpg" width = 200 height = 200>
@@ -141,6 +143,9 @@ The access time	is faster than 4-way cache. It has better performance in most te
 
 # 2. PC
 
+### 2.1 PCReg
+
+This module implements the program vounter register which stores the current instruction address. The inputs is the clock signal, reset signal and PCN which is the next value for PC. On the rising edge of clk, if rst is active, the PC is reset to 0. Otherwise, the PC is updated with the value of PCN.
 
 ```C++
 module PCReg #(parameter W = 32)(
@@ -155,9 +160,15 @@ always_ff@(posedge clk)
     else PC <= PCN;
 
 endmodule
-
 ```
+
+### 2.1 PCSrc_mux
+This module is a multiplexer that selects the next value of the program counter based on the PCSrc control signal.
+The input signal is PCTarget(The branch or jump target address), PCSrc, PCPlus4.
+When PCSrc = 0, PCN is set to PCPlus4. When PCSrc = 1, PCN is set to PCTarget. If no valid PCSrc is provided, the default is PCPlus4.
+
 ```C++
+
 module PCSrc_mux #(
     parameter DATA_WIDTH = 32 // Default data width
 )(
@@ -181,4 +192,8 @@ module PCSrc_mux #(
     end
 
 endmodule
-```C++
+```
+
+# 3. Conclusion
+
+In conclusion, I thoroughly enjoyed working on this project, particularly exploring the design and implementation of the 2-way and 4-way set-associative caches and their impact on processor performance. This project provided invaluable insights into cache design, program counter management, and SystemVerilog. Although time constraints limited further exploration of the 4-way cache, the challenges encountered deepened my understanding of balancing complexity and efficiency in modern processors. Reflecting on the process, earlier focus on foundational components, such as single-cycle CPU implementation, might have streamlined later stages and facilitated smoother integration of caching strategies into the processor design.
