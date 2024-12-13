@@ -7,13 +7,18 @@
 	5. Control Module Unit test (complete)
 	6. ALUDecode Unit test (complete)
 	7. Data Memory Unit test (complete)
-	8. Instruction Memory Unit test 
-- 2 F1 Program Verification
-- 3 Creating ALU, ALUDecode, Control Unit
-- 4 Debugging top module
-- 5 Testing given assembly programs
-	1. Program 1 - Addi , BNE
-	2. Program 2 - 
+	8. Instruction Memory Unit test
+- 2 Creating ALU, ALUDecode, Control Unit
+- 3 Debugging top module
+- 4 Modifying components - single cycle
+- 5 Debugging Pipelined Processor
+- 6 Testing given assembly programs
+	1. Programs 1 - 3 - Addi, BNE, LBU, SB
+	2. Program 4  -JALR
+	3. PDF
+	4. verify PDF on Vbuddy
+
+
 
 
 Things to complete single cycle:
