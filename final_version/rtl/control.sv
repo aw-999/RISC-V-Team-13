@@ -29,6 +29,7 @@ module control (
         memctrlD = 0;
         memreadD = 0;
         
+        //aludecode
         case(opcodeD)
 
         7'b0110011: aluopD = 3'b000; //r-type
@@ -60,7 +61,7 @@ module control (
         7'b0000011: resultsrcD = 2'b01; // I-type load instructions (lw, lh, lb, etc.)
         7'b1101111: resultsrcD = 2'b10; // J-type instructions (jal)
         7'b1100111: resultsrcD = 2'b10; // I-type jalr (Jump and Link Register)
-        7'b0010111: resultsrcD = 2'b11; // U-type auipc
+        7'b0010111: resultsrcD = 2'b00; // U-type auipc
         default: resultsrcD = 2'b00;
     endcase
 
@@ -99,7 +100,7 @@ module control (
                 end
                 default: begin
                         memctrlD = 3'b000; //w
-                         memreadD = 0;
+                        memreadD = 0;
                 end
             endcase
         end

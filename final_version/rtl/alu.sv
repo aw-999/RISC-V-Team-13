@@ -44,7 +44,7 @@ always_comb begin
             5'b01110: flagE = (signed_srcaE < signed_srcbE) ? 1 : 0; //bltu
             5'b01111: flagE = (signed_srcaE >= signed_srcbE) ? 1 : 0; //bgeu
             default: begin
-                aluresultE = srcaE + srcbE;
+                aluresultE = 0;
                 flagE = 0;
             end
              
