@@ -1,43 +1,72 @@
-module alu #(parameter W = 32)(
-    input logic [3: 0] ALUctrl,
-    input logic [2: 0] ALUflag, //outputs to flag
-    input logic [W-1: 0] SrcA, //changed from N1 , N2
-    input logic [W-1: 0] SrcB,
-    output logic [W-1: 0] ALUresult,
-    output logic flag,
-    output logic nflag
+module ALU #(
+    parameter W = 32
+)(
+    //from Registerfiles
+    input logic [W-1:0] SrcA,
+    input logic [W-1:0] SrcB,
+
+    //from ALU decode
+    input logic [3:0] ALUCtrl,
+
+    output logic [W-1:0] ALUResult,
+    output logic branch
+    /*output logic ZeroFlag,
+    output logic NegativeFlag,
+    output logic UnsignedLess
+    */
 );
+    /*
+    logic ZeroFlag;
+    logic UnsignedLess;
+    logic NegativeFlag;
+    */
 
-always_comb
-    case (ALUctrl)
-        4'b0000: ALUresult = SrcA + SrcB; // add
-        4'b0001: ALUresult = SrcA - SrcB; // sub
-        4'b0010: ALUresult = SrcA & SrcB; // and
-        4'b0011: ALUresult = SrcA | SrcB; // or
-        4'b0100: ALUresult = SrcA ^ SrcB; // xor
-        4'b0101: ALUresult = (SrcA < SrcB) ? 32'b1 : 32'b0; // set less than, slt
-        4'b0110: ALUresult = SrcA << SrcB;  // sll
-        4'b0111: ALUresult = SrcA >> SrcB;  // srl
-        4'b1000: ALUresult = SrcA >> 1      // sra 
-        4'b1001: ALUresult = ($SrcA < $SrcB)  // sltu missed flag
+always_comb begin 
+    branch = 0;
+    ALUResult = 0;
 
-        default ALUresult = SrcA + SrcB;
+    case(ALUCtrl)
+            4'b0000: ALUResult = SrcA + SrcB;  // ADD
+            4'b0001: ALUResult = SrcA - SrcB;  // Sub
+            4'b0010: ALUResult = SrcA & SrcB;  // AND
+            4'b0011: ALUResult = SrcA | SrcB;  // OR
+            4'b0100: ALUResult = SrcA ^ SrcB;  // XOR
+            4'b0101: ALUResult = SrcA << SrcB[4:0];  // Shift Left Logical
+            4'b0110: ALUResult = SrcA >> SrcB[4:0];  // Shift Right Logical
+            4'b0111: ALUResult = $signed(SrcA) >>> SrcB[4:0];  // Shift Right Arithmetic
+            4'b1000: ALUResult = (SrcA < SrcB) ? 1 : 0;  // Set Less Than signed
+            4'b1001: ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0;  // Set Less Than Unsigned
+            
+            4'b1010: branch = (SrcA == SrcB) ? 1 : 0; //beq
+            4'b1011: branch = (SrcA != SrcB) ? 1 : 0; //bne
+            4'b1100: branch = (SrcA < SrcB) ? 1 : 0; //blt
+            4'b1101: branch = (SrcA >= SrcB) ? 1: 0; //bge
+            4'b1110: branch = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0; //bltu
+            4'b1111: branch = ($unsigned(SrcA) >= $unsigned(SrcB)) ? 1 : 0; //bgeu
+            default: begin
+                ALUResult = 0;
+                branch = 0;
+            end
+             
     endcase
 
-always_comb 
-    case (ALUflag)
-        3'b000: flag = (ALUresult == 0)? 1 : 0; // beq
-        3'b001: flag = (ALUresult != 0)? 1 : 0; // bne
-        3'b010: flag = 0;                       
-        3'b011: flag = 1;
-        3'b100: flag = (ALUresult < 0)? 1 : 0; // blt
-        3'b101: flag = (ALUresult >= 0)? 1 : 0; // bge
-        3'b110: flag = (ALUresult < 0)? 1 : 0; // bltu
-        3'b111: flag = (ALUresult >= 0)? 1 : 0; // bgeu
+        /*
+        ZeroFlag = (ALUResult == 0) ? 1 : 0;
+        NegativeFlag = ALUResult[W-1];
 
-        default flag = 0;
-    endcase
+        if(ALUCtrl == 4'b1001) begin
+            UnsignedLess = ALUResult[0];
+        end
+        */
+
+    end
 
 endmodule
+    
+
+
+    
+
+
 
 

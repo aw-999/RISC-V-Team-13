@@ -41,8 +41,8 @@ always_comb begin
             4'b1011: branch = (SrcA != SrcB) ? 1 : 0; //bne
             4'b1100: branch = (SrcA < SrcB) ? 1 : 0; //blt
             4'b1101: branch = (SrcA >= SrcB) ? 1: 0; //bge
-            4'b1110: branch = ($signed(SrcA) < $signed(SrcB)) ? 1 : 0; //bltu
-            4'b1111: branch = ($signed(SrcA) >= $signed(SrcB)) ? 1 : 0; //bgeu
+            4'b1110: branch = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0; //bltu
+            4'b1111: branch = ($unsigned(SrcA) >= $unsigned(SrcB)) ? 1 : 0; //bgeu
             default: begin
                 ALUResult = 0;
                 branch = 0;
