@@ -134,7 +134,8 @@ always_ff @(posedge clk) begin
     end
   end
   ```
-### 1.5 The conclusion of 2-ways cache
+The conclusion of 2-ways cache
+
 It has lower hardware complexity than fully associative or higher-associativity caches.
 The access time	is faster than 4-way cache. It has better performance in most tests.
 
