@@ -17,7 +17,7 @@
 - 4 Debugging Pipelined Processor
 - 5 Testing given assembly programs
 	1. Programs 1-3, Addi, BNE, LBU, SB
-	2. Program 4  - JALR
+	2. Program 4  - JAL/JALR
 	3. PDF testing
 	4. verifying PDF on Vbuddy
 - 6 Conclusions and Reflections
@@ -282,7 +282,101 @@ These modifications also required some minor adjustments to the `main_top` modul
 
 In the tb folder on the Project Brief repo, we were provided with 5 test programs, these served as a baseline goal for the RISC-V CPU to pass and served as a nice barometer for if the implementation was successful 
 
+## 4.1 Testing Programs 1-3
 
+Programs 1-3 were relatively simple programs which implemented register calculations and then tested for a given output with the `doit.sh` file which was provided by the Project Brief repository.
+
+My main method of debugging was via the Gtkwave waveform viewer, this allowed me to efficiently check the status of registers , inputs , outputs at any given clock cycle. Combining this with the .dis files included in the testing repo, I was able to accurately tell which instruction was occurring at any given clock cycle, providing a powerful debugging tool.
+
+<img src="./../images/Screenshot 2024-12-13 204411.png" width = 400 height = 400>
+
+The above image shows an example of how I used gtkwave to test if the Sign Extend module was operating as expected.
+
+``` dis
+Disassembly of section .text:
+
+bfc00000 <main>:
+bfc00000:	0ff00313          	li	t1,255     //bfc: shows clock cycle.
+bfc00004:	00100513          	li	a0,1
+```
+
+An image showing a snapshot of the .dis file used to help debugging
+
+The majority of the errors in the operation of these programs stemmed from slight errors/ misconceptions about the operation of certain instructions and the associated handling of these within the Control Unit.
+
+The error in the Load instructions was found to be due to the main_top having incorrect wiring for the Regfile - `ALUResult` was being passed in as the `DIn` instead of `Result` which meant that load instructions would not function correctly as they needed the `Data Memory` result instead of `ALUresult`. The `Result` output was the output from the WriteBack Mux. 
+
+## 4.2 Program 4 - JAL
+
+After initially testing program 4, I decided to look over the implementation of the JAL and JALR instructions (RET was a pseudoinstruction for JALR). 
+
+This is when I noticed an interesting dilemma for how to implement JALR:
+
+Option 1 was to make use of the ALU, using an add instruction with its own ALUCtrl input calculating `rs1 + Imm` , selecting `ALUResult` from the `WriteBack Mux`  by setting `ResultSrc` and then taking the `ALUResult` input at the `PCSrc Mux` by setting `PCSrc` accordingly.
+
+Option 2 was to insert another mux between the PCAddIMM module and the PC, this would then use `jalr` select logic to choose between either `rs1` or `PC` and feed PCTarget back into the PCSrc Mux, where it would be selected using `PCSrc = 1` and update the Program Counter accordingly. Meanwhile at the `WriteBack Mux`, `PC + 4` would be selected and fed into `Register File` `DIn` pin, allowing rd = pc + 4. 
+
+```SystemVerilog
+    if(jalr)
+
+        PC_out = rs1;
+
+    else
+
+        PC_out = PC;
+```
+
+The core logic behind the JALR mux
+
+```SystemVerilog 
+always_comb
+
+    case (ResultSrc)
+
+        2'b00: Result = ALUResult;      //from ALU
+
+        2'b01: Result = ReadData;       //from data mem
+
+        2'b10: Result = PCadd4;         // jalr, jal
+
+        2'b11: Result = PCaddIMM;       //for auipc/lui
+
+        default Result = ALUResult;
+
+    endcase
+```
+
+The WriteBack Mux for Option 2
+
+```SystemVerilog
+    always_comb begin
+
+        case (PCSrc)
+
+            1'b0: PCN = PCPlus4;
+
+            1'b1: PCN = PCTarget;
+
+            //2'b11: PCN = Result        
+
+  
+
+        default: PCN = PCPlus4;
+
+    endcase
+
+    end
+```
+
+The now simplified logic for the `PCSRC` mux.
+
+The 2 options were both valid ways to perform the JALR instruction. However I then noticed an opportunity to simplify the overall design - `PCSrc` could be made into a 1 bit signal with Option 2, furthermore, using an ALU to calculate a simple addition was more computationally expensive than a simple mux + adder, and therefore I decided to choose option 2 for the JALR implementation. 
+
+I felt that I had made the right choice, having considered the implications of each design fully and giving it deep thought.
+
+## 4.3 PDF testing
+
+The PDF program simulates 
 
 
 # 5 Debugging Pipelined Processor
@@ -291,7 +385,7 @@ The Pipelined processor required quite a lot of debugging and modification of ce
 
 I mostly worked on changing the Control Unit, working with Dominik to ensure Control Unit interfaces with the other modules correctly in pipelining. 
 
-The changes involved adding a `jump` and `branch` input which would then be fed into the PCSrc gate
+The changes involved adding a `jump` and `branch` input which would then be fed into the PCSrc gate to determine the value of PCSrc
 
 
 
