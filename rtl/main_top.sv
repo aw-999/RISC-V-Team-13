@@ -39,7 +39,7 @@ module main_top #(
 
     // Internal signals
     logic [DATA_WIDTH-1:0] PC;
-    logic [DATA_WIDTH-1:0] PCN;        // Next PC
+    logic [DATA_WIDTH-1:0] PCN;       // Next PC
     logic [DATA_WIDTH-1:0] PCPlus4;   // PC + 4
     logic [DATA_WIDTH-1:0] PCTarget;  // Branch Target
     logic [DATA_WIDTH-1:0] instr;     // Current instruction
@@ -93,6 +93,7 @@ module main_top #(
         .clk (clk),
         .rst (rst),
         .PCN (PCN), // PC next
+
         .PC (PC)    // Current PC
     );
 
