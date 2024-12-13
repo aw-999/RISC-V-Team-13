@@ -11,17 +11,18 @@
 	5. ALUDecode Unit test (complete)
 	6. Data Memory Unit test (complete)
 - 3 Debugging Single Cycle Modules
-	- ALU
-	- Data Memory + Instruction Memory
-	- WriteBack Mux
-	- 
-- 5 Debugging Pipelined Processor
-- 6 Testing given assembly programs
+	1. ALU
+	2. Data Memory + Instruction Memory
+	3. WriteBack Mux
+- 4 Debugging Pipelined Processor
+- 5 Testing given assembly programs
 	1. Programs 1-3, Addi, BNE, LBU, SB
-	2. Program 4  - JALR
+	2. Program 4  - JAL/JALR
 	3. PDF testing
 	4. verifying PDF on Vbuddy
-- 7 Conclusions and Reflections
+- 6 Conclusions and Reflections
+	1. Possible Improvements
+	2. Concluding Statement
 
 Things to complete single cycle:
 	test all with given programs
@@ -200,7 +201,6 @@ In this module, I learnt the limitations of Unit Testing, whilst it is a good wa
 
 The original Data Memory did not use Little-endian indexing, at the time of writing the unit tests. I was unaware of this as I hadn't implemented this module initially, therefore the Unit Test written worked for this incorrect `DataMemory.sv` file, but the module wasn't fit for use in the RISC-V - I figured this out later whilst debugging the other modules, which is discussed further in Section 3.
 
-
 # 3 Debugging Single Cycle Modules
 
 Debugging is an integral part of the design process, and can also be one of the most frustrating too!
@@ -213,12 +213,186 @@ Errors such as syntax errors were another challenge, which mostly arose from min
 
 A benefit of Unit Testing also quickly became apparent here, every module which I had Unit Tested did not have any syntax errors. These were dealt with beforehand during Unit Testing - once again impressing upon me the importance of testing.
 
-One particular error which I had found very difficult to deal with was a 'circular logic error' this showed that there was some kind of feedback loop being created between modules. I decided to check that data flow of the logic and found that a past implementation of the ALU unit was causing a feedback loop. 
-
 ## 3.1 Modifying ALU
 
-It was clear that the ALU needed a few changes in order to prevent circular logic, it seemed that
+Originally, the ALU had been created by using 3 flags to indicate whether a branching condition was met, namely `NegativeFlag`, `ZeroFlag` and `UnsignedLess`. Whilst this was functional, I felt that this implementation could be optimised slightly further.
+
+My solution involved removing the flags. For branch instructions, they would either return 0 or 1 to the 'branch' output based on the  evaluation of the  srcA and srcB inputs and condition. 
+
+```SystemVerilog
+  output logic branch
+
+    /*output logic ZeroFlag,
+
+    output logic NegativeFlag,
+
+    output logic UnsignedLess
+
+    */
+```
+```SystemVerilog
+			4'b1010: branch = (SrcA == SrcB) ? 1 : 0; //beq
+
+            4'b1011: branch = (SrcA != SrcB) ? 1 : 0; //bne
+
+            4'b1100: branch = (SrcA < SrcB) ? 1 : 0; //blt
+
+            4'b1101: branch = (SrcA >= SrcB) ? 1: 0; //bge
+
+            4'b1110: branch = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0; //bltu
+
+            4'b1111: branch = ($unsigned(SrcA) >= $unsigned(SrcB)) ? 1 : 0; //bgeu
+```
+
+The 2 given snippets of code summarises the main changes made to the ALU.
+
+The branch input would then be passed into the Control Unit and used to determine the value of the select input `PCSrc` to modify the `Program Counter`.
+
+## 3.2 Modifying Data Memory + Instruction Memory
+
+Whilst running the test programs - further discussed in Section 4 - I noticed that the instructions being outputted were incorrect and had invalid opcodes by checking the `waveform.vcd` files on the Gtkwave software.
+
+The issue was arising from the addressing of the memory in both of these components, instead of little-endian, the type of addressing used was the opposite. Whilst the error was a simple one to fix, it highlighted the importance of having a full understanding of the RISC-V processor and helped me to review and correct mistakes made by others and even myself. 
+
+```
+3'b010: ReadData = {RamArray[AdM+3], RamArray[AdM+2], RamArray[AdM+1], RamArray[AdM]}; // lw
+```
+
+A snippet of code showing that the `Data Memory` now follows the little-endian format.
+
+## 3.3 Writeback Mux
+
+In the original implementation , the `WriteBack_Mux.sv` component had used only 1 bit for ResultSrc, after reviewing the RISC-V card and documentation, it became clear to me that this was incorrect and required 4 inputs instead of 2:
+
+```SystemVerilog
+    input logic [W-1:0] ALUResult,
+
+    input logic [W-1:0] ReadData,
+
+    input logic [W-1:0] PCadd4,                                
+
+    input logic [W-1:0] PCaddIMM,
+```
+
+The 4 inputs should now handle a wide range of instructions, from regular ADD/ADDI to LUI, JAL, and auipc instructions. 
+
+These modifications also required some minor adjustments to the `main_top` module and the `Control Unit`. 
+
+# 4 Testing Given Assembly Programs
+
+In the tb folder on the Project Brief repo, we were provided with 5 test programs, these served as a baseline goal for the RISC-V CPU to pass and served as a nice barometer for if the implementation was successful 
+
+## 4.1 Testing Programs 1-3
+
+Programs 1-3 were relatively simple programs which implemented register calculations and then tested for a given output with the `doit.sh` file which was provided by the Project Brief repository.
+
+My main method of debugging was via the Gtkwave waveform viewer, this allowed me to efficiently check the status of registers , inputs , outputs at any given clock cycle. Combining this with the .dis files included in the testing repo, I was able to accurately tell which instruction was occurring at any given clock cycle, providing a powerful debugging tool.
+
+<img src="./../images/Screenshot 2024-12-13 204411.png" width = 400 height = 400>
+
+The above image shows an example of how I used gtkwave to test if the Sign Extend module was operating as expected.
+
+``` dis
+Disassembly of section .text:
+
+bfc00000 <main>:
+bfc00000:	0ff00313          	li	t1,255     //bfc: shows clock cycle.
+bfc00004:	00100513          	li	a0,1
+```
+
+An image showing a snapshot of the .dis file used to help debugging
+
+The majority of the errors in the operation of these programs stemmed from slight errors/ misconceptions about the operation of certain instructions and the associated handling of these within the Control Unit.
+
+The error in the Load instructions was found to be due to the main_top having incorrect wiring for the Regfile - `ALUResult` was being passed in as the `DIn` instead of `Result` which meant that load instructions would not function correctly as they needed the `Data Memory` result instead of `ALUresult`. The `Result` output was the output from the WriteBack Mux. 
+
+## 4.2 Program 4 - JAL
+
+After initially testing program 4, I decided to look over the implementation of the JAL and JALR instructions (RET was a pseudoinstruction for JALR). 
+
+This is when I noticed an interesting dilemma for how to implement JALR:
+
+Option 1 was to make use of the ALU, using an add instruction with its own ALUCtrl input calculating `rs1 + Imm` , selecting `ALUResult` from the `WriteBack Mux`  by setting `ResultSrc` and then taking the `ALUResult` input at the `PCSrc Mux` by setting `PCSrc` accordingly.
+
+Option 2 was to insert another mux between the PCAddIMM module and the PC, this would then use `jalr` select logic to choose between either `rs1` or `PC` and feed PCTarget back into the PCSrc Mux, where it would be selected using `PCSrc = 1` and update the Program Counter accordingly. Meanwhile at the `WriteBack Mux`, `PC + 4` would be selected and fed into `Register File` `DIn` pin, allowing rd = pc + 4. 
+
+```SystemVerilog
+    if(jalr)
+
+        PC_out = rs1;
+
+    else
+
+        PC_out = PC;
+```
+
+The core logic behind the JALR mux
+
+```SystemVerilog 
+always_comb
+
+    case (ResultSrc)
+
+        2'b00: Result = ALUResult;      //from ALU
+
+        2'b01: Result = ReadData;       //from data mem
+
+        2'b10: Result = PCadd4;         // jalr, jal
+
+        2'b11: Result = PCaddIMM;       //for auipc/lui
+
+        default Result = ALUResult;
+
+    endcase
+```
+
+The WriteBack Mux for Option 2
+
+```SystemVerilog
+    always_comb begin
+
+        case (PCSrc)
+
+            1'b0: PCN = PCPlus4;
+
+            1'b1: PCN = PCTarget;
+
+            //2'b11: PCN = Result        
+
+  
+
+        default: PCN = PCPlus4;
+
+    endcase
+
+    end
+```
+
+The now simplified logic for the `PCSRC` mux.
+
+The 2 options were both valid ways to perform the JALR instruction. However I then noticed an opportunity to simplify the overall design - `PCSrc` could be made into a 1 bit signal with Option 2, furthermore, using an ALU to calculate a simple addition was more computationally expensive than a simple mux + adder, and therefore I decided to choose option 2 for the JALR implementation. 
+
+I felt that I had made the right choice, having considered the implications of each design fully and giving it deep thought.
+
+## 4.3 PDF testing
+
+The PDF program simulates 
+
+
+# 5 Debugging Pipelined Processor
+
+The Pipelined processor required quite a lot of debugging and modification of certain modules, in particular components such as the `ALU`, `Regfile`, the `Control Unit` and the `Data Memory` as well as the `PCSrc_mux`. 
+
+I mostly worked on changing the Control Unit, working with Dominik to ensure Control Unit interfaces with the other modules correctly in pipelining. 
+
+The changes involved adding a `jump` and `branch` input which would then be fed into the PCSrc gate to determine the value of PCSrc
 
 
 
 
+
+
+
+
+
+One particular error which I had found very difficult to deal with was a 'circular logic error' this showed that there was some kind of feedback loop being created between modules. 
