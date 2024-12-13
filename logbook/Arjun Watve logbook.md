@@ -4,12 +4,12 @@
 	2. ALUDecode
 	3. Control Unit
 - 2 Unit Tests on modules for single-cycle RISC-V RV32I Processor
-	1. Sign Extend Unit test (complete)
-	2. Register File Unit test (complete)
-	3. ALU Unit test (complete)
-	4. Control Module Unit test (complete)
-	5. ALUDecode Unit test (complete)
-	6. Data Memory Unit test (complete)
+	1. Sign Extend Unit test 
+	2. Register File Unit test 
+	3. ALU Unit test 
+	4. Control Module Unit test 
+	5. ALUDecode Unit test
+	6. Data Memory Unit test 
 - 3 Debugging Single Cycle Modules
 	1. ALU
 	2. Data Memory + Instruction Memory
@@ -24,8 +24,6 @@
 	1. Possible Improvements
 	2. Concluding Statement
 
-Things to complete single cycle:
-	test all with given programs
 
 # 1 Creating Single Cycle Modules
 
@@ -37,9 +35,115 @@ Another teammate had created a design for the ALU however, this had some design 
 
 <img src="./../images/ALU.png" width = 400 height = 400>
 
-A table showing the functionality of the ALU, I used this as a platform for the final design
+A table showing the functionality of the ALU, I used this as a platform for the final design. 
+
+I realised quickly that to handle the branching instructions, copying this exact design from the slide would be difficult to use, so I decided to introduce separate flags for every type of jump instruction (BEQ, BLT, BLTU and their counterparts.) 
+
+The simplest way to do this was with 3 flags, `NegativeFlag`, `ZeroFlag` `UnsignedLess`. These flags simply checked the `ALUResult` and were set accordingly, 
+
+These flags were then passed into the `Control Unit` as input, where they would influence the value of `PCSrc`. 
+
+In the `always_comb` block at the start, the outputs were initially defined to be 0 as a default case for additional security.
+
+```SystemVerilog
+            4'b0000: ALUResult = SrcA + SrcB;  // ADD
+
+            4'b0001: ALUResult = SrcA - SrcB;  // Sub
+
+            4'b0010: ALUResult = SrcA & SrcB;  // AND
+
+            4'b0011: ALUResult = SrcA | SrcB;  // OR
+
+            4'b0100: ALUResult = SrcA ^ SrcB;  // XOR
+
+            4'b0101: ALUResult = SrcA << SrcB[4:0];  // Shift Left Logical
+
+            4'b0110: ALUResult = SrcA >> SrcB[4:0];  // Shift Right Logical
+
+            4'b0111: ALUResult = $signed(SrcA) >>> SrcB[4:0];  // Shift Right Arithmetic
+
+            4'b1000: ALUResult = (SrcA < SrcB) ? 1 : 0;  // Set Less Than signed
+
+            4'b1001: ALUResult = ($unsigned(SrcA) < $unsigned(SrcB)) ? 1 : 0;  // Set Less Than Unsigned
+```
+
+A snapshot of the ALU Module, shows how each value of `AluCtrl` maps to a specific instruction.
+
+## 1.2 ALUDecode
+
+ALUDecode is a spin off from the control unit, by building upon my teammates old implementation, it made sense to separate it from the `Control Unit` .
+
+The input `ALUop` links the `Control Unit` and `ALUDecode` together, with the value of `ALUop` determining the type of instruction - eg R-type. 
+
+`funct3` is used to further distinguish between instructions of the same type, and the 5th bit of `funct7`, `funct75` is used to distinguish between the R-type add and sub instructions due to them having the same `funct3` value.
+
+## 1.3 Control Unit
+
+The Control Unit is the heart of the RISC-V, it is where every controlling signal gets determined.
+
+```SystemVerilog
+	input logic [6:0] opcode, // 6:0 of instr
+
+    input logic branch,
+
+    output logic PCSrc, //2bit to 1bit
+
+    output logic [1:0] ResultSrc, // 4 different cases
+
+    output logic MemWrite,
+
+    output logic ALUSrc,
+
+    output logic [2:0] ImmSrc,
+
+    output logic RegWrite,
+
+    output logic jalr,
+
+    //this is for aludecode
+
+    output logic [2:0] ALUop
+```
+
+The code snippet above shows the input, output signals on the Control Unit
+
+The opcode - bits 6:0 of the Instruction is used heavily to determine the type of instruction involved.
+
+Separate cases for each output signal were used, with the opcode being used to differentiate. 
+
+I referred to the RISC-V Documentation with the card of the RV32I base instructions to figure out what each instruction is exactly doing and map the right outputs to the inputted opcode. 
+
+```SystemVerilog
+   //ImmSrc
+
+        case (opcode)
 
 
+        7'b0010011: ImmSrc = 3'b000;//i-type
+
+        7'b0100011: ImmSrc = 3'b001;//s-type
+
+        7'b1100011: ImmSrc = 3'b010;//b-type
+
+        7'b0110111: ImmSrc = 3'b011;//u-type lui
+
+        7'b0010111: ImmSrc = 3'b011;//auipc
+
+        7'b1101111: ImmSrc = 3'b100;//j-type
+
+        7'b1100111: ImmSrc = 3'b000;//jalr
+
+        7'b0000011: ImmSrc = 3'b000; //load instr
+
+        7'b0110011: ImmSrc = 3'b000; //R-type
+
+
+        default: ImmSrc = 3'b000;
+
+        endcase
+```
+
+A snapshot of code from the Control Unit showing how the values of output `ImmSrc` are being determined by the Control Unit through the use of opcode.
 # 2. Unit Tests
 Unit Tests are a key part of the testing and verification processes, having created Unit Tests for almost every module, it has allowed me to gain a deeper understanding of each of the individual components in the RISC-V processor. Industry standard testbenches were created using G-Test and considering various edge cases and inputs.
 
@@ -432,12 +536,27 @@ I mostly worked on changing the Control Unit, working with Dominik to ensure Con
 
 The changes involved adding a `jump` and `branch` input which would then be fed into the PCSrc gate to determine the value of PCSrc
 
+Within the Regfile, we discovered that it should read the values on negative clock edges instead of positive - this differed from the single cycle implementation. 
 
+Due to the pipelining implementing clocked registers, this caused delays which caused the wrong data to be read from the regfile, which affected the result.
 
+# 6 Reflection and Conclusions
 
+Overall this project has proved to be a great learning experience for me, I have learnt a lot of many valuable technical and non-technical skills 
 
+## 6.1 Reflections
 
+After reflecting over the overall coursework and my own contributions, there were a few areas in which I thought I could have done better next time.
 
+One particular error which I had found very difficult to deal with was a 'circular logic error' this showed that there was some kind of feedback loop being created between modules. I was unable to fix this error, and was quite unsure why, if I had more time i would review this more deeply and try to get to the root cause of this.
 
+I would also have tried to get more of a headstart on the documentation and would have aimed to make it more reader friendly with more links and connectivity between separate and team statements.
 
-One particular error which I had found very difficult to deal with was a 'circular logic error' this showed that there was some kind of feedback loop being created between modules. 
+From a technical standpoint, we could have divided the tasks slightly differently and had teammates collaborating on the same task slightly more to make it easier to build off of each others work.
+
+## 6.2 Final Conclusion
+
+Overall I am satisfied with the progress our team made, implementing al RV32I base instructions on a fully verified, pipelined processor with 2 way set associative cache is a fair reflection of the effort and time our whole team has invested on this coursework
+
+I have very much enjoyed learning the ins and outs of the RISC-V architecture and may try implementing my own projects with this in the future!
+
