@@ -1,6 +1,6 @@
 # Dominik Hagmann Personal Statement
 
-<center> <img src= "images/Screenshot 2024-12-13 at 17.24.41.png" width = 200 length = 200>
+<center> <img src= "images/Screenshot 2024-12-13 at 17.24.41.png" width = 800 length = 800>
 
 ## Pipeline
 
