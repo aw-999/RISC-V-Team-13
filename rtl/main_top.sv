@@ -39,7 +39,7 @@ module main_top #(
 
     // Internal signals
     logic [DATA_WIDTH-1:0] PC;
-    logic [DATA_WIDTH-1:0] PCN;        // Next PC
+    logic [DATA_WIDTH-1:0] PCN;       // Next PC
     logic [DATA_WIDTH-1:0] PCPlus4;   // PC + 4
     logic [DATA_WIDTH-1:0] PCTarget;  // Branch Target
     logic [DATA_WIDTH-1:0] instr;     // Current instruction
@@ -52,7 +52,7 @@ module main_top #(
 
     // Control signals
     logic MemWrite, ALUSrc, RegWrite;
-    logic [1:0] PCSrc;
+    logic PCSrc;        //2bit to 1bit
     logic [1:0] ResultSrc;
     logic [2:0] IMMsrc;
     logic [2:0] ALUop;
@@ -82,7 +82,7 @@ module main_top #(
     PCSrc_mux PCSrc_mux(
         .PCTarget (PCTarget),
         .PCSrc (PCSrc), 
-        .ALUResult (ALUResult),
+        //.ALUResult (ALUResult),
         .PCPlus4 (PCPlus4),
 
         .PCN (PCN) // Next PC
@@ -93,6 +93,7 @@ module main_top #(
         .clk (clk),
         .rst (rst),
         .PCN (PCN), // PC next
+
         .PC (PC)    // Current PC
     );
 
