@@ -14,18 +14,31 @@
 	1. ALU
 	2. Data Memory + Instruction Memory
 	3. WriteBack Mux
-- 4 Debugging Pipelined Processor
-- 5 Testing given assembly programs
+- 4 Testing given assembly programs
 	1. Programs 1-3, Addi, BNE, LBU, SB
 	2. Program 4  - JAL/JALR
 	3. PDF testing
 	4. verifying PDF on Vbuddy
-- 6 Conclusions and Reflections
+- 5 Debugging Pipelined Processor
+- 6  Conclusion and Reflections
 	1. Possible Improvements
 	2. Concluding Statement
 
 Things to complete single cycle:
 	test all with given programs
+
+# 1 Creating Single Cycle Modules
+
+## 1.1 ALU Module
+
+The ALU Module is required to handle all arithmetic related operations in the ALU, it is used for the R-type, I-type, Branching instructions. 
+
+Another teammate had created a design for the ALU however, this had some design quirks which made it harder to work with in the top/other modules and also wasn't working as well so therefore I decided to change it.
+
+<img src="./../images/ALU.png" width = 400 height = 400>
+
+A table showing the functionality of the ALU, I used this as a platform for the final design
+
 
 # 2. Unit Tests
 Unit Tests are a key part of the testing and verification processes, having created Unit Tests for almost every module, it has allowed me to gain a deeper understanding of each of the individual components in the RISC-V processor. Industry standard testbenches were created using G-Test and considering various edge cases and inputs.
@@ -310,7 +323,9 @@ The error in the Load instructions was found to be due to the main_top having in
 
 After initially testing program 4, I decided to look over the implementation of the JAL and JALR instructions (RET was a pseudoinstruction for JALR). 
 
-This is when I noticed an interesting dilemma for how to implement JALR:
+Another small error corrected was that `ImmSrc` was being set incorrectly to 0b011 in the Control Unit for JALR instructions - this was due to grouping together JAL and JALR by mistake, and since JALR is I-type the immediate needs to be extended differently for JALR compared to JAL.
+
+This is when I noticed an interesting dilemma for how to implement JALR correctly:
 
 Option 1 was to make use of the ALU, using an add instruction with its own ALUCtrl input calculating `rs1 + Imm` , selecting `ALUResult` from the `WriteBack Mux`  by setting `ResultSrc` and then taking the `ALUResult` input at the `PCSrc Mux` by setting `PCSrc` accordingly.
 
@@ -376,9 +391,39 @@ I felt that I had made the right choice, having considered the implications of e
 
 ## 4.3 PDF testing
 
-The PDF program simulates 
+The PDF program simulates the behaviour of a given distribution, this program was noticeably more complex than the other 4, as it included all of the commands tested by the first 4 programs. 
 
+Debugging this program was also a lot harder than the others due to the increased complexity. 
 
+Luckily, the error had actually turned out to be a rather small one in this scenario - in `Data Memory`, the data being read was data.hex instead of gaussian.mem - the correct file.
+
+<img src="./../images/verifiedtest-pipelined.png" width = 400 height = 400>
+
+An image verifying that each of the 5 testcases passed
+
+## 4.4 PDF testing on Vbuddy
+
+Once the PDF program was working, the next verification step was to plot these results on the Vbuddy and checking if this worked correctly, the vbuddy library, config file and .sh file were all quite simple to make/ copy across from previous labs.
+
+The testbench mostly followed the standard template from previous tasks:
+
+```C++
+if(top->a0 != 0){
+
+        if(top->a0 % 1 == 0){
+
+            vbdPlot(int (top->a0),0 , 255);
+
+            vbdCycle(simcyc);
+
+    }
+
+    }
+```
+
+This was the main change, the value of a0 is plotted provided it is not 0, and the % can allow us to change the frequency at which a0 is plotted to reduce load on Vbuddy and ensure a more readable plot.
+
+The results of these plots can be seen in the team statement (README in main branch).
 # 5 Debugging Pipelined Processor
 
 The Pipelined processor required quite a lot of debugging and modification of certain modules, in particular components such as the `ALU`, `Regfile`, the `Control Unit` and the `Data Memory` as well as the `PCSrc_mux`. 
