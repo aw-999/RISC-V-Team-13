@@ -30,14 +30,14 @@ logic [4:0] rdE, rs1E, rs2E;
 
 
 //memory
-logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM /*immextM*/;
+logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM;
 logic regwriteM, memwriteM, memreadM;
 logic [1:0] resultsrcM;
 logic [2:0] memctrlM;
 logic [4:0] rdM;
 
 //write back
-logic [DATA_WIDTH-1:0] pcplus4W, aluresultW, readdataW, resultW /*immextW*/;
+logic [DATA_WIDTH-1:0] pcplus4W, aluresultW, readdataW, resultW;
 logic regwriteW;
 logic [1:0] resultsrcW;
 logic [4:0] rdW;

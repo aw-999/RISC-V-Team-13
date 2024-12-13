@@ -9,11 +9,16 @@ From the start of the porject, I took over the work on implementing a 5-stage pi
 The pipelined processor is split into 5 stages: Fetch, Decode, Execute, Memory and Write Back. Each pipeline stage was implemented using flip-flop gates to transition data and control signals to the next stage while mainting proper timing. For example in the Fetch stage, the wire pcF transitions to pcD in the Decode stage, allowing the Fetched instruction to be used while ensuring synchronization with other pipeline operations. 
 
 ```
-    pcF <= pcD;
+    
+    else if (!stallFD) begin
+        instrD <= instrF;
+        pcD <= pcF;
+        pcplus4D <= pcplus4F;
+    end
 
 ```
 
-flip flop of pcF transitioning to pcD in pcf.sv
+section of flip-flop of transition from Fetch to Decode stage
 
 
 ## Hazard Detection
@@ -42,9 +47,24 @@ Logic that is being used in the hazard unit for the forwardaE output
 
 To make implementation of the 5-stage pipelined processor and hazard unit easier, I made a new top file and ensures that variable naming throughout all the modules and top module stayed consistnt. I used identifiers corresponding to the pipeline stages, such as F (Fetch), D (Decode), E (Execute), M (Memory) and W (Write Back). This followed the same naming convention as in the diagram provided above allowing me with comparing and tracing with the diagram and my top module.
 
+```
+mux_pcsrc mux_pcsrc (
+    .pcplus4F (pcplus4F),
+    .pctargetE (pctargetE),
+    .pcsrcE (pcsrcE),
+
+    .pcnextF (pcnextF)
+);
+```
+section of top indicating how I kept naming convention constant
+
+
+
 ## Debugging
 
-I focused primarily on debugging the complete form of the 5-stage pipelined processor and hazard unit. I identified many conflicts with the logic in the single-cycle not working in the pipelined processor. This led me to make several modifications to existing modules. For example I redesigned the alu to use 5 bit aluctrl instead of 4 bit aluctrl due to needing to implement the lui instuction, aluresultM = srcbE. Furthermore, i had to change the logic in the control unit to have outputs jumpD and branchD instead of pcsrcD so that they can be used in hazard unit. This in turn also required me to make a new module known as gate_pcsrcE that produced pcsrcE instead of in control unit.
+I focused primarily on debugging the complete form of the 5-stage pipelined processor and hazard unit. I identified many conflicts with the logic in the single-cycle not working in the pipelined processor. This led me to make several modifications to existing modules. For example I redesigned the alu to use 5 bit aluctrl instead of 4 bit aluctrl due to needing to implement the lui instuction, aluresultM = srcbE. Furthermore, I had to change the logic in the control unit to have outputs jumpD and branchD instead of pcsrcD so that they can be used in hazard unit. This in turn also required me to make a new module known as gate_pcsrcE that produced pcsrcE instead of in control unit.
+
+Furthermore I redesigned the data memory as the single-cycle data memory used funct3 to distinguish between load and store instructions. I introduced two new variables in control unit, memctrl and memread, which are both pipelined and use opcode and funct3 to help determine which store and load instruction. Where memctrl is 3 bits long and used to determine which type of instruction and memread is 1 bit and indicates if it is a load (high) or store (low) instruction. 
 
 
 ## Conclusion
