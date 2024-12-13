@@ -14,7 +14,8 @@ always_comb case(immsrcD)
     3'b010: immextD = {{20{instrD[31]}}, instrD[7], instrD[30:25], instrD[11:8], 1'b0}; //B-type
     3'b011: immextD = {instrD[31:12], 12'b0}; // U-type
     3'b100: immextD = {{12{instrD[31]}}, instrD[19:12], instrD[20], instrD[30:21], 1'b0}; // J-type
-    default: immextD = instrD;
+    3'b101: immextD = {{27'b0}, instrD[24:20]};
+    default: immextD = 32'b0;
 endcase
 
 endmodule

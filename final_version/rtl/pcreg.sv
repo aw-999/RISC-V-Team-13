@@ -1,6 +1,6 @@
 module pcreg #(parameter W = 32)(
     input logic clk,
-    input logic stallF,
+    input logic stallFD,
     input logic [W-1: 0] pcnextF,
 
     output logic [W-1: 0] pcF
@@ -8,7 +8,7 @@ module pcreg #(parameter W = 32)(
 
 always_ff@(posedge clk)
     
-    if (!stallF) begin
+    if (!stallFD) begin
         pcF <= pcnextF;
     end
 

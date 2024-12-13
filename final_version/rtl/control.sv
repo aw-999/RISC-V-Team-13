@@ -1,8 +1,8 @@
 module control (
     input logic [6:0] opcodeD, // 6:0 of instr
     input logic [2:0] funct3D,
+    input logic stallFD,
     
-    output logic pcsrcD,
     output logic [1:0] resultsrcD, // 4 different cases
     output logic memwriteD,
     output logic alusrcD,
@@ -18,9 +18,8 @@ module control (
 
     //aluoperation
     always_comb begin
-        
-        pcsrcD = 0;                 //define everything as 0 to begin with.
-        resultsrcD = 0;
+                       
+        resultsrcD = 0;  //define everything as 0 to begin with.
         immsrcD = 0;
         regwriteD = 0;
         aluopD = 0;
@@ -78,19 +77,32 @@ module control (
         case (opcodeD)
         7'b0000011: begin 
             case(funct3D)
-                3'b000: memctrlD = 3'b010; //lb
+                3'b000: begin 
+                        memctrlD = 3'b010; //lb
                         memreadD = 1;
-                3'b001: memctrlD = 3'b001; //lh
+                end
+                3'b001: begin
+                        memctrlD = 3'b001; //lh
                         memreadD = 1;
-                3'b010: memctrlD = 3'b000; //lw
+                end
+                3'b010: begin 
+                        memctrlD = 3'b000; //lw
                         memreadD = 1;
-                3'b100: memctrlD = 3'b011; //lbu
+                end
+                3'b100: begin 
+                        memctrlD = 3'b011; //lbu
                         memreadD = 1;
-                3'b101: memctrlD = 3'b100; //lhu
+                end
+                3'b101: begin
+                        memctrlD = 3'b100; //lhu
                         memreadD = 1;
-                default: memctrlD = 3'b000; //w
+                end
+                default: begin
+                        memctrlD = 3'b000; //w
                          memreadD = 0;
+                end
             endcase
+        end
             
         7'b0100011: begin//store
             case(funct3D)
@@ -101,6 +113,8 @@ module control (
             default: memctrlD = 3'b000; //sw
             endcase
         end
+
+        default: memwriteD = 0;
         endcase
 
 
@@ -132,7 +146,7 @@ module control (
         7'b0110111: immsrcD = 3'b011;//u-type
         7'b0010111: immsrcD = 3'b011; //auipc
         7'b1101111: immsrcD = 3'b100;//j-type
-        7'b1100111: immsrcD = 3'b000; 
+        7'b1100111: immsrcD = 3'b101; //Jalr
         7'b0000011: immsrcD = 3'b000; //load instr
         7'b0110011: immsrcD = 3'b000; //R-type
 
@@ -169,7 +183,19 @@ module control (
         end
     endcase
 
+    if(stallFD) begin
+        memwriteD = 0;
+        memreadD = 0;
+        regwriteD = 0;
+    end
+
 
 end
 
 endmodule
+
+
+
+
+
+

@@ -10,11 +10,10 @@ module top #(parameter DATA_WIDTH = 32)(
 
 //fetch
 logic [DATA_WIDTH-1:0] pcF, pcnextF, pcplus4F, instrF;
-logic stallF;
 
 //decode
 logic [DATA_WIDTH-1:0] pcD, instrD, pcplus4D, immextD, RD1D, RD2D;
-logic regwriteD, memwriteD, flushD, stallD, alusrcD, jalrD, jumpD, branchD, memreadD;
+logic regwriteD, memwriteD, flushED, stallFD, alusrcD, jalrD, jumpD, branchD, memreadD;
 //logic jumpD, branchD;
 logic [1:0] resultsrcD;
 logic [2:0] aluopD, immsrcD, memctrlD;
@@ -22,7 +21,7 @@ logic [4:0] aluctrlD;
 
 //execute
 logic [DATA_WIDTH-1:0] pcE, pcplus4E, immextE, RD1E, RD2E, pctargetE, writedataE, srcaE, srcbE, aluresultE, jalrmuxoutE;
-logic regwriteE, memwriteE, flushE, alusrcE, flagE, jalrE, jumpE, branchE, pcsrcE, memreadE;
+logic regwriteE, memwriteE, alusrcE, flagE, jalrE, jumpE, branchE, pcsrcE, memreadE;
 //logic jumpE, branchE;
 logic [1:0] resultsrcE, forwardaE, forwardbE;
 logic [2:0] memctrlE;
@@ -31,14 +30,14 @@ logic [4:0] rdE, rs1E, rs2E;
 
 
 //memory
-logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM, immextM;
+logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM /*immextM*/;
 logic regwriteM, memwriteM, memreadM;
 logic [1:0] resultsrcM;
 logic [2:0] memctrlM;
 logic [4:0] rdM;
 
 //write back
-logic [DATA_WIDTH-1:0] pcplus4W, aluresultW, readdataW, resultW, immextW;
+logic [DATA_WIDTH-1:0] pcplus4W, aluresultW, readdataW, resultW /*immextW*/;
 logic regwriteW;
 logic [1:0] resultsrcW;
 logic [4:0] rdW;
@@ -59,7 +58,7 @@ pcincrementby4 pcincrementby4 (
 
 pcreg pcreg (
     .clk (clk),
-    .stallF (stallF),
+    .stallFD (stallFD),
     .pcnextF (pcnextF),
 
     .pcF (pcF)
@@ -74,8 +73,8 @@ instructionmemory instructionmemory (
 pcf pcfetch (
     .clk (clk),
 
-    .flushD (flushD),
-    .stallD (stallD),
+    .flushED (flushED),
+    .stallFD (stallFD),
 
     .instrF (instrF),
     .pcF (pcF),
@@ -91,6 +90,8 @@ pcf pcfetch (
 control controlunit (
 
     .opcodeD (instrD[6:0]),
+    .funct3D (instrD[14:12]),
+    .stallFD (stallFD),
 
     .jalrD (jalrD),
     .resultsrcD (resultsrcD),
@@ -100,7 +101,9 @@ control controlunit (
     .regwriteD (regwriteD),
     .aluopD (aluopD),
     .jumpD (jumpD),
-    .branchD (branchD)
+    .branchD (branchD),
+    .memreadD (memreadD),
+    .memctrlD (memctrlD)
 );
 
 
@@ -149,7 +152,6 @@ pcd pcedecode (
     .regwriteD (regwriteD),
     .resultsrcD (resultsrcD),
     .memwriteD (memwriteD),
-    .funct3D (instrD[14:12]),
     .aluctrlD (aluctrlD),
     .alusrcD (alusrcD),
     .RD1D (RD1D),
@@ -167,7 +169,7 @@ pcd pcedecode (
     //Hazard
     .rs1D (instrD[19:15]),
     .rs2D (instrD[24:20]),
-    .flushE (flushE),
+    .flushED (flushED),
     
     .regwriteE (regwriteE),
     .resultsrcE (resultsrcE),
@@ -258,7 +260,7 @@ pce pcexecute (
     .memwriteE (memwriteE),
     .memctrlE (memctrlE),
     .memreadE (memreadE),
-    .immextE (immextE),
+    //.immextE (immextE),
     .aluresultE (aluresultE),
     .writedataE (writedataE),
     .rdE (rdE),
@@ -269,16 +271,16 @@ pce pcexecute (
     .memwriteM (memwriteM),
     .memctrlM (memctrlM),
     .memreadM (memreadM),
-    .immextM (immextM),
+    //.immextM (immextM),
     .aluresultM (aluresultM),
     .writedataM (writedataM),
     .rdM (rdM),
-    .pcplus4M (pcplus4M),
+    .pcplus4M (pcplus4M)
 );
 
 datamemory datamemory (
     .clk (clk),
-    .aluresultM (aluresultM), 
+    .aluresultM (aluresultM[17:0]), 
     .memwriteM (memwriteM), 
     .memctrlM (memctrlM),
     .memreadM (memreadM),
@@ -301,13 +303,13 @@ pcm pcmemory (
     .aluresultM (aluresultM),
     .rdM (rdM),
     .pcplus4M (pcplus4M),
-    .immextM (immextM),
+    //.immextM (immextM),
 
     .readdataW (readdataW),
     .aluresultW (aluresultW),
     .rdW (rdW),
-    .pcplus4W (pcplus4W),
-    .immextW (immextW)
+    .pcplus4W (pcplus4W)
+    //.immextW (immextW)
 );
 
 mux_writeback mux_writeback (
@@ -315,7 +317,7 @@ mux_writeback mux_writeback (
     .aluresultW (aluresultW),
     .readdataW (readdataW),
     .pcplus4W (pcplus4W),
-    .immextW (immextW),
+    //.immextW (immextW),
     .resultsrcW (resultsrcW),
 
     .resultW (resultW)
@@ -335,14 +337,13 @@ hazardunit hazardunit (
     .jumpE (jumpE),
     .flagE (flagE),
 
-    .resultsrcE (resultsrcE[0]), //first bit of ResultSrcE
+    .memreadE (memreadE), //first bit of ResultSrcE
+    //.pcsrcE (pcsrcE),
 
     .forwardaE (forwardaE),
     .forwardbE (forwardbE),
-    .flushD (flushD),
-    .flushE (flushE),
-    .stallF (stallF),
-    .stallD (stallD)
+    .flushED (flushED),
+    .stallFD (stallFD)
 );
 
 endmodule

@@ -2,51 +2,53 @@
 
 module datamemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
     input logic clk,
-    input logic [WA-1:0] aluresultM, // aluresult formerly Ad
+    input logic [WAM:0] aluresultM, // aluresult formerly Ad
     input logic memwriteM, 
-    input logic [2:0] funct3M,
     input logic [WD-1:0] writedataM, //write data formerly DIn
+    input logic [2:0] memctrlM,
+    input logic memreadM,
     output logic [WD-1:0] readdataM
 );
 
-logic [WB-1:0] RamArray [2**WAM-1:0]; // stored in byte
-logic [WAM-1:0] AdM; // reduced in size, 2**32 is too large to simulate
+logic [WB-1:0] RamArray [2**WAM:0]; // stored in byte
+
 
 
 initial begin
-    $readmemh("data.hex", RamArray);
+    $readmemh("data.hex", RamArray, 32'h10000);
 end;
 
-always_comb begin 
-    AdM = aluresultM[WAM-1:0];
-    case (funct3M) 
-        3'b000: readdataM = {{24{RamArray[AdM][WB-1]}},RamArray[AdM]}; // lb
-        3'b001: readdataM = {{16{RamArray[AdM][WB-1]}},RamArray[AdM+1], RamArray[AdM]}; // lh
-        3'b010: readdataM = {RamArray[AdM+3], RamArray[AdM+2], RamArray[AdM+1], RamArray[AdM]}; // lw
-        3'b100: readdataM = {{24'b0},RamArray[AdM]}; // lbu
-        3'b101: readdataM = {{16'b0},RamArray[AdM+1], RamArray[AdM]}; // lhu
-        default: readdataM = {RamArray[AdM+3], RamArray[AdM+2], RamArray[AdM+1], RamArray[AdM]}; // lw
-    endcase
+always_comb begin
+    if(memreadM) begin
+        if(memctrlM == 3'b011) begin
+            readdataM = {24'b0, RamArray[aluresultM[17:0]]};
+        end
+
+        else begin
+            readdataM = {
+                RamArray[{aluresultM[17:2], 2'b11}],
+                RamArray[{aluresultM[17:2], 2'b10}],
+                RamArray[{aluresultM[17:2], 2'b01}],
+                RamArray[{aluresultM[17:2], 2'b00}]
+            };
+        end
+    end
+        else begin
+            readdataM = 32'b0;
+        end
 end
 
-always_ff@(posedge clk)
-    if (memwriteM) 
-    begin
-        if (funct3M[1:0] == 2'b10)
-        begin
-            RamArray[AdM] <= writedataM[WD-1:WD-8];//sw
-            RamArray[AdM+1] <= writedataM[WD-9:WD-16];
-            RamArray[AdM+2] <= writedataM[WD-17:WD-24];
-            RamArray[AdM+3] <= writedataM[WD-25:0];
-        end
-        else if (funct3M[1:0] == 2'b01)
-        begin
-            RamArray[AdM] <= writedataM[WD-17:WD-24];//sh
-            RamArray[AdM+1] <= writedataM[WD-25:0];
-        end
-        else if (funct3M[1:0] == 2'b00) 
-            RamArray[AdM] <= writedataM[WD-25:0];//sb
+always_ff @(posedge clk) begin
+    if(memwriteM && memctrlM == 3'b010) begin
+        RamArray[aluresultM[17:0]] <= writedataM[7:0];
     end
-
+    else if (memwriteM) begin
+        RamArray[{aluresultM[17:2], 2'b00}] <= writedataM[7:0];
+        RamArray[{aluresultM[17:2], 2'b01}] <= writedataM[15:8];
+        RamArray[{aluresultM[17:2], 2'b10}] <= writedataM[23:16];
+        RamArray[{aluresultM[17:2], 2'b11}] <= writedataM[31:24];
+    end
+end
 
 endmodule
+

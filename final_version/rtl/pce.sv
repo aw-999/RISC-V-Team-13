@@ -10,14 +10,14 @@ module pce #(
     input logic regwriteE,
     input logic [1:0] resultsrcE,
     input logic memwriteE,
-    input logic [WIDTH-1:0] immextE,
+    //input logic [WIDTH-1:0] immextE,
     input logic memreadE,
     input logic [2:0] memctrlE,
 
     output logic regwriteM,
     output logic [1:0] resultsrcM,
     output logic memwriteM,
-    output logic [WIDTH-1:0] immextM,
+    //output logic [WIDTH-1:0] immextM,
     output logic memreadM,
     output logic [2:0] memctrlM,
 
@@ -32,7 +32,7 @@ module pce #(
     output logic [WIDTH - 1:0] aluresultM,
     output logic [WIDTH - 1:0] writedataM,
     output logic [4:0] rdM,
-    output logic [WIDTH - 1:0] pcplus4M,
+    output logic [WIDTH - 1:0] pcplus4M
 
 );
 
@@ -41,7 +41,7 @@ always_ff @(posedge clk) begin
     regwriteM <= regwriteE;
     resultsrcM <= resultsrcE;
     memwriteM <= memwriteE;
-    immextM <= immextE;
+    //immextM <= immextE;
     memctrlM <= memctrlE;
     memreadM <= memreadE;
 

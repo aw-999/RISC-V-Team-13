@@ -21,6 +21,8 @@ module aludecode (
 */
 
 always_comb begin
+    aluctrlD = 5'b00000;
+
     case(aluopD)
 
 
@@ -31,13 +33,19 @@ always_comb begin
             4'b0000: aluctrlD = 5'b00000; //Add
             4'b0001: aluctrlD = 5'b00001; //Sub
             4'b1000: aluctrlD = 5'b00010; //Xor
+            4'b1001: aluctrlD = 5'b00010; //Xor
             4'b1100: aluctrlD = 5'b00011; //Or
+            4'b1101: aluctrlD = 5'b00011; //Or
             4'b1110: aluctrlD = 5'b00100; //AND
+            4'b1111: aluctrlD = 5'b00100; //AND
             4'b0010: aluctrlD = 5'b00101; //Shift left logical
+            4'b0011: aluctrlD = 5'b00101; //Shift left logical
             4'b1010: aluctrlD = 5'b00110; //Shift Right Logical
             4'b1011: aluctrlD = 5'b00111; //Shift Right Arithmetic
             4'b0100: aluctrlD = 5'b01000; //Set Less Than
+            4'b0101: aluctrlD = 5'b01000; //Set Less Than
             4'b0110: aluctrlD = 5'b01001; //Set Less Than Unsigned
+            4'b0111: aluctrlD = 5'b01001; //Set Less Than Unsigned
 
             default: aluctrlD = 5'b00000; //Add
             endcase

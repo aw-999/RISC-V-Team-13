@@ -17,13 +17,13 @@ module pcm #(
     input logic [WIDTH - 1:0] aluresultM,
     input logic [4:0] rdM,
     input logic [WIDTH - 1:0] pcplus4M,
-    input logic [WIDTH-1:0] immextM,
+    //input logic [WIDTH-1:0] immextM,
 
     output logic [WIDTH - 1:0] readdataW,
     output logic [WIDTH - 1:0] aluresultW,
     output logic [4:0] rdW,
     output logic [WIDTH - 1:0] pcplus4W,
-    output logic [WIDTH-1:0] immextW
+    //output logic [WIDTH-1:0] immextW
 
 );
 
@@ -38,7 +38,7 @@ always_ff @(posedge clk) begin
     aluresultW <= aluresultM;
     rdW <= rdM;
     pcplus4W <= pcplus4M;
-    immextW <= immextM;
+    //immextW <= immextM;
     
 end
 

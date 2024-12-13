@@ -12,15 +12,13 @@ module hazardunit (
     input logic flagE,
     input logic jumpE,
 
-    input logic pcsrcE,//first bit of PCSrcE
-    input logic resultsrcE, //first bit of ResultSrcE
+    //input logic pcsrcE,
+    input logic memreadE,
 
     output logic [1:0] forwardaE,
     output logic [1:0] forwardbE,
-    output logic flushD,
-    output logic flushE,
-    output logic stallF,
-    output logic stallD
+    output logic flushED,
+    output logic stallFD
 
 );
 
@@ -29,10 +27,8 @@ module hazardunit (
         
         forwardaE = 2'b00;
         forwardbE = 2'b00;
-        stallF = 1'b0;
-        stallD = 1'b0;
-        flushD = 1'b0;
-        flushE = 1'b0;
+        stallFD = 1'b0;
+        flushED = 1'b0;
 
         //forwardAE
         if (regwriteM && (rdM != 0) && (rdM == rs1E)) begin // Forward from Memory stage
@@ -60,28 +56,18 @@ module hazardunit (
             forwardbE = 2'b00;
         end
 
-        //if resultsrcE is high stall is high
-        if (resultsrcE && ((rdE == rs1D) || (rdE == rs2D))) begin
-            stallF = 1'b1;  
-            stallD = 1'b1;  
-            flushE = 1'b1; 
+        if (memreadE && ((rdE == rs1D) || (rdE == rs2D))) begin
+            stallFD = 1'b1;  
         end
         else begin 
-            stallF = 1'b0;
-            stallD = 1'b0;
+            stallFD = 1'b0;
         end
 
         if (jumpE || flagE) begin
-            flushE = 1'b1;
-            flushD = 1'b1;
-            stallF = 1'b0;
-            stallD = 1'b0;
+            flushED = 1'b1;
         end
         else begin
-            flushE = 1'b0;
-            flushD = 1'b0;
-            stallF = 1'b0;
-            stallD = 1'b0;
+            flushED = 1'b0;
         end
     end
 endmodule

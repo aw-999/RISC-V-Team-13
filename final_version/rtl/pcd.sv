@@ -51,7 +51,7 @@ module pcd #(
     //Hazard
     input logic [4:0] rs1D,
     input logic [4:0] rs2D,
-    input logic flushE,
+    input logic flushED,
 
     output logic [4:0] rs1E,
     output logic [4:0] rs2E
@@ -62,7 +62,7 @@ module pcd #(
 
 always_ff @(posedge clk) begin
 
-    if (flushE) begin
+    if (flushED) begin
         //control
         regwriteE <= 0;
         resultsrcE <= 0;
