@@ -119,12 +119,11 @@ x = Partial Contributor
 
 |                                | Arjun | Dominik | Haiyi | Jerry | Peter |
 | ------------------------------ | ----- | ------- | ----- | ----- | ----- |
-| main memory                    |       |         | x     |       | x     |
-| cachemux                       |       |         | x     |       | x     |
-| 2-way cache                    |       |         | x     |       | x     |
+| main memory                    |       |         | o     |       | x     |
+| cachemux                       |       |         | o     |       | x     |
+| 2-way cache                    |       |         | o     |       | x     |
 | cache debugging                |       |         | o     |       | x     |
 | integration with pipelined     |       |         | o     |       | x     |
 | 4-way cache layer 1 (temporal) |       |         | x     |       | o     |
-| 4-way cache bridge (untested)  |       |         | x     |       | o     |
-|                                |       |         |       |       |       |
-|                                |       |         |       |       |       |
+| 4-way cache layer 2            |       |         | x     |       | o     |
+| 4-way cache bridge             |       |         |       |       | o     |

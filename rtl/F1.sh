@@ -1,3 +1,5 @@
+~/Documents/iac/lab0-devtools/tools/attach_usb.sh
+
 rm -rf obj_dir
 rm -f main_top.vcd
 
