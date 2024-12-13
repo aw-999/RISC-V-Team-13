@@ -81,6 +81,7 @@ module control (
             3'b000: begin 
                     memctrlD = 3'b010; //lb
                     memreadD = 1;
+
             end
             3'b001: begin
                     memctrlD = 3'b001; //lh

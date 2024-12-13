@@ -10,7 +10,7 @@ module datamemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
     output logic [WD-1:0] readdataM
 );
 
-logic [WB-1:0] RamArray [2**WAM:0]; // stored in byte
+logic [WB-1:0] RamArray [2**WAM-1:0]; // stored in byte
 
 initial begin
     $readmemh("data.hex", RamArray, 32'h10000);
