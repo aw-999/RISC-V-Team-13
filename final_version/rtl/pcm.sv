@@ -20,7 +20,7 @@ module pcm #(
     output logic [WIDTH - 1:0] readdataW,
     output logic [WIDTH - 1:0] aluresultW,
     output logic [4:0] rdW,
-    output logic [WIDTH - 1:0] pcplus4W,
+    output logic [WIDTH - 1:0] pcplus4W
 
 );
 
