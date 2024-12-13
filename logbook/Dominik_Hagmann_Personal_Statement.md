@@ -1,6 +1,6 @@
 # Dominik Hagmann Personal Statement
 
-<center> <img src= "images/Screenshot 2024-12-13 at 19.43.58.png" width = 800 length = 800>
+<center> <img src= "images/Screenshot 2024-12-13 at 17.24.41.png" width = 800 length = 800>
 
 Image of the 5-stage Pipelined processor with Hazard Detection that I used as reference
 
