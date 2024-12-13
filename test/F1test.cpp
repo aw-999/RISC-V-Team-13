@@ -1,4 +1,4 @@
-#include "Vmain_top.h"
+#include "Vtop.h"
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include "vbuddy.cpp"
@@ -16,7 +16,7 @@ int main(int argc, char **argv, char **env)
     Verilated::traceEverOn(true);
     VerilatedVcdC *tfp = new VerilatedVcdC;
     top->trace(tfp, 99);
-    tfp->open("main_top.vcd");
+    tfp->open("top.vcd");
 
     // init Vbuddy
     if (vbdOpen() != 1)
