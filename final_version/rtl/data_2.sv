@@ -15,7 +15,7 @@ logic [WB-1:0] RamArray [2**WAM:0]; // stored in byte
 
 
 initial begin
-    $readmemh("sinerom.mem", RamArray, 32'h10000);
+    $readmemh("data.hex", RamArray, 32'h10000);
 end;
 
 always_comb begin
