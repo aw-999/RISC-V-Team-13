@@ -1,20 +1,23 @@
-/* verilator lint_off UNUSED*/
-
-module datamemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
-    input logic clk,
-    input logic [WAM:0] aluresultM, // aluresult formerly Ad
-    input logic memwriteM, 
-    input logic [WD-1:0] writedataM, //write data formerly DIn
-    input logic [2:0] memctrlM,
-    input logic memreadM,
-    output logic [WD-1:0] readdataM
+module data_2#(
+    parameter WD = 32, // WordData width
+    parameter WA = 32, // WordAddress width
+    parameter WAM = 17,      // Addressable memory depth
+    parameter WB = 8        // Byte width
+)(
+    input  logic                  clk,          // Clock input
+    input  logic                  memwriteM,          // Write Enable signal
+    input logic [2:0] memctrlM,         //write data formerly DIn
+    input  logic [WA-1:0] aluresultM,           // Address input
+    input  logic [WD-1:0] writedataM,          // Write Data input
+    input logic memreadM,                       //1 -- load 0 -- store
+    
+    output logic [WD-1:0] readdataM           // Read Data output
 );
 
-logic [WB-1:0] RamArray [2**WAM:0]; // stored in byte
+    logic [WB-1:0] RamArray [2**WAM-1:0]; // Stored as bytes
+    
 
-
-
-initial begin
+  initial begin
     $readmemh("data.hex", RamArray, 32'h10000);
 end;
 
@@ -51,4 +54,3 @@ always_ff @(posedge clk) begin
 end
 
 endmodule
-

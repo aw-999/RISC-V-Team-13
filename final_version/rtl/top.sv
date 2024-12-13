@@ -28,6 +28,10 @@ logic [2:0] memctrlE;
 logic [4:0] aluctrlE;
 logic [4:0] rdE, rs1E, rs2E;
 
+//cache hit logic
+logic hit;
+logic [DATA_WIDTH-1:0] Cacheout;
+logic [DATA_WIDTH-1:0] memoryout;
 
 //memory
 logic [DATA_WIDTH-1:0] pcplus4M, writedataM, aluresultM, readdataM /*immextM*/;
@@ -58,8 +62,10 @@ pcincrementby4 pcincrementby4 (
 
 pcreg pcreg (
     .clk (clk),
+    .rst (rst),
     .stallFD (stallFD),
     .pcnextF (pcnextF),
+    
 
     .pcF (pcF)
 );
@@ -278,7 +284,7 @@ pce pcexecute (
     .pcplus4M (pcplus4M)
 );
 
-datamemory datamemory (
+data_2 data_2 (
     .clk (clk),
     .aluresultM (aluresultM[17:0]), 
     .memwriteM (memwriteM), 
@@ -286,7 +292,27 @@ datamemory datamemory (
     .memreadM (memreadM),
     .writedataM (writedataM), 
 
-    .readdataM (readdataM)
+    .readdataM (memoryout)
+);
+
+cache_2 cache_2 (
+    .addressIn (aluresultM),
+    .dataIn (writedataM),
+    .LoadM (memreadM),
+    .memwriteM (memwriteM),
+    .clk (clk),
+    .memIn (memoryout),
+
+    .Dataout (Cacheout),
+    .hit (hit)
+);
+
+memcache memcache (
+    .hit (hit),
+    .Cachein (Cacheout),
+    .Memoryin (memoryout),
+
+    .Cacheout (readdataM)
 );
 
 pcm pcmemory (
