@@ -14,3 +14,14 @@ use input logic trigger_in to call at testbench
 
 fixed op7 posiioning and ALUSRC logic 8/12/2024
 F1 test ready now!
+
+!!! single cycle CPU updated:
+TRIGGER inside RegisterFile.sv
+trigger inside main_top.sv
+
+// reset error detected, F1 lights not turning off
+// debugged: LFSR produces too large value && time delay long to meet 1 second latency for each light
+
+lower random delay value by changing LFSR logic
+separating 1 second delay for light increment and final random delay for lights off
+
