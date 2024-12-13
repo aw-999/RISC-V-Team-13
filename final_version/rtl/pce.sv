@@ -3,21 +3,18 @@ module pce #(
 )(
 
     input logic clk,
-    // input logic rst,
 
 
     //Control
     input logic regwriteE,
     input logic [1:0] resultsrcE,
     input logic memwriteE,
-    //input logic [WIDTH-1:0] immextE,
     input logic memreadE,
     input logic [2:0] memctrlE,
 
     output logic regwriteM,
     output logic [1:0] resultsrcM,
     output logic memwriteM,
-    //output logic [WIDTH-1:0] immextM,
     output logic memreadM,
     output logic [2:0] memctrlM,
 
@@ -41,7 +38,6 @@ always_ff @(posedge clk) begin
     regwriteM <= regwriteE;
     resultsrcM <= resultsrcE;
     memwriteM <= memwriteE;
-    //immextM <= immextE;
     memctrlM <= memctrlE;
     memreadM <= memreadE;
 

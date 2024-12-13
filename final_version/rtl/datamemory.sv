@@ -12,19 +12,17 @@ module datamemory #(parameter WA = 32, WAM = 17, WB = 8, WD = 32)(
 
 logic [WB-1:0] RamArray [2**WAM:0]; // stored in byte
 
-
-
 initial begin
     $readmemh("data.hex", RamArray, 32'h10000);
 end;
 
 always_comb begin
-    if(memreadM) begin
+    if(memreadM) begin //when memread is high, load is occuring
         if(memctrlM == 3'b011) begin
             readdataM = {24'b0, RamArray[aluresultM[17:0]]};
         end
 
-        else begin
+        else begin //memread is low so storing is occurring
             readdataM = {
                 RamArray[{aluresultM[17:2], 2'b11}],
                 RamArray[{aluresultM[17:2], 2'b10}],
@@ -39,7 +37,7 @@ always_comb begin
 end
 
 always_ff @(posedge clk) begin
-    if(memwriteM && memctrlM == 3'b010) begin
+    if(memwriteM && memctrlM == 3'b010) begin //
         RamArray[aluresultM[17:0]] <= writedataM[7:0];
     end
     else if (memwriteM) begin
@@ -51,4 +49,3 @@ always_ff @(posedge clk) begin
 end
 
 endmodule
-

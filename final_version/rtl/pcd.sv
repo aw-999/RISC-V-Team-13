@@ -1,6 +1,5 @@
 module pcd #(
     parameter WIDTH = 32
-
 )(
 
     input logic clk,    

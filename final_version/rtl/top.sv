@@ -58,6 +58,7 @@ pcincrementby4 pcincrementby4 (
 
 pcreg pcreg (
     .clk (clk),
+    .rst (rst),
     .stallFD (stallFD),
     .pcnextF (pcnextF),
 

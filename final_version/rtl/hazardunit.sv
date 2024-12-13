@@ -11,8 +11,6 @@ module hazardunit (
     input logic [4:0] rs2E,
     input logic flagE,
     input logic jumpE,
-
-    //input logic pcsrcE,
     input logic memreadE,
 
     output logic [1:0] forwardaE,
