@@ -48,7 +48,7 @@ logic [WD-1: 0] RegArr [2**WAD-1: 0];
 
 assign a0 = RegArr[10];
 
-always_ff@(posedge clk)
+always_ff @(negedge clk)
 
 begin
     if (regwriteW) RegArr[rdW] <= resultW;
