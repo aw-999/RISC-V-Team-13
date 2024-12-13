@@ -64,8 +64,12 @@ section of top indicating how I kept naming convention constant
 
 I focused primarily on debugging the complete form of the 5-stage pipelined processor and hazard unit. I identified many conflicts with the logic in the single-cycle not working in the pipelined processor. This led me to make several modifications to existing modules. For example I redesigned the alu to use 5 bit aluctrl instead of 4 bit aluctrl due to needing to implement the lui instuction, aluresultM = srcbE. Furthermore, I had to change the logic in the control unit to have outputs jumpD and branchD instead of pcsrcD so that they can be used in hazard unit. This in turn also required me to make a new module known as gate_pcsrcE that produced pcsrcE instead of in control unit.
 
-Furthermore I redesigned the data memory as the single-cycle data memory used funct3 to distinguish between load and store instructions. I introduced two new variables in control unit, memctrl and memread, which are both pipelined and use opcode and funct3 to help determine which store and load instruction. Where memctrl is 3 bits long and used to determine which type of instruction and memread is 1 bit and indicates if it is a load (high) or store (low) instruction. 
+Furthermore I redesigned the data memory as the single-cycle data memory used funct3 to distinguish between load and store instructions. I introduced two new variables in control unit, memctrl and memread, which are both pipelined and use opcode and funct3 to help determine which store and load instruction. Where memctrl is 3 bits long and used to determine which type of instruction and memread is 1 bit and indicates if it is a load (high) or store (low) instruction.
 
 
 ## Conclusion
 
+In conclusion I thoroughly enjoyed working on this project especially working out how to change the logic of the single-cycle to fit the pipelined and hazard dection version of the processor. This experience provided me with invaluable insights into RISC-V, SystemVerilog and debugging. Unfortunately I was not able to work on the cache part of the project and we ran out of time to finish the 4-way set associative cache, which I would have enjoyed working on.
+
+Reflecting back on my process with implementing pipelining and hazard detection I believe it would have been more beneficial to have contributed on the single-cycle CPU first before moving onto pipelining as I would of had a better understanding of those modules and better decisions during building of the single-cycle CPU would have been chosen to complement pipelining and hazard detection. This would of then allowed me to work on cache and also I believe able to reach a better understanding of the CPU that my group and I built.
+ 
