@@ -25,6 +25,7 @@ ___
    * Add_pc_imm.sv
 * Main.sv, the top module
 * Extra testbench: All_basis_instruction_test
+* Reflection and Conclusion
 
 <br><br>
 
@@ -32,6 +33,15 @@ ___
 
 ## Introduction
 Developing the single cycle RISC-V processor
+___
+
+Important:
+* 'Jerry-version/Single-cycle-RISC-V', the processor I described in this logbook, is a parallel version of the single-cycle RISC-V processor in 'main' branch.
+* There are some structural differences (mainly in ALU and control units) between the 2 versions, but they share a lot of features and cannot be seen as 2 separate projects.
+* I put this processor version in my own branch but not the main branch. This is because pipelining, cache and testing are all based on the group version single-cycle processor in the main branch.
+  
+<br>
+
 ___
 
 I am the group member who mainly worked on writing the single cycle processor part of the project, debugging and shortening / merging the modules without affecting their original functions. 
@@ -452,5 +462,18 @@ ___
 ___
 
 see All_basic_instruction_test.s
+
+<br><br>
+
+___
+
+# Reflection and conclusion
+___
+
+As a fifth person in the group, to not occupying the learning oppourtunities of the other group members, I decided to build a parallel version of the processor since the start of the project. I finished my first version and finished debugging before the completion of group version of the single-cycle processor. Though the first version is poorly organised and there are still a few instructions missing, my experience gives a reference to the whole team on what type of new features should be added to the processors. We were able to comment on my processor to see if any structure needs changes or if they are reasonably designed.
+
+As the group version came out, which is partially based on my design. I improved my processor by comparing the 2 versions, reorganised my processor to be as clear as the team version and complete all instructions and testing. Since the extra cache and pipelined version is based on the group version of the processor, I am not putting my single-cycle processor version to the main branch. 
+
+From building the whole processor individually, I learnt from all the modules of a single-cycle processor and how to debug and write testing files. I also learn about the importance of having a unified project so that there are fewer version problems and chaos, and on the otherside, the parallel version did provide a lot of references to the main project and should be considered as a contribution to improve the main project.
 
 <br><br><br><br><br><br><br><br><br><br>
